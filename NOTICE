@@ -1,0 +1,18 @@
+http-kotlin
+
+This Kotlin Multiplatform port takes the upstream Rust crate files from:
+  https://github.com/hyperium/http
+
+Upstream files mirrored here:
+  README.md      - upstream README text is reproduced with Kotlin-port wrapper
+                   sections and absolute-link edits.
+  LICENSE-APACHE - copied from the upstream hyperium/http LICENSE-APACHE file.
+  LICENSE-MIT    - copied from the upstream hyperium/http LICENSE-MIT file.
+
+Original upstream authorship and license notices remain with the hyperium/http
+maintainers and contributors.
+
+Kotlin port:
+  Copyright (c) 2026 Sydney Renee and The Solace Project.
+  Byline:    Sydney Renee <sydney@solace.ofharmony.ai>, founder of The Solace Project.
+  Maintainer: Sydney Renee <sydney@solace.ofharmony.ai> (@sydneyrenee)
