@@ -21,8 +21,9 @@ class StatusCodeTest {
     @Test
     fun equatesWithU16() {
         val status = StatusCode.fromU16(200).getOrThrow()
+        assertTrue(status.eq(200))
         assertEquals(200, status.asU16())
-        assertEquals(status.asU16(), 200)
+        assertFalse(status.equals(200))
     }
 
     @Test

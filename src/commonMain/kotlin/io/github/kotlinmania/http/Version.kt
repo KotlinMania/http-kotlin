@@ -42,7 +42,9 @@ class Version private constructor(
         /** `HTTP/3.0` */
         val HTTP_3: Version = Version(Http.H3)
 
-        fun default(): Version = HTTP_11
+        fun default(): Version {
+            return HTTP_11
+        }
     }
 
     override fun compareTo(other: Version): Int = http.compareTo(other.http)
@@ -51,8 +53,8 @@ class Version private constructor(
 
     override fun hashCode(): Int = http.hashCode()
 
-    override fun toString(): String =
-        when (http) {
+    fun fmt(): String {
+        return when (http) {
             Http.Http09 -> "HTTP/0.9"
             Http.Http10 -> "HTTP/1.0"
             Http.Http11 -> "HTTP/1.1"
@@ -60,6 +62,9 @@ class Version private constructor(
             Http.H3 -> "HTTP/3.0"
             Http.NonExhaustive -> throw IllegalStateException("unreachable")
         }
+    }
+
+    override fun toString(): String = fmt()
 }
 
 private enum class Http {
