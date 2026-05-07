@@ -111,15 +111,25 @@ class Method private constructor(
                     }
             }
 
-        fun tryFrom(src: ByteArray): Result<Method> = fromBytes(src)
+        fun tryFrom(src: ByteArray): Result<Method> {
+            return fromBytes(src)
+        }
 
-        fun tryFrom(src: String): Result<Method> = tryFrom(src.encodeToByteArray())
+        fun tryFrom(src: String): Result<Method> {
+            return tryFrom(src.encodeToByteArray())
+        }
 
-        fun from(method: Method): Method = method
+        fun from(method: Method): Method {
+            return method
+        }
 
-        fun fromStr(src: String): Result<Method> = tryFrom(src)
+        fun fromStr(src: String): Result<Method> {
+            return tryFrom(src)
+        }
 
-        fun default(): Method = GET
+        fun default(): Method {
+            return GET
+        }
 
         private fun extensionInline(src: ByteArray): Result<Method> =
             InlineExtension.new(src).map { inline ->
@@ -134,15 +144,12 @@ class Method private constructor(
      * See [the spec](https://tools.ietf.org/html/rfc7231#section-4.2.1)
      * for more words.
      */
-    fun isSafe(): Boolean =
-        when (inner) {
-            Inner.Get,
-            Inner.Head,
-            Inner.Options,
-            Inner.Trace,
-            -> true
-            else -> false
-        }
+    fun isSafe(): Boolean {
+        return inner == Inner.Get ||
+            inner == Inner.Head ||
+            inner == Inner.Options ||
+            inner == Inner.Trace
+    }
 
     /**
      * Whether a method is considered "idempotent", meaning the request has
@@ -175,13 +182,26 @@ class Method private constructor(
             is Inner.ExtensionAllocated -> inner.allocated.asStr()
         }
 
-    fun asRef(): String = asStr()
+    fun asRef(): String {
+        return asStr()
+    }
 
-    fun eq(other: Method): Boolean = this == other
+    fun eq(other: Method): Boolean {
+        return this == other
+    }
 
-    fun eq(other: String): Boolean = asRef() == other
+    fun eq(other: String): Boolean {
+        return asRef() == other
+    }
 
-    fun fmt(): String = asRef()
+    fun fmt(): String {
+        return asRef()
+    }
+
+    fun fmt(formatter: StringBuilder): StringBuilder {
+        formatter.append(asRef())
+        return formatter
+    }
 
     override fun equals(other: Any?): Boolean =
         when (other) {
@@ -202,7 +222,14 @@ class InvalidMethod private constructor() : IllegalArgumentException("invalid HT
 
     override fun toString(): String = "InvalidMethod"
 
-    fun fmt(): String = "invalid HTTP method"
+    fun fmt(): String {
+        return "InvalidMethod"
+    }
+
+    fun fmt(formatter: StringBuilder): StringBuilder {
+        formatter.append("invalid HTTP method")
+        return formatter
+    }
 }
 
 private sealed class Inner {
@@ -245,7 +272,11 @@ private data class InlineExtension(
         }
     }
 
-    fun asStr(): String = data.copyOfRange(0, len).decodeToString()
+    fun asStr(): String {
+        // Safety: the invariant of InlineExtension ensures that the first
+        // len bytes of data contain valid UTF-8.
+        return data.copyOfRange(0, len).decodeToString()
+    }
 
     override fun equals(other: Any?): Boolean =
         other is InlineExtension &&
@@ -273,7 +304,11 @@ private data class AllocatedExtension(
         }
     }
 
-    fun asStr(): String = data.decodeToString()
+    fun asStr(): String {
+        // Safety: the invariant of AllocatedExtension ensures that data
+        // contains valid UTF-8.
+        return data.decodeToString()
+    }
 
     override fun equals(other: Any?): Boolean =
         other is AllocatedExtension && data.contentEquals(other.data)

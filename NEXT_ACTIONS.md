@@ -5,10 +5,10 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 3/21 (14.3%)
-- **Function parity:** 34/614 matched (target 64) — 5.5%
+- **Function parity:** 34/614 matched (target 66) — 5.5%
 - **Class/type parity:** 9/92 matched (target 21) — 9.8%
-- **Combined symbol parity:** 43/706 matched (target 85) — 6.1%
-- **Average inline-code cosine:** 0.42 (function body across 3 matched files)
+- **Combined symbol parity:** 43/706 matched (target 87) — 6.1%
+- **Average inline-code cosine:** 0.43 (function body across 3 matched files)
 - **Average documentation cosine:** 0.97 (doc text across 3 matched files)
 - **Cheat-zeroed Files:** 0
 - **Critical Issues:** 3 files with <0.60 function similarity
@@ -30,10 +30,10 @@ Every matched file is listed below with function and type symbol parity.
 ### 1. method
 
 - **Target:** `http.Method`
-- **Similarity:** 0.53
+- **Similarity:** 0.54
 - **Dependents:** 3
-- **Priority Score:** 3022604.8
-- **Functions:** 19/19 matched (target 34)
+- **Priority Score:** 3022604.5
+- **Functions:** 19/19 matched (target 36)
 - **Missing functions:** _none_
 - **Types:** 5/7 matched (target 17)
 - **Missing types:** `Error`, `Err`
