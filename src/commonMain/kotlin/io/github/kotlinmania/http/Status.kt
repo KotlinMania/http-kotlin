@@ -1,4 +1,4 @@
-// port-lint: source src/status.rs
+// port-lint: source status.rs
 package io.github.kotlinmania.http
 
 /**

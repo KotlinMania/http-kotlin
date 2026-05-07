@@ -11,7 +11,7 @@ Clean-room Kotlin Multiplatform port of the upstream Rust crate [`http`](https:/
 1. Clone upstream into `tmp/http/` (gitignored) if not already present.
 2. Pick the next file to port — leaves of the dep tree first.
 3. Read the whole `.rs` before typing.
-4. Create the matching `.kt`. First line: `// port-lint: source <path-relative-to-tmp/http/>`. Second line: `package io.github.kotlinmania.http.<subpkg>`.
+4. Create the matching `.kt`. First line: `// port-lint: source <path-relative-to-tmp/http/src/>` because the provenance gate uses `tmp/http/src` as the source root. Second line: `package io.github.kotlinmania.http.<subpkg>`.
 5. Translate top-to-bottom in upstream order. Translate every doc comment, every inline `//`, every `///`. Rewrite Rust syntax inside docs to Kotlin equivalents.
 6. Compile errors mid-port are expected. Don't paper over with stubs — port the missing dep.
 7. Commit per file.

@@ -1,4 +1,4 @@
-// port-lint: source src/method.rs
+// port-lint: source method.rs
 package io.github.kotlinmania.http
 
 import kotlin.test.Test
@@ -10,13 +10,15 @@ class MethodTest {
     @Test
     fun testMethodEq() {
         assertEquals(Method.GET, Method.GET)
-        assertEquals("GET", Method.GET.asString())
+        assertTrue(Method.GET.eq("GET"))
+        assertTrue(Method.GET.eq(Method.GET))
+        assertEquals("GET", Method.GET.asRef())
         assertEquals(Method.GET, Method.from(Method.GET))
     }
 
     @Test
     fun testInvalidMethod() {
-        assertTrue(Method.parse("").isFailure)
+        assertTrue(Method.fromStr("").isFailure)
         assertTrue(Method.fromBytes(ByteArray(0)).isFailure)
         assertTrue(Method.fromBytes(byteArrayOf(0xc0.toByte())).isFailure)
         assertTrue(Method.fromBytes(byteArrayOf(0x10.toByte())).isFailure)
@@ -38,22 +40,29 @@ class MethodTest {
 
     @Test
     fun testExtensionMethod() {
-        assertEquals("WOW", Method.parse("WOW").getOrThrow().asString())
-        assertEquals("wOw!!", Method.parse("wOw!!").getOrThrow().asString())
+        val wow = Method.fromStr("WOW").getOrThrow()
+        assertTrue(wow.eq("WOW"))
+        assertEquals("WOW", wow.asStr())
+
+        val mixedCase = Method.fromStr("wOw!!").getOrThrow()
+        assertTrue(mixedCase.eq("wOw!!"))
+        assertEquals("wOw!!", mixedCase.asStr())
 
         val longMethod = "This_is_a_very_long_method.It_is_valid_but_unlikely."
-        assertEquals(longMethod, Method.parse(longMethod).getOrThrow().asString())
+        val parsedLongMethod = Method.fromStr(longMethod).getOrThrow()
+        assertTrue(parsedLongMethod.eq(longMethod))
+        assertEquals(longMethod, parsedLongMethod.asStr())
 
         val longestInlineMethod = ByteArray(15) { 'A'.code.toByte() }
         assertEquals(
             "AAAAAAAAAAAAAAA",
-            Method.fromBytes(longestInlineMethod).getOrThrow().asString(),
+            Method.fromBytes(longestInlineMethod).getOrThrow().asStr(),
         )
 
         val shortestAllocatedMethod = ByteArray(16) { 'A'.code.toByte() }
         assertEquals(
             "AAAAAAAAAAAAAAAA",
-            Method.fromBytes(shortestAllocatedMethod).getOrThrow().asString(),
+            Method.fromBytes(shortestAllocatedMethod).getOrThrow().asStr(),
         )
     }
 
@@ -67,7 +76,11 @@ class MethodTest {
 
             assertEquals(
                 method,
-                Method.parse(method).getOrThrow().asString(),
+                Method.fromStr(method).getOrThrow().asStr(),
+                "testing $c is a valid method character",
+            )
+            assertTrue(
+                Method.fromStr(method).getOrThrow().eq(method),
                 "testing $c is a valid method character",
             )
         }

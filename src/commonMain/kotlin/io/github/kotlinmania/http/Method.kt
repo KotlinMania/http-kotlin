@@ -1,4 +1,4 @@
-// port-lint: source src/method.rs
+// port-lint: source method.rs
 package io.github.kotlinmania.http
 
 /**
@@ -14,7 +14,7 @@ package io.github.kotlinmania.http
  * ```
  * check(Method.GET == Method.fromBytes("GET".encodeToByteArray()).getOrThrow())
  * check(Method.GET.isIdempotent())
- * check(Method.POST.asString() == "POST")
+ * check(Method.POST.asStr() == "POST")
  * ```
  */
 
@@ -111,13 +111,13 @@ class Method private constructor(
                     }
             }
 
-        fun parse(src: String): Result<Method> = fromBytes(src.encodeToByteArray())
-
         fun tryFrom(src: ByteArray): Result<Method> = fromBytes(src)
 
-        fun tryFrom(src: String): Result<Method> = parse(src)
+        fun tryFrom(src: String): Result<Method> = tryFrom(src.encodeToByteArray())
 
         fun from(method: Method): Method = method
+
+        fun fromStr(src: String): Result<Method> = tryFrom(src)
 
         fun default(): Method = GET
 
@@ -160,7 +160,7 @@ class Method private constructor(
         }
 
     /** Return a String representation of the HTTP method. */
-    fun asString(): String =
+    fun asStr(): String =
         when (inner) {
             Inner.Options -> "OPTIONS"
             Inner.Get -> "GET"
@@ -171,20 +171,27 @@ class Method private constructor(
             Inner.Trace -> "TRACE"
             Inner.Connect -> "CONNECT"
             Inner.Patch -> "PATCH"
-            is Inner.ExtensionInline -> inner.inline.asString()
-            is Inner.ExtensionAllocated -> inner.allocated.asString()
+            is Inner.ExtensionInline -> inner.inline.asStr()
+            is Inner.ExtensionAllocated -> inner.allocated.asStr()
         }
+
+    fun asRef(): String = asStr()
+
+    fun eq(other: Method): Boolean = this == other
+
+    fun eq(other: String): Boolean = asRef() == other
+
+    fun fmt(): String = asRef()
 
     override fun equals(other: Any?): Boolean =
         when (other) {
             is Method -> inner == other.inner
-            is String -> asString() == other
             else -> false
         }
 
     override fun hashCode(): Int = inner.hashCode()
 
-    override fun toString(): String = asString()
+    override fun toString(): String = asRef()
 }
 
 /** A possible error value when converting `Method` from bytes. */
@@ -194,6 +201,8 @@ class InvalidMethod private constructor() : IllegalArgumentException("invalid HT
     }
 
     override fun toString(): String = "InvalidMethod"
+
+    fun fmt(): String = "invalid HTTP method"
 }
 
 private sealed class Inner {
@@ -236,7 +245,7 @@ private data class InlineExtension(
         }
     }
 
-    fun asString(): String = data.copyOfRange(0, len).decodeToString()
+    fun asStr(): String = data.copyOfRange(0, len).decodeToString()
 
     override fun equals(other: Any?): Boolean =
         other is InlineExtension &&
@@ -264,7 +273,7 @@ private data class AllocatedExtension(
         }
     }
 
-    fun asString(): String = data.decodeToString()
+    fun asStr(): String = data.decodeToString()
 
     override fun equals(other: Any?): Boolean =
         other is AllocatedExtension && data.contentEquals(other.data)
