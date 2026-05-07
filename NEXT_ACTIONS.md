@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 3/21 (14.3%)
-- **Function parity:** 38/614 matched (target 72) — 6.2%
-- **Class/type parity:** 9/92 matched (target 21) — 9.8%
-- **Combined symbol parity:** 47/706 matched (target 93) — 6.7%
-- **Average inline-code cosine:** 0.52 (function body across 3 matched files)
-- **Average documentation cosine:** 0.97 (doc text across 3 matched files)
+- **Files Present:** 5/21 (23.8%)
+- **Function parity:** 64/611 matched (target 113) — 10.5%
+- **Class/type parity:** 16/92 matched (target 29) — 17.4%
+- **Combined symbol parity:** 80/703 matched (target 142) — 11.4%
+- **Average inline-code cosine:** 0.50 (function body across 5 matched files)
+- **Average documentation cosine:** 0.94 (doc text across 5 matched files)
 - **Cheat-zeroed Files:** 0
-- **Critical Issues:** 2 files with <0.60 function similarity
+- **Critical Issues:** 4 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -27,7 +27,18 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. method
+### 1. byte_str
+
+- **Target:** `http.ByteStr`
+- **Similarity:** 0.59
+- **Dependents:** 5
+- **Priority Score:** 5000804.0
+- **Functions:** 6/6 matched (target 12)
+- **Missing functions:** _none_
+- **Types:** 2/2 matched
+- **Missing types:** _none_
+
+### 2. method
 
 - **Target:** `http.Method`
 - **Similarity:** 0.54
@@ -39,7 +50,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `Error`, `Err`
 - **Tests:** 5/5 matched
 
-### 2. version
+### 3. version
 
 - **Target:** `http.Version`
 - **Similarity:** 0.61
@@ -50,7 +61,19 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched
 - **Missing types:** _none_
 
-### 3. status
+### 4. extensions
+
+- **Target:** `http.Extensions`
+- **Similarity:** 0.36
+- **Dependents:** 1
+- **Priority Score:** 1042906.4
+- **Functions:** 20/23 matched (target 29)
+- **Missing functions:** `write`, `write_u64`, `finish`
+- **Types:** 5/6 matched
+- **Missing types:** `IdHasher`
+- **Tests:** 1/1 matched
+
+### 5. status
 
 - **Target:** `http.Status`
 - **Similarity:** 0.42
