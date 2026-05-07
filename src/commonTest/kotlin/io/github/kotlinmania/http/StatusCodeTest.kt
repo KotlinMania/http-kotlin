@@ -22,11 +22,12 @@ class StatusCodeTest {
     fun equatesWithU16() {
         val status = StatusCode.fromU16(200).getOrThrow()
         assertEquals(200, status.asU16())
+        assertEquals(status.asU16(), 200)
     }
 
     @Test
     fun roundtrip() {
-        for (s in 100..<1000) {
+        for (s in 100 until 1000) {
             val sstr = s.toString()
             val status = StatusCode.fromBytes(sstr.encodeToByteArray()).getOrThrow()
             assertEquals(s, status.asU16())
@@ -78,6 +79,6 @@ class StatusCodeTest {
         assertFalse(statusCode(600).isServerError())
     }
 
-    private fun statusCode(statusCode: Int): StatusCode =
-        StatusCode.fromU16(statusCode).getOrThrow()
+    /** Helper method for readability */
+    private fun statusCode(statusCode: Int): StatusCode = StatusCode.fromU16(statusCode).getOrThrow()
 }
