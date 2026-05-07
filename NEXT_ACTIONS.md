@@ -5,13 +5,13 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 3/21 (14.3%)
-- **Function parity:** 34/614 matched (target 66) — 5.5%
+- **Function parity:** 36/614 matched (target 68) — 5.9%
 - **Class/type parity:** 9/92 matched (target 21) — 9.8%
-- **Combined symbol parity:** 43/706 matched (target 87) — 6.1%
-- **Average inline-code cosine:** 0.43 (function body across 3 matched files)
+- **Combined symbol parity:** 45/706 matched (target 89) — 6.4%
+- **Average inline-code cosine:** 0.51 (function body across 3 matched files)
 - **Average documentation cosine:** 0.97 (doc text across 3 matched files)
 - **Cheat-zeroed Files:** 0
-- **Critical Issues:** 3 files with <0.60 function similarity
+- **Critical Issues:** 2 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -42,22 +42,22 @@ Every matched file is listed below with function and type symbol parity.
 ### 2. version
 
 - **Target:** `http.Version`
-- **Similarity:** 0.39
+- **Similarity:** 0.61
 - **Dependents:** 3
-- **Priority Score:** 3010406.0
-- **Functions:** 1/2 matched (target 5)
-- **Missing functions:** `fmt`
+- **Priority Score:** 3000404.0
+- **Functions:** 2/2 matched (target 6)
+- **Missing functions:** _none_
 - **Types:** 2/2 matched
 - **Missing types:** _none_
 
 ### 3. status
 
 - **Target:** `http.Status`
-- **Similarity:** 0.35
+- **Similarity:** 0.39
 - **Dependents:** 1
-- **Priority Score:** 1052106.5
-- **Functions:** 14/17 matched (target 25)
-- **Missing functions:** `fmt`, `eq`, `from_str`
+- **Priority Score:** 1042106.1
+- **Functions:** 15/17 matched (target 26)
+- **Missing functions:** `fmt`, `from_str`
 - **Types:** 2/4 matched (target 2)
 - **Missing types:** `Err`, `Error`
 

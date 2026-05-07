@@ -217,7 +217,7 @@ class Method private constructor(
 /** A possible error value when converting `Method` from bytes. */
 class InvalidMethod private constructor() : IllegalArgumentException("invalid HTTP method") {
     companion object {
-        fun new(): InvalidMethod = InvalidMethod()
+        internal fun new(): InvalidMethod = InvalidMethod()
     }
 
     override fun toString(): String = "InvalidMethod"
