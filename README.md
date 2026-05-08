@@ -116,7 +116,6 @@ dependencies {
 ### Maintainer
 
 Sydney Renee <sydney@solace.ofharmony.ai> (GitHub: [@sydneyrenee](https://github.com/sydneyrenee)) maintains this Kotlin port. Sydney Renee is the founder of The Solace Project.
-
 ### Building
 
 ```bash
