@@ -3,8 +3,6 @@ package io.github.kotlinmania.http
 
 import io.github.kotlinmania.bytes.Bytes
 
-private typealias Target = String
-
 internal class ByteStr private constructor(
     // Invariant: bytes contains valid UTF-8
     private val bytes: Bytes,
@@ -52,7 +50,7 @@ internal class ByteStr private constructor(
         }
     }
 
-    fun deref(): Target {
+    fun deref(): String {
         val b = bytes.asRef()
         // Safety: the invariant of `bytes` is that it contains valid UTF-8.
         return b.decodeToString()

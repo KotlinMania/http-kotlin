@@ -42,17 +42,24 @@ class Extensions private constructor(
      * check(ext.insert(9) == 5)
      * ```
      */
-    inline fun <reified T : Any> insert(value: T): T? {
-        return insert(T::class, T::class.simpleName ?: T::class.toString(), value) as? T
+    inline fun <reified T : Any> insert(value: T): T? = insert(value) { it }
+
+    inline fun <reified T : Any> insert(
+        value: T,
+        noinline clone: (T) -> T,
+    ): T? {
+        val erasedClone: (Any) -> Any = { v -> clone(v as T) }
+        return insert(T::class, T::class.simpleName ?: T::class.toString(), value, erasedClone) as? T
     }
 
     fun insert(
         type: KClass<*>,
         typeName: String,
         value: Any,
+        clone: (Any) -> Any,
     ): Any? {
         val extensions = map ?: mutableMapOf<KClass<*>, AnyClone>().also { map = it }
-        return extensions.put(type, AnyClone(value, typeName))?.intoAny()
+        return extensions.put(type, AnyClone(value, typeName, clone))?.intoAny()
     }
 
     /**
@@ -296,27 +303,18 @@ private data class TypeName(
     }
 }
 
-private data class AnyClone(
+private class AnyClone(
     private val value: Any,
     private val typeName: String,
+    private val clone: (Any) -> Any,
 ) {
-    fun cloneBox(): AnyClone {
-        return copy()
-    }
+    fun cloneBox(): AnyClone = AnyClone(clone(value), typeName, clone)
 
-    fun asAny(): Any {
-        return value
-    }
+    fun asAny(): Any = value
 
-    fun asAnyMut(): Any {
-        return value
-    }
+    fun asAnyMut(): Any = value
 
-    fun intoAny(): Any {
-        return value
-    }
+    fun intoAny(): Any = value
 
-    fun typeName(): String {
-        return typeName
-    }
+    fun typeName(): String = typeName
 }

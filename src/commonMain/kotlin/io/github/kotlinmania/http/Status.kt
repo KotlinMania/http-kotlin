@@ -48,13 +48,13 @@ class StatusCode private constructor(
             if (src in 100..999) {
                 Result.success(StatusCode(src))
             } else {
-                Result.failure(InvalidStatusCode.new())
+                Result.failure(InvalidStatusCode())
             }
 
         /** Converts a byte array to a status code. */
         fun fromBytes(src: ByteArray): Result<StatusCode> {
             if (src.size != 3) {
-                return Result.failure(InvalidStatusCode.new())
+                return Result.failure(InvalidStatusCode())
             }
 
             val a = decimalValue(src[0])
@@ -62,7 +62,7 @@ class StatusCode private constructor(
             val c = decimalValue(src[2])
 
             if (a !in 1..9 || b !in 0..9 || c !in 0..9) {
-                return Result.failure(InvalidStatusCode.new())
+                return Result.failure(InvalidStatusCode())
             }
 
             val status = (a * 100) + (b * 10) + c
@@ -543,11 +543,11 @@ class StatusCode private constructor(
  * than 100, or was greater than 999.
  */
 class InvalidStatusCode internal constructor() : IllegalArgumentException("invalid status code") {
-    companion object {
-        internal fun new(): InvalidStatusCode {
-            return InvalidStatusCode()
-        }
-    }
+    /** Associated error type for parsing a StatusCode from a String — same as the parent class. */
+    typealias Err = InvalidStatusCode
+
+    /** Root error category — Throwable is Kotlin's analog of the upstream error trait. */
+    typealias Error = Throwable
 
     override fun toString(): String = "InvalidStatusCode"
 
