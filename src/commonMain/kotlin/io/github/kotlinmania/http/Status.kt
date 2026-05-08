@@ -543,12 +543,6 @@ class StatusCode private constructor(
  * than 100, or was greater than 999.
  */
 class InvalidStatusCode internal constructor() : IllegalArgumentException("invalid status code") {
-    /** Associated error type for parsing a StatusCode from a String — same as the parent class. */
-    typealias Err = InvalidStatusCode
-
-    /** Root error category — Throwable is Kotlin's analog of the upstream error trait. */
-    typealias Error = Throwable
-
     override fun toString(): String = "InvalidStatusCode"
 
     fun fmt(): String {

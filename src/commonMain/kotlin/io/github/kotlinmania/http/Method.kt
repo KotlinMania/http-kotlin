@@ -207,12 +207,6 @@ class Method private constructor(
 
 /** A possible error value when converting `Method` from bytes. */
 class InvalidMethod internal constructor() : IllegalArgumentException("invalid HTTP method") {
-    /** Associated error type for parsing a Method from a String — same as the parent class. */
-    typealias Err = InvalidMethod
-
-    /** Root error category — Throwable is Kotlin's analog of the upstream error trait. */
-    typealias Error = Throwable
-
     override fun toString(): String = "InvalidMethod"
 
     fun fmt(): String {
