@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "io.github.kotlinmania"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.0"
 
 val androidSdkDir: String? =
     providers.environmentVariable("ANDROID_SDK_ROOT").orNull
@@ -35,6 +35,7 @@ kotlin {
     sourceSets.all {
         languageSettings.optIn("kotlin.time.ExperimentalTime")
         languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+        languageSettings.optIn("kotlin.ExperimentalUnsignedTypes")
     }
 
     compilerOptions {
@@ -97,6 +98,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
+                implementation("io.github.kotlinmania:bytes-kotlin:0.2.0")
             }
         }
 
@@ -123,11 +125,10 @@ rootProject.extensions.configure<WasmYarnRootEnvSpec>("kotlinWasmYarnSpec") {
 
 rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
     resolution("diff", "8.0.3")
-    resolution("serialize-javascript", "7.0.5")
-    resolution("webpack", "5.106.2")
-
     resolution("**/diff", "8.0.3")
+    resolution("serialize-javascript", "7.0.5")
     resolution("**/serialize-javascript", "7.0.5")
+    resolution("webpack", "5.106.2")
     resolution("**/webpack", "5.106.2")
     resolution("follow-redirects", "1.16.0")
     resolution("**/follow-redirects", "1.16.0")
@@ -169,14 +170,14 @@ mavenPublishing {
 
     pom {
         name.set("http-kotlin")
-        description.set("Kotlin Multiplatform port of the Rust crate `http` — HTTP types (`Request`, `Response`, `Uri`, `HeaderMap`)")
+        description.set("Kotlin Multiplatform port of hyperium/http - A set of types for representing HTTP requests and responses")
         inceptionYear.set("2026")
         url.set("https://github.com/KotlinMania/http-kotlin")
 
         licenses {
             license {
-                name.set("Apache-2.0")
-                url.set("https://opensource.org/licenses/Apache-2.0")
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
                 distribution.set("repo")
             }
         }
@@ -196,4 +197,18 @@ mavenPublishing {
             developerConnection.set("scm:git:ssh://github.com/KotlinMania/http-kotlin.git")
         }
     }
+}
+
+tasks.register("test") {
+    group = "verification"
+    description =
+        "Runs a portable test suite (macOS + JS + WasmJS). Android and non-host native targets are intentionally excluded."
+
+    val defaultTestTasks = listOf(
+        "macosArm64Test",
+        "jsNodeTest",
+        "wasmJsNodeTest",
+    )
+
+    dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
 }
