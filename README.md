@@ -8,6 +8,8 @@ This is a Kotlin Multiplatform line-by-line transliteration port of [`hyperium/h
 
 **Original Project:** This port is based on [`hyperium/http`](https://github.com/hyperium/http). All design credit and project intent belong to the upstream authors; this repository is a faithful port to Kotlin Multiplatform with no behavioural changes intended.
 
+The upstream README and license text are treated as upstream-authored source documents. This repository adds Kotlin-port wrapper sections, absolute-link edits, and port-specific notices while keeping upstream authorship attached to the original text.
+
 ### Porting status
 
 This is an **in-progress port**. The goal is feature parity with the upstream Rust crate while providing a native Kotlin Multiplatform API. Every Kotlin file carries a `// port-lint: source <path>` header naming its upstream Rust counterpart so the AST-distance tool can track provenance.
@@ -107,10 +109,13 @@ dual licensed as above, without any additional terms or conditions.
 
 ```kotlin
 dependencies {
-    implementation("io.github.kotlinmania:http-kotlin:0.1.0-SNAPSHOT")
+    implementation("io.github.kotlinmania:http-kotlin:0.1.0")
 }
 ```
 
+### Maintainer
+
+Sydney Renee <sydney@solace.ofharmony.ai> (GitHub: [@sydneyrenee](https://github.com/sydneyrenee)) maintains this Kotlin port. Sydney Renee is the founder of The Solace Project.
 ### Building
 
 ```bash
@@ -134,10 +139,11 @@ See [AGENTS.md](AGENTS.md) and [CLAUDE.md](CLAUDE.md) for translator discipline,
 
 ### License
 
-This Kotlin port is distributed under the same MIT license as the upstream [`hyperium/http`](https://github.com/hyperium/http). See [LICENSE](LICENSE) (and any sibling `LICENSE-*` / `NOTICE` files mirrored from upstream) for the full text.
+This Kotlin port is distributed under the same dual Apache-2.0 OR MIT license as the upstream [`hyperium/http`](https://github.com/hyperium/http). See [LICENSE-APACHE](LICENSE-APACHE), [LICENSE-MIT](LICENSE-MIT), and [NOTICE](NOTICE) for the full text and Kotlin port notice.
 
 Original work copyrighted by the http authors.  
 Kotlin port: Copyright (c) 2026 Sydney Renee and The Solace Project.
+Byline: Sydney Renee <sydney@solace.ofharmony.ai>, founder of The Solace Project.
 
 ### Acknowledgments
 
