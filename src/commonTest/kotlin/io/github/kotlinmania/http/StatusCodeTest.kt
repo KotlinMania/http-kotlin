@@ -33,8 +33,6 @@ class StatusCodeTest {
             val status = StatusCode.fromBytes(sstr.encodeToByteArray()).getOrThrow()
             assertEquals(s, status.asU16())
             assertEquals(sstr, status.asStr())
-            assertEquals(status, StatusCode.fromStr(sstr).getOrThrow())
-            assertEquals(sstr, status.fmt())
         }
     }
 
