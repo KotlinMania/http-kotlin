@@ -48,13 +48,13 @@ class StatusCode private constructor(
             if (src in 100..999) {
                 Result.success(StatusCode(src))
             } else {
-                Result.failure(InvalidStatusCode())
+                Result.failure(InvalidStatusCode.new())
             }
 
         /** Converts a byte array to a status code. */
         fun fromBytes(src: ByteArray): Result<StatusCode> {
             if (src.size != 3) {
-                return Result.failure(InvalidStatusCode())
+                return Result.failure(InvalidStatusCode.new())
             }
 
             val a = decimalValue(src[0])
@@ -62,7 +62,7 @@ class StatusCode private constructor(
             val c = decimalValue(src[2])
 
             if (a !in 1..9 || b !in 0..9 || c !in 0..9) {
-                return Result.failure(InvalidStatusCode())
+                return Result.failure(InvalidStatusCode.new())
             }
 
             val status = (a * 100) + (b * 10) + c
@@ -77,12 +77,16 @@ class StatusCode private constructor(
             return fromBytes(src)
         }
 
-        fun fromStr(src: String): Result<StatusCode> {
+        fun parse(src: String): Result<StatusCode> {
             return fromBytes(src.encodeToByteArray())
         }
 
+        fun fromStr(src: String): Result<StatusCode> {
+            return parse(src)
+        }
+
         fun tryFrom(src: String): Result<StatusCode> {
-            return fromStr(src)
+            return parse(src)
         }
 
         fun tryFrom(src: Int): Result<StatusCode> {
@@ -542,7 +546,11 @@ class StatusCode private constructor(
  * This error indicates that the supplied input was not a valid number, was less
  * than 100, or was greater than 999.
  */
-class InvalidStatusCode internal constructor() : IllegalArgumentException("invalid status code") {
+class InvalidStatusCode private constructor() : IllegalArgumentException("invalid status code") {
+    companion object {
+        internal fun new(): InvalidStatusCode = InvalidStatusCode()
+    }
+
     override fun toString(): String = "InvalidStatusCode"
 
     fun fmt(): String {
