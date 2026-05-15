@@ -73,17 +73,15 @@ class StatusCode private constructor(
             return status
         }
 
-        fun tryFrom(src: ByteArray): Result<StatusCode> {
-            return fromBytes(src)
-        }
+        fun fromStr(src: String): Result<StatusCode> = parse(src)
+
+        fun from(status: StatusCode): StatusCode = status
 
         fun parse(src: String): Result<StatusCode> {
             return fromBytes(src.encodeToByteArray())
         }
 
-        fun fromStr(src: String): Result<StatusCode> {
-            return parse(src)
-        }
+        fun tryFrom(src: String): Result<StatusCode> = fromStr(src)
 
         fun tryFrom(src: String): Result<StatusCode> {
             return parse(src)
@@ -512,6 +510,13 @@ class StatusCode private constructor(
     fun fmt(): String {
         return debugString()
     }
+
+    fun fmt(formatter: StringBuilder): StringBuilder {
+        formatter.append(toString())
+        return formatter
+    }
+
+    fun fmt(): String = debugString()
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append(toString())
