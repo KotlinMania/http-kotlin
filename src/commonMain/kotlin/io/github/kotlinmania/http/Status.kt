@@ -48,13 +48,13 @@ class StatusCode private constructor(
             if (src in 100..999) {
                 Result.success(StatusCode(src))
             } else {
-                Result.failure(InvalidStatusCode())
+                Result.failure(InvalidStatusCode.new())
             }
 
         /** Converts a byte array to a status code. */
         fun fromBytes(src: ByteArray): Result<StatusCode> {
             if (src.size != 3) {
-                return Result.failure(InvalidStatusCode())
+                return Result.failure(InvalidStatusCode.new())
             }
 
             val a = decimalValue(src[0])
@@ -62,32 +62,24 @@ class StatusCode private constructor(
             val c = decimalValue(src[2])
 
             if (a !in 1..9 || b !in 0..9 || c !in 0..9) {
-                return Result.failure(InvalidStatusCode())
+                return Result.failure(InvalidStatusCode.new())
             }
 
             val status = (a * 100) + (b * 10) + c
             return Result.success(StatusCode(status))
         }
 
-        fun from(status: StatusCode): StatusCode {
-            return status
-        }
+        fun parse(src: String): Result<StatusCode> = fromBytes(src.encodeToByteArray())
 
-        fun tryFrom(src: ByteArray): Result<StatusCode> {
-            return fromBytes(src)
-        }
+        fun fromStr(src: String): Result<StatusCode> = parse(src)
 
-        fun fromStr(src: String): Result<StatusCode> {
-            return fromBytes(src.encodeToByteArray())
-        }
+        fun from(status: StatusCode): StatusCode = status
 
-        fun tryFrom(src: String): Result<StatusCode> {
-            return fromStr(src)
-        }
+        fun tryFrom(src: ByteArray): Result<StatusCode> = fromBytes(src)
 
-        fun tryFrom(src: Int): Result<StatusCode> {
-            return fromU16(src)
-        }
+        fun tryFrom(src: String): Result<StatusCode> = fromStr(src)
+
+        fun tryFrom(src: Int): Result<StatusCode> = fromU16(src)
 
         /** 100 Continue
          * [[RFC9110, Section 15.2.1](https://datatracker.ietf.org/doc/html/rfc9110#section-15.2.1)]
@@ -399,9 +391,7 @@ class StatusCode private constructor(
          */
         val NETWORK_AUTHENTICATION_REQUIRED: StatusCode = StatusCode(511)
 
-        fun default(): StatusCode {
-            return OK
-        }
+        fun default(): StatusCode = OK
 
         private fun decimalValue(byte: Byte): Int = (byte.toInt() and 0xff) - '0'.code
     }
@@ -423,9 +413,7 @@ class StatusCode private constructor(
      * check(status.asU16() == 200)
      * ```
      */
-    fun asU16(): Int {
-        return value
-    }
+    fun asU16(): Int = value
 
     /**
      * Returns a string representation of the `StatusCode`.
@@ -468,46 +456,28 @@ class StatusCode private constructor(
      * check(status.canonicalReason() == "OK")
      * ```
      */
-    fun canonicalReason(): String? {
-        return canonicalReason(value)
-    }
+    fun canonicalReason(): String? = canonicalReason(value)
 
     /** Check if status is within 100-199. */
-    fun isInformational(): Boolean {
-        return value in 100 until 200
-    }
+    fun isInformational(): Boolean = value in 100 until 200
 
     /** Check if status is within 200-299. */
-    fun isSuccess(): Boolean {
-        return value in 200 until 300
-    }
+    fun isSuccess(): Boolean = value in 200 until 300
 
     /** Check if status is within 300-399. */
-    fun isRedirection(): Boolean {
-        return value in 300 until 400
-    }
+    fun isRedirection(): Boolean = value in 300 until 400
 
     /** Check if status is within 400-499. */
-    fun isClientError(): Boolean {
-        return value in 400 until 500
-    }
+    fun isClientError(): Boolean = value in 400 until 500
 
     /** Check if status is within 500-599. */
-    fun isServerError(): Boolean {
-        return value in 500 until 600
-    }
+    fun isServerError(): Boolean = value in 500 until 600
 
-    fun eq(other: Int): Boolean {
-        return value == other
-    }
+    fun eq(other: Int): Boolean = value == other
 
-    fun debugString(): String {
-        return value.toString()
-    }
+    fun debugString(): String = value.toString()
 
-    fun fmt(): String {
-        return debugString()
-    }
+    fun fmt(): String = debugString()
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append(toString())
@@ -542,12 +512,14 @@ class StatusCode private constructor(
  * This error indicates that the supplied input was not a valid number, was less
  * than 100, or was greater than 999.
  */
-class InvalidStatusCode internal constructor() : IllegalArgumentException("invalid status code") {
+class InvalidStatusCode private constructor() : IllegalArgumentException("invalid status code") {
+    companion object {
+        internal fun new(): InvalidStatusCode = InvalidStatusCode()
+    }
+
     override fun toString(): String = "InvalidStatusCode"
 
-    fun fmt(): String {
-        return "InvalidStatusCode"
-    }
+    fun fmt(): String = "InvalidStatusCode"
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append("invalid status code")

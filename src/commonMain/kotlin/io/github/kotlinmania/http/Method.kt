@@ -62,7 +62,7 @@ class Method private constructor(
         /** Converts a slice of bytes to an HTTP method. */
         fun fromBytes(src: ByteArray): Result<Method> =
             when (src.size) {
-                0 -> Result.failure(InvalidMethod())
+                0 -> Result.failure(InvalidMethod.new())
                 3 ->
                     when {
                         src.contentEquals(METHOD_GET) -> Result.success(Method(Inner.Get))
@@ -206,7 +206,11 @@ class Method private constructor(
 }
 
 /** A possible error value when converting `Method` from bytes. */
-class InvalidMethod internal constructor() : IllegalArgumentException("invalid HTTP method") {
+class InvalidMethod private constructor() : IllegalArgumentException("invalid HTTP method") {
+    companion object {
+        internal fun new(): InvalidMethod = InvalidMethod()
+    }
+
     override fun toString(): String = "InvalidMethod"
 
     fun fmt(): String {
@@ -260,7 +264,7 @@ private data class InlineExtension(
 
             val checked = writeChecked(src, data)
             if (checked.isFailure) {
-                return Result.failure(checked.exceptionOrNull() ?: InvalidMethod())
+                return Result.failure(checked.exceptionOrNull() ?: InvalidMethod.new())
             }
 
             // Invariant: writeChecked ensures that the first src.size bytes
@@ -292,7 +296,7 @@ private data class AllocatedExtension(
 
             val checked = writeChecked(src, data)
             if (checked.isFailure) {
-                return Result.failure(checked.exceptionOrNull() ?: InvalidMethod())
+                return Result.failure(checked.exceptionOrNull() ?: InvalidMethod.new())
             }
 
             // Invariant: data is exactly src.size long and writeChecked
@@ -368,7 +372,7 @@ private fun writeChecked(
         val b = METHOD_CHARS[src[i].toInt() and 0xff]
 
         if (b == 0.toByte()) {
-            return Result.failure(InvalidMethod())
+            return Result.failure(InvalidMethod.new())
         }
 
         dst[i] = b
