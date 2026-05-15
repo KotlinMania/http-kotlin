@@ -65,40 +65,31 @@ class Method private constructor(
                 0 -> Result.failure(InvalidMethod.new())
                 3 ->
                     when {
-                        src.contentEquals(byteArrayOf('G'.code.toByte(), 'E'.code.toByte(), 'T'.code.toByte())) ->
-                            Result.success(Method(Inner.Get))
-                        src.contentEquals(byteArrayOf('P'.code.toByte(), 'U'.code.toByte(), 'T'.code.toByte())) ->
-                            Result.success(Method(Inner.Put))
+                        src.contentEquals(METHOD_GET) -> Result.success(Method(Inner.Get))
+                        src.contentEquals(METHOD_PUT) -> Result.success(Method(Inner.Put))
                         else -> extensionInline(src)
                     }
                 4 ->
                     when {
-                        src.contentEquals(byteArrayOf('P'.code.toByte(), 'O'.code.toByte(), 'S'.code.toByte(), 'T'.code.toByte())) ->
-                            Result.success(Method(Inner.Post))
-                        src.contentEquals(byteArrayOf('H'.code.toByte(), 'E'.code.toByte(), 'A'.code.toByte(), 'D'.code.toByte())) ->
-                            Result.success(Method(Inner.Head))
+                        src.contentEquals(METHOD_POST) -> Result.success(Method(Inner.Post))
+                        src.contentEquals(METHOD_HEAD) -> Result.success(Method(Inner.Head))
                         else -> extensionInline(src)
                     }
                 5 ->
                     when {
-                        src.contentEquals(byteArrayOf('P'.code.toByte(), 'A'.code.toByte(), 'T'.code.toByte(), 'C'.code.toByte(), 'H'.code.toByte())) ->
-                            Result.success(Method(Inner.Patch))
-                        src.contentEquals(byteArrayOf('T'.code.toByte(), 'R'.code.toByte(), 'A'.code.toByte(), 'C'.code.toByte(), 'E'.code.toByte())) ->
-                            Result.success(Method(Inner.Trace))
+                        src.contentEquals(METHOD_PATCH) -> Result.success(Method(Inner.Patch))
+                        src.contentEquals(METHOD_TRACE) -> Result.success(Method(Inner.Trace))
                         else -> extensionInline(src)
                     }
                 6 ->
                     when {
-                        src.contentEquals(byteArrayOf('D'.code.toByte(), 'E'.code.toByte(), 'L'.code.toByte(), 'E'.code.toByte(), 'T'.code.toByte(), 'E'.code.toByte())) ->
-                            Result.success(Method(Inner.Delete))
+                        src.contentEquals(METHOD_DELETE) -> Result.success(Method(Inner.Delete))
                         else -> extensionInline(src)
                     }
                 7 ->
                     when {
-                        src.contentEquals(byteArrayOf('O'.code.toByte(), 'P'.code.toByte(), 'T'.code.toByte(), 'I'.code.toByte(), 'O'.code.toByte(), 'N'.code.toByte(), 'S'.code.toByte())) ->
-                            Result.success(Method(Inner.Options))
-                        src.contentEquals(byteArrayOf('C'.code.toByte(), 'O'.code.toByte(), 'N'.code.toByte(), 'N'.code.toByte(), 'E'.code.toByte(), 'C'.code.toByte(), 'T'.code.toByte())) ->
-                            Result.success(Method(Inner.Connect))
+                        src.contentEquals(METHOD_OPTIONS) -> Result.success(Method(Inner.Options))
+                        src.contentEquals(METHOD_CONNECT) -> Result.success(Method(Inner.Connect))
                         else -> extensionInline(src)
                     }
                 else ->
@@ -231,6 +222,16 @@ class InvalidMethod private constructor() : IllegalArgumentException("invalid HT
         return formatter
     }
 }
+
+private val METHOD_GET = "GET".encodeToByteArray()
+private val METHOD_PUT = "PUT".encodeToByteArray()
+private val METHOD_POST = "POST".encodeToByteArray()
+private val METHOD_HEAD = "HEAD".encodeToByteArray()
+private val METHOD_PATCH = "PATCH".encodeToByteArray()
+private val METHOD_TRACE = "TRACE".encodeToByteArray()
+private val METHOD_DELETE = "DELETE".encodeToByteArray()
+private val METHOD_OPTIONS = "OPTIONS".encodeToByteArray()
+private val METHOD_CONNECT = "CONNECT".encodeToByteArray()
 
 private sealed class Inner {
     data object Options : Inner()
