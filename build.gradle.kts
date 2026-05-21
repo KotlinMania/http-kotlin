@@ -143,20 +143,20 @@ fun installProjectAndroidSdk(execOperations: ExecOperations) {
 
     println("setup-android-sdk: accepting licenses")
     val licenseAnswers = "y\n".repeat(maxAndroidSdkLicensePrompts).toByteArray(Charsets.UTF_8)
-    val licenseResult = execOperations.exec {
+    val licenseExecResult = execOperations.exec {
         commandLine(sdkManagerCommand("--sdk_root=${projectAndroidSdkDir.absolutePath}", "--licenses"))
         standardInput = ByteArrayInputStream(licenseAnswers)
         isIgnoreExitValue = true
     }
-    if (licenseResult.exitValue != 0) {
-        throw GradleException("Android SDK license acceptance failed with exit code ${licenseResult.exitValue}")
+    if (licenseExecResult.exitValue != 0) {
+        throw GradleException("Android SDK license acceptance failed with exit code ${licenseExecResult.exitValue}")
     }
 
     println("setup-android-sdk: installing platform-tools, android-$projectCompileSdk, build-tools;$projectAndroidBuildTools")
     val installLog = projectAndroidSdkDir.resolve("sdkmanager-install.log")
     installLog.parentFile.mkdirs()
     installLog.outputStream().use { output ->
-        val installResult = execOperations.exec {
+        val installExecResult = execOperations.exec {
             commandLine(
                 sdkManagerCommand(
                     "--sdk_root=${projectAndroidSdkDir.absolutePath}",
@@ -169,9 +169,9 @@ fun installProjectAndroidSdk(execOperations: ExecOperations) {
             errorOutput = output
             isIgnoreExitValue = true
         }
-        if (installResult.exitValue != 0) {
+        if (installExecResult.exitValue != 0) {
             throw GradleException(
-                "Android SDK package install failed with exit code ${installResult.exitValue}. " +
+                "Android SDK package install failed with exit code ${installExecResult.exitValue}. " +
                     "Install log:\n${installLog.readText()}",
             )
         }
