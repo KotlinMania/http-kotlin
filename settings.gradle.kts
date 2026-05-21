@@ -17,3 +17,13 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "http-kotlin"
+
+val bytesLocal = file("../bytes-kotlin")
+if (bytesLocal.exists()) {
+    includeBuild(bytesLocal) {
+        dependencySubstitution {
+            substitute(module("io.github.kotlinmania:bytes-kotlin")).using(project(":"))
+            substitute(module("io.github.kotlinmania:bytes-kotlin-android")).using(project(":"))
+        }
+    }
+}
