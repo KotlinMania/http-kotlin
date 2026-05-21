@@ -3,8 +3,6 @@ import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.testing.AbstractTestTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.gradle.kotlin.dsl.support.serviceOf
-import org.gradle.process.ExecOperations
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
@@ -23,16 +21,6 @@ plugins {
 
 group = "io.github.kotlinmania"
 version = "0.1.0"
-
-// The Android Gradle plugin resolves the SDK location while Gradle builds the
-// task graph — before any task executes — so a project-local Android SDK must
-// already be installed by the time configuration runs. setup-android-sdk.sh
-// installs the SDK into this repo's own .android-sdk/ and writes
-// local.properties to point there. It runs unconditionally on every
-// configuration: the script itself is idempotent (an already-installed SDK is
-// a fast no-op), but there is deliberately no Gradle-side condition that could
-// skip the install, and no fallback to a sibling repo's SDK.
-serviceOf<ExecOperations>().exec { commandLine("bash", "./setup-android-sdk.sh") }
 
 kotlin {
     applyDefaultHierarchyTemplate()
@@ -359,12 +347,6 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
             "-opt-in", "kotlin.concurrent.atomics.ExperimentalAtomicApi",
         ) + sourceFiles.map { it.absolutePath }
     }
-}
-
-tasks.register<Exec>("setupAndroidSdk") {
-    group = "setup"
-    description = "Downloads and configures the project-local Android SDK."
-    commandLine("./setup-android-sdk.sh")
 }
 
 tasks.register("test") {
