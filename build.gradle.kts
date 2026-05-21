@@ -22,6 +22,10 @@ plugins {
 group = "io.github.kotlinmania"
 version = "0.1.0"
 
+// Android SDK location fallback for local and CI builds:
+// 1) Prefer ANDROID_SDK_ROOT, then ANDROID_HOME.
+// 2) If one exists on disk and local.properties is absent, write sdk.dir.
+// 3) If neither variable is set/valid, leave local.properties unchanged.
 val androidSdkDir: String? =
     providers.environmentVariable("ANDROID_SDK_ROOT").orNull
         ?: providers.environmentVariable("ANDROID_HOME").orNull
@@ -332,14 +336,14 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
                 .joinToString(File.pathSeparator) { it.absolutePath }
         val sourceFiles = sources.files.toMutableList()
         if (sourceFiles.isEmpty()) {
-            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/codeql/_CodeqlEmptySource.kt")
+            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/http/codeql/_CodeqlEmptySource.kt")
             sentinelFile.parentFile.mkdirs()
             sentinelFile.writeText(
                 """
                 // Auto-generated. Present so codeqlCompileJvm has at least
                 // one Kotlin source to feed kotlinc; replaced by real
                 // commonMain content once porting begins.
-                package io.github.kotlinmania.codeql
+                package io.github.kotlinmania.http.codeql
 
                 private object _CodeqlEmptySource
                 """.trimIndent(),
