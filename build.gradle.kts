@@ -26,14 +26,14 @@ version = "0.1.0"
 // 1) Prefer ANDROID_SDK_ROOT, then ANDROID_HOME.
 // 2) If one exists on disk and local.properties is absent, write sdk.dir.
 // 3) If neither variable is set/valid, leave local.properties unchanged.
-val androidSdkDir: String? =
+val androidSdkPath: String? =
     providers.environmentVariable("ANDROID_SDK_ROOT").orNull
         ?: providers.environmentVariable("ANDROID_HOME").orNull
 
-if (androidSdkDir != null && file(androidSdkDir).exists()) {
+if (androidSdkPath != null && file(androidSdkPath).exists()) {
     val localProperties = rootProject.file("local.properties")
     if (!localProperties.exists()) {
-        val sdkDirPropertyValue = file(androidSdkDir).absolutePath.replace("\\", "/")
+        val sdkDirPropertyValue = file(androidSdkPath).absolutePath.replace("\\", "/")
         localProperties.writeText("sdk.dir=$sdkDirPropertyValue")
     }
 }
@@ -336,7 +336,7 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
                 .joinToString(File.pathSeparator) { it.absolutePath }
         val sourceFiles = sources.files.toMutableList()
         if (sourceFiles.isEmpty()) {
-            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/http/_CodeqlEmptySource.kt")
+            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/http/CodeqlEmptySentinel.kt")
             sentinelFile.parentFile.mkdirs()
             sentinelFile.writeText(
                 """
@@ -345,7 +345,7 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
                 // commonMain content once porting begins.
                 package io.github.kotlinmania.http
 
-                private object _CodeqlEmptySource
+                private object CodeqlEmptySentinel
                 """.trimIndent(),
             )
             sourceFiles += sentinelFile
