@@ -495,21 +495,11 @@ class StatusCode private constructor(
         return value == other
     }
 
-    /**
-     * Debug-formats the status code as the bare numeric code, matching upstream
-     * `impl fmt::Debug for StatusCode` in `tmp/http/src/status.rs:205-209` which
-     * delegates to `fmt::Debug::fmt(&self.0, f)`.
-     */
     fun debugString(): String {
         return value.toString()
     }
 
-    /**
-     * Display-formats the status code, *including* the canonical reason, matching
-     * upstream `impl fmt::Display for StatusCode` in `tmp/http/src/status.rs:219-228`.
-     * Equivalent to [toString].
-     */
-    fun fmt(): String = toString()
+    fun fmt(): String = debugString()
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append(toString())
@@ -549,21 +539,11 @@ class InvalidStatusCode private constructor() : IllegalArgumentException("invali
         internal fun new(): InvalidStatusCode = InvalidStatusCode()
     }
 
-    /**
-     * Debug-formats the error, matching upstream
-     * `impl fmt::Debug for InvalidStatusCode` in `tmp/http/src/status.rs:533-539`
-     * which prints `f.debug_struct("InvalidStatusCode").finish()`.
-     */
-    fun debugString(): String = "InvalidStatusCode"
-
-    /**
-     * Display-formats the error, matching upstream
-     * `impl fmt::Display for InvalidStatusCode` in `tmp/http/src/status.rs:541-545`
-     * which writes the literal string `invalid status code`.
-     */
     override fun toString(): String = "invalid status code"
 
-    fun fmt(): String = toString()
+    fun fmt(): String {
+        return "InvalidStatusCode"
+    }
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append("invalid status code")
