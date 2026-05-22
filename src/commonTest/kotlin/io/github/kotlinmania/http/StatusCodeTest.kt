@@ -38,6 +38,24 @@ class StatusCodeTest {
         }
     }
 
+    /**
+     * Ports the docstring example on upstream
+     * `impl fmt::Display for StatusCode` in `tmp/http/src/status.rs`:
+     *
+     * ```
+     * assert_eq!(format!("{}", StatusCode::OK), "200 OK");
+     * ```
+     *
+     * Display rendering must include the canonical reason after the
+     * numeric code, falling back to `<unknown status code>` when no
+     * canonical reason exists for that code.
+     */
+    @Test
+    fun formatsDisplayWithCanonicalReason() {
+        assertEquals("200 OK", StatusCode.OK.toString())
+        assertEquals("600 <unknown status code>", StatusCode.fromU16(600).getOrThrow().toString())
+    }
+
     @Test
     fun isInformational() {
         assertTrue(statusCode(100).isInformational())
