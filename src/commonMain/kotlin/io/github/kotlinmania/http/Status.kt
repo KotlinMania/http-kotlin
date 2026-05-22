@@ -69,9 +69,7 @@ class StatusCode private constructor(
             return Result.success(StatusCode(status))
         }
 
-        fun from(status: StatusCode): StatusCode {
-            return status
-        }
+        fun from(status: StatusCode): StatusCode = status
 
         fun fromStr(src: String): Result<StatusCode> = parse(src)
 
@@ -501,12 +499,10 @@ class StatusCode private constructor(
         return value.toString()
     }
 
-    fun fmt(): String {
-        return debugString()
-    }
+    fun fmt(): String = debugString()
 
     fun fmt(formatter: StringBuilder): StringBuilder {
-        formatter.append(debugString())
+        formatter.append(toString())
         return formatter
     }
 
