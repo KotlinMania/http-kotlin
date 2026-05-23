@@ -1,14 +1,22 @@
+import java.io.ByteArrayInputStream
+import java.net.URI
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.util.zip.ZipInputStream
+import org.gradle.api.GradleException
 import org.gradle.api.tasks.ClasspathNormalizer
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.testing.AbstractTestTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.kotlin.dsl.support.serviceOf
+import org.gradle.process.ExecOperations
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec
-import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 import org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec
 import org.jetbrains.kotlin.gradle.targets.wasm.yarn.WasmYarnRootEnvSpec
 
@@ -22,17 +30,168 @@ plugins {
 group = "io.github.kotlinmania"
 version = "0.1.0"
 
-val androidSdkDir: String? =
-    providers.environmentVariable("ANDROID_SDK_ROOT").orNull
-        ?: providers.environmentVariable("ANDROID_HOME").orNull
+val androidCommandLineToolsRevision = "14742923"
+val projectCompileSdk = "34"
+val projectAndroidBuildTools = "36.0.0"
+val isWindowsHost = System.getProperty("os.name").lowercase().contains("windows")
+val androidSdkOsName =
+    when {
+        isWindowsHost -> "win"
+        System.getProperty("os.name").lowercase().contains("mac") -> "mac"
+        System.getProperty("os.name").lowercase().contains("linux") -> "linux"
+        else -> throw GradleException("Unsupported Android SDK setup OS: ${System.getProperty("os.name")}")
+    }
+val projectAndroidSdkDir = layout.projectDirectory.dir(".android-sdk").asFile
+val androidSdkManager = projectAndroidSdkDir.resolve(
+    if (isWindowsHost) {
+        "cmdline-tools/latest/bin/sdkmanager.bat"
+    } else {
+        "cmdline-tools/latest/bin/sdkmanager"
+    },
+)
+val androidSdkInstallMarker = projectAndroidSdkDir.resolve(".install-complete")
+val maxAndroidSdkLicensePrompts = 200
+val requiredAndroidSdkPackageDirs = listOf(
+    projectAndroidSdkDir.resolve("platform-tools"),
+    projectAndroidSdkDir.resolve("platforms/android-$projectCompileSdk"),
+    projectAndroidSdkDir.resolve("build-tools/$projectAndroidBuildTools"),
+)
 
-if (androidSdkDir != null && file(androidSdkDir).exists()) {
-    val localProperties = rootProject.file("local.properties")
-    if (!localProperties.exists()) {
-        val sdkDirPropertyValue = file(androidSdkDir).absolutePath.replace("\\", "/")
-        localProperties.writeText("sdk.dir=$sdkDirPropertyValue")
+fun isProjectAndroidSdkInstalled(): Boolean {
+    val installed =
+        androidSdkInstallMarker.exists() &&
+            androidSdkManager.exists() &&
+            requiredAndroidSdkPackageDirs.all { it.exists() }
+    if (!installed && androidSdkInstallMarker.exists()) {
+        androidSdkInstallMarker.delete()
+    }
+    return installed
+}
+
+fun writeAndroidLocalProperties() {
+    val sdkDirPropertyValue = projectAndroidSdkDir.absolutePath.replace("\\", "/")
+    layout.projectDirectory.file("local.properties").asFile.writeText("sdk.dir=$sdkDirPropertyValue\n")
+}
+
+fun sdkManagerCommand(vararg args: String): List<String> =
+    if (isWindowsHost) {
+        listOf("cmd", "/c", androidSdkManager.absolutePath) + args
+    } else {
+        listOf(androidSdkManager.absolutePath) + args
+    }
+
+fun downloadAndroidCommandLineTools() {
+    val zipName = "commandlinetools-$androidSdkOsName-${androidCommandLineToolsRevision}_latest.zip"
+    val url = "https://dl.google.com/android/repository/$zipName"
+    val tmpDir = projectAndroidSdkDir.resolve(".tmp/commandline-tools")
+    val zipFile = tmpDir.resolve(zipName)
+    val latestDir = projectAndroidSdkDir.resolve("cmdline-tools/latest")
+
+    println("setup-android-sdk: downloading $url")
+    tmpDir.deleteRecursively()
+    tmpDir.mkdirs()
+
+    try {
+        URI(url).toURL().openStream().use { input ->
+            Files.copy(input, zipFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        }
+
+        latestDir.deleteRecursively()
+        latestDir.mkdirs()
+        val canonicalLatestDir = latestDir.canonicalFile.toPath()
+
+        ZipInputStream(zipFile.inputStream().buffered()).use { zipInput ->
+            generateSequence { zipInput.nextEntry }.forEach { entry ->
+                val relativeName = entry.name.removePrefix("cmdline-tools/").trimStart('/')
+                if (relativeName.isNotEmpty()) {
+                    val target = latestDir.resolve(relativeName).canonicalFile
+                    if (!target.toPath().startsWith(canonicalLatestDir)) {
+                        throw GradleException("Refusing to extract Android SDK entry outside $latestDir: ${entry.name}")
+                    }
+                    if (entry.isDirectory) {
+                        target.mkdirs()
+                    } else {
+                        target.parentFile.mkdirs()
+                        Files.copy(zipInput, target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                        if (!isWindowsHost && relativeName.startsWith("bin/")) {
+                            target.setExecutable(true)
+                        }
+                    }
+                }
+                zipInput.closeEntry()
+            }
+        }
+
+        if (!isWindowsHost) {
+            androidSdkManager.setExecutable(true)
+        }
+    } finally {
+        tmpDir.deleteRecursively()
     }
 }
+
+fun installProjectAndroidSdk(execOperations: ExecOperations) {
+    if (isProjectAndroidSdkInstalled()) {
+        writeAndroidLocalProperties()
+        println("setup-android-sdk: SDK already installed at $projectAndroidSdkDir")
+        return
+    }
+
+    if (!androidSdkManager.exists()) {
+        downloadAndroidCommandLineTools()
+    }
+
+    println("setup-android-sdk: accepting licenses")
+    val licenseAnswers = "y\n".repeat(maxAndroidSdkLicensePrompts).toByteArray(Charsets.UTF_8)
+    val licenseExecResult = execOperations.exec {
+        commandLine(sdkManagerCommand("--sdk_root=${projectAndroidSdkDir.absolutePath}", "--licenses"))
+        standardInput = ByteArrayInputStream(licenseAnswers)
+        isIgnoreExitValue = true
+    }
+    if (licenseExecResult.exitValue != 0) {
+        throw GradleException("Android SDK license acceptance failed with exit code ${licenseExecResult.exitValue}")
+    }
+
+    println("setup-android-sdk: installing platform-tools, android-$projectCompileSdk, build-tools;$projectAndroidBuildTools")
+    val installLog = projectAndroidSdkDir.resolve("sdkmanager-install.log")
+    installLog.parentFile.mkdirs()
+    installLog.outputStream().use { output ->
+        val installExecResult = execOperations.exec {
+            commandLine(
+                sdkManagerCommand(
+                    "--sdk_root=${projectAndroidSdkDir.absolutePath}",
+                    "platform-tools",
+                    "platforms;android-$projectCompileSdk",
+                    "build-tools;$projectAndroidBuildTools",
+                ),
+            )
+            standardOutput = output
+            errorOutput = output
+            isIgnoreExitValue = true
+        }
+        if (installExecResult.exitValue != 0) {
+            throw GradleException(
+                "Android SDK package install failed with exit code ${installExecResult.exitValue}. " +
+                    "Install log:\n${installLog.readText()}",
+            )
+        }
+    }
+    println("setup-android-sdk: install log at $installLog")
+
+    writeAndroidLocalProperties()
+    androidSdkInstallMarker.writeText("")
+    println("setup-android-sdk: done")
+    println("  SDK at:     $projectAndroidSdkDir")
+    println("  configured: local.properties -> $projectAndroidSdkDir")
+}
+
+// The Android Gradle plugin resolves the SDK location while Gradle builds the
+// task graph, before any task executes, so a project-local Android SDK must
+// already be installed by the time configuration reaches the android target.
+// This configuration-time installer is idempotent and always writes
+// local.properties to this repo's own .android-sdk path.
+val androidSdkExecOperations = serviceOf<ExecOperations>()
+installProjectAndroidSdk(androidSdkExecOperations)
 
 kotlin {
     applyDefaultHierarchyTemplate()
@@ -40,6 +199,7 @@ kotlin {
     sourceSets.all {
         languageSettings.optIn("kotlin.time.ExperimentalTime")
         languageSettings.optIn("kotlin.concurrent.atomics.ExperimentalAtomicApi")
+        languageSettings.optIn("kotlin.ExperimentalUnsignedTypes")
     }
 
     compilerOptions {
@@ -50,71 +210,40 @@ kotlin {
     val xcf = XCFramework("Http")
 
     macosArm64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
-
     iosArm64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
     iosX64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
 
     tvosArm64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
     tvosSimulatorArm64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
+
     watchosArm32 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
     watchosArm64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
     watchosDeviceArm64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
     watchosSimulatorArm64 {
-        binaries.framework {
-            baseName = "Http"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Http"; xcf.add(this) }
     }
 
     linuxX64()
     linuxArm64()
-
     mingwX64()
 
     androidNativeArm32()
@@ -151,6 +280,8 @@ kotlin {
         }
     }
 
+    jvm()
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -162,8 +293,12 @@ kotlin {
                 implementation("io.github.kotlinmania:bytes-kotlin:0.2.1")
             }
         }
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
 
-        val commonTest by getting { dependencies { implementation(kotlin("test")) } }
     }
     jvmToolchain(21)
 }
@@ -205,6 +340,8 @@ rootProject.extensions.configure<WasmYarnRootEnvSpec>("kotlinWasmYarnSpec") {
 rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
     resolution("diff", "8.0.3")
     resolution("**/diff", "8.0.3")
+    resolution("fast-uri", "3.1.2")
+    resolution("**/fast-uri", "3.1.2")
     resolution("serialize-javascript", "7.0.5")
     resolution("**/serialize-javascript", "7.0.5")
     resolution("webpack", "5.106.2")
@@ -215,8 +352,8 @@ rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
     resolution("**/lodash", "4.18.1")
     resolution("ajv", "8.20.0")
     resolution("**/ajv", "8.20.0")
-    resolution("brace-expansion", "5.0.5")
-    resolution("**/brace-expansion", "5.0.5")
+    resolution("brace-expansion", "5.0.6")
+    resolution("**/brace-expansion", "5.0.6")
     resolution("flatted", "3.4.2")
     resolution("**/flatted", "3.4.2")
     resolution("minimatch", "10.2.5")
@@ -227,6 +364,8 @@ rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
     resolution("**/qs", "6.15.1")
     resolution("socket.io-parser", "4.2.6")
     resolution("**/socket.io-parser", "4.2.6")
+    resolution("ws", "8.20.1")
+    resolution("**/ws", "8.20.1")
 }
 
 
@@ -352,16 +491,16 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
                 .joinToString(File.pathSeparator) { it.absolutePath }
         val sourceFiles = sources.files.toMutableList()
         if (sourceFiles.isEmpty()) {
-            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/codeql/_CodeqlEmptySource.kt")
+            val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/http/CodeqlEmptySentinel.kt")
             sentinelFile.parentFile.mkdirs()
             sentinelFile.writeText(
                 """
                 // Auto-generated. Present so codeqlCompileJvm has at least
                 // one Kotlin source to feed kotlinc; replaced by real
                 // commonMain content once porting begins.
-                package io.github.kotlinmania.codeql
+                package io.github.kotlinmania.http
 
-                private object _CodeqlEmptySource
+                private object CodeqlEmptySentinel
                 """.trimIndent(),
             )
             sourceFiles += sentinelFile
@@ -381,20 +520,23 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
     }
 }
 
-tasks.register<Exec>("setupAndroidSdk") {
+tasks.register("setupAndroidSdk") {
     group = "setup"
     description = "Downloads and configures the project-local Android SDK."
-    commandLine("./setup-android-sdk.sh")
+    doLast {
+        installProjectAndroidSdk(androidSdkExecOperations)
+    }
 }
 
 tasks.register("test") {
     group = "verification"
     description =
         "Runs the host-portable test suite (macOS + JS + WasmJS + Android unit). " +
-            "Non-host native targets (mingwX64, linuxX64) only run on their own host."
+        "Non-host native targets (mingwX64, linuxX64) only run on their own host."
 
     val defaultTestTasks = listOf(
         "macosArm64Test",
+        "jvmTest",
         "jsNodeTest",
         "wasmJsNodeTest",
         "compileAndroidMain",
@@ -402,4 +544,222 @@ tasks.register("test") {
     )
 
     dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
+}
+
+// The generated Wasm-WASI Node test runner cannot see the filesystem unless
+// the project directory is preopened. Patch the runner before wasmWasiNodeTest.
+val patchWasmWasiNodePreopens = tasks.register("patchWasmWasiNodePreopens") {
+    description = "Preopen the project directory for the generated Wasm-WASI Node test runner."
+    group = "verification"
+    dependsOn("compileTestDevelopmentExecutableKotlinWasmWasi")
+    outputs.upToDateWhen { false }
+
+    doLast {
+        val runnerFile = layout.buildDirectory.file(
+            "compileSync/wasmWasi/test/testDevelopmentExecutable/kotlin/${rootProject.name}-test.mjs",
+        ).get().asFile
+        if (!runnerFile.exists()) {
+            // No Wasm-WASI test runner was generated (the repo has no
+            // wasmWasi test sources), so there is nothing to preopen.
+            return@doLast
+        }
+        val text = runnerFile.readText()
+        val withCwdImport = text.replace(
+            "import { argv, env } from 'node:process';",
+            "import { argv, env, cwd } from 'node:process';",
+        )
+        val patched = withCwdImport.replace(
+            "const wasi = new WASI({ version: 'preview1', args: argv, env, });",
+            "const wasi = new WASI({ version: 'preview1', args: argv, env, preopens: { '/': cwd() }, });",
+        )
+        runnerFile.writeText(patched)
+    }
+}
+
+tasks.named("wasmWasiNodeTest") {
+    dependsOn(patchWasmWasiNodePreopens)
+}
+
+val xcodeSwiftExportEnvironmentNames = listOf(
+    "SDK_NAME",
+    "CONFIGURATION",
+    "TARGET_BUILD_DIR",
+    "BUILT_PRODUCTS_DIR",
+    "ARCHS",
+    "FRAMEWORKS_FOLDER_PATH",
+    "DEPLOYMENT_TARGET_SETTING_NAME",
+)
+
+fun hasXcodeSwiftExportEnvironment(): Boolean {
+    if (!xcodeSwiftExportEnvironmentNames.all { !System.getenv(it).isNullOrBlank() }) {
+        return false
+    }
+
+    val deploymentTargetSettingName = System.getenv("DEPLOYMENT_TARGET_SETTING_NAME")
+    return !System.getenv(deploymentTargetSettingName).isNullOrBlank()
+}
+
+val swiftExportTaskDirectlyRequested =
+    gradle.startParameter.taskNames.any { it == "embedSwiftExportForXcode" || it.endsWith(":embedSwiftExportForXcode") }
+
+tasks.matching { it.name == "embedSwiftExportForXcode" }.configureEach {
+    onlyIf {
+        val hasXcodeEnvironment = hasXcodeSwiftExportEnvironment()
+        if (!hasXcodeEnvironment && !swiftExportTaskDirectlyRequested) {
+            logger.lifecycle("embedSwiftExportForXcode: skipped because Xcode environment variables are not present")
+        }
+        hasXcodeEnvironment || swiftExportTaskDirectlyRequested
+    }
+}
+
+val fullTargetBuildTasks = listOf(
+    "compileAndroidMain",
+    "compileAndroidHostTest",
+    "compileAndroidDeviceTest",
+    "assembleAndroidMain",
+    "assembleAndroidHostTest",
+    "assembleAndroidDeviceTest",
+    "assembleUnitTest",
+    "assembleAndroidTest",
+    "testAndroidHostTest",
+    "jvmMainClasses",
+    "jvmTestClasses",
+    "jvmTest",
+    "jsMainClasses",
+    "jsTestClasses",
+    "jsBrowserTest",
+    "jsNodeTest",
+    "jsTest",
+    "wasmJsMainClasses",
+    "wasmJsTestClasses",
+    "wasmJsBrowserTest",
+    "wasmJsNodeTest",
+    "wasmJsTest",
+    "wasmWasiMainClasses",
+    "wasmWasiTestClasses",
+    "wasmWasiNodeTest",
+    "wasmWasiTest",
+    "androidNativeArm32Binaries",
+    "androidNativeArm32TestBinaries",
+    "androidNativeArm64Binaries",
+    "androidNativeArm64TestBinaries",
+    "androidNativeX64Binaries",
+    "androidNativeX64TestBinaries",
+    "androidNativeX86Binaries",
+    "androidNativeX86TestBinaries",
+    "iosArm64Binaries",
+    "iosArm64TestBinaries",
+    "iosSimulatorArm64Binaries",
+    "iosSimulatorArm64TestBinaries",
+    "iosX64Binaries",
+    "iosX64TestBinaries",
+    "linuxArm64Binaries",
+    "linuxArm64TestBinaries",
+    "linuxX64Binaries",
+    "linuxX64TestBinaries",
+    "linuxX64Test",
+    "macosArm64Binaries",
+    "macosArm64TestBinaries",
+    "macosArm64Test",
+    "mingwX64Binaries",
+    "mingwX64TestBinaries",
+    "mingwX64Test",
+    "tvosArm64Binaries",
+    "tvosArm64TestBinaries",
+    "tvosSimulatorArm64Binaries",
+    "tvosSimulatorArm64TestBinaries",
+    "watchosArm32Binaries",
+    "watchosArm32TestBinaries",
+    "watchosArm64Binaries",
+    "watchosArm64TestBinaries",
+    "watchosDeviceArm64Binaries",
+    "watchosDeviceArm64TestBinaries",
+    "watchosSimulatorArm64Binaries",
+    "watchosSimulatorArm64TestBinaries",
+    "embedSwiftExportForXcode",
+    "assembleHttpXCFramework",
+    "assembleHttpDebugXCFramework",
+    "assembleHttpReleaseXCFramework",
+    "assembleDebugIosFatFrameworkForHttpXCFramework",
+    "assembleReleaseIosFatFrameworkForHttpXCFramework",
+    "assembleDebugIosSimulatorFatFrameworkForHttpXCFramework",
+    "assembleReleaseIosSimulatorFatFrameworkForHttpXCFramework",
+    "assembleDebugMacosFatFrameworkForHttpXCFramework",
+    "assembleReleaseMacosFatFrameworkForHttpXCFramework",
+    "assembleDebugTvosFatFrameworkForHttpXCFramework",
+    "assembleReleaseTvosFatFrameworkForHttpXCFramework",
+    "assembleDebugTvosSimulatorFatFrameworkForHttpXCFramework",
+    "assembleReleaseTvosSimulatorFatFrameworkForHttpXCFramework",
+    "assembleDebugWatchosFatFrameworkForHttpXCFramework",
+    "assembleReleaseWatchosFatFrameworkForHttpXCFramework",
+    "assembleDebugWatchosSimulatorFatFrameworkForHttpXCFramework",
+    "assembleReleaseWatchosSimulatorFatFrameworkForHttpXCFramework",
+    "exportCommonSourceSetsMetadataLocationsForMetadataApiElements",
+    "exportRootPublicationCoordinatesForMetadataApiElements",
+    "exportCrossCompilationMetadataForAndroidNativeArm32ApiElements",
+    "exportCrossCompilationMetadataForAndroidNativeArm64ApiElements",
+    "exportCrossCompilationMetadataForAndroidNativeX64ApiElements",
+    "exportCrossCompilationMetadataForAndroidNativeX86ApiElements",
+    "exportCrossCompilationMetadataForIosArm64ApiElements",
+    "exportCrossCompilationMetadataForIosSimulatorArm64ApiElements",
+    "exportCrossCompilationMetadataForIosX64ApiElements",
+    "exportCrossCompilationMetadataForLinuxArm64ApiElements",
+    "exportCrossCompilationMetadataForLinuxX64ApiElements",
+    "exportCrossCompilationMetadataForMacosArm64ApiElements",
+    "exportCrossCompilationMetadataForMingwX64ApiElements",
+    "exportCrossCompilationMetadataForTvosArm64ApiElements",
+    "exportCrossCompilationMetadataForTvosSimulatorArm64ApiElements",
+    "exportCrossCompilationMetadataForWatchosArm32ApiElements",
+    "exportCrossCompilationMetadataForWatchosArm64ApiElements",
+    "exportCrossCompilationMetadataForWatchosDeviceArm64ApiElements",
+    "exportCrossCompilationMetadataForWatchosSimulatorArm64ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidApiElements",
+    "exportTargetPublicationCoordinatesForAndroidNativeArm32ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidNativeArm64ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidNativeX64ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidNativeX86ApiElements",
+    "exportTargetPublicationCoordinatesForAndroidRuntimeElements",
+    "exportTargetPublicationCoordinatesForIosArm64ApiElements",
+    "exportTargetPublicationCoordinatesForIosSimulatorArm64ApiElements",
+    "exportTargetPublicationCoordinatesForIosX64ApiElements",
+    "exportTargetPublicationCoordinatesForJsApiElements",
+    "exportTargetPublicationCoordinatesForJsRuntimeElements",
+    "exportTargetPublicationCoordinatesForJvmApiElements",
+    "exportTargetPublicationCoordinatesForJvmRuntimeElements",
+    "exportTargetPublicationCoordinatesForLinuxArm64ApiElements",
+    "exportTargetPublicationCoordinatesForLinuxX64ApiElements",
+    "exportTargetPublicationCoordinatesForMacosArm64ApiElements",
+    "exportTargetPublicationCoordinatesForMingwX64ApiElements",
+    "exportTargetPublicationCoordinatesForTvosArm64ApiElements",
+    "exportTargetPublicationCoordinatesForTvosSimulatorArm64ApiElements",
+    "exportTargetPublicationCoordinatesForWasmJsApiElements",
+    "exportTargetPublicationCoordinatesForWasmJsRuntimeElements",
+    "exportTargetPublicationCoordinatesForWasmWasiApiElements",
+    "exportTargetPublicationCoordinatesForWasmWasiRuntimeElements",
+    "exportTargetPublicationCoordinatesForWatchosArm32ApiElements",
+    "exportTargetPublicationCoordinatesForWatchosArm64ApiElements",
+    "exportTargetPublicationCoordinatesForWatchosDeviceArm64ApiElements",
+    "exportTargetPublicationCoordinatesForWatchosSimulatorArm64ApiElements",
+)
+
+tasks.named("build") {
+    dependsOn(fullTargetBuildTasks)
+}
+
+afterEvaluate {
+    tasks.named("build") {
+        dependsOn(
+            tasks.matching {
+                name.endsWith("MainClasses") ||
+                    name.endsWith("TestClasses") ||
+                    name.endsWith("Binaries") ||
+                    name.endsWith("XCFramework") ||
+                    name == "embedSwiftExportForXcode" ||
+                    name.startsWith("exportCommonSourceSetsMetadataLocationsFor") ||
+                    name.startsWith("exportRootPublicationCoordinatesFor") ||
+                    name.startsWith("exportCrossCompilationMetadataFor") ||
+                    name.startsWith("exportTargetPublicationCoordinatesFor")
+            },
+        )
+    }
 }

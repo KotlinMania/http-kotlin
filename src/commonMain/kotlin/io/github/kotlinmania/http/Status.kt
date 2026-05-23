@@ -69,17 +69,19 @@ class StatusCode private constructor(
             return Result.success(StatusCode(status))
         }
 
-        fun parse(src: String): Result<StatusCode> = fromBytes(src.encodeToByteArray())
+        fun from(status: StatusCode): StatusCode = status
 
         fun fromStr(src: String): Result<StatusCode> = parse(src)
 
-        fun from(status: StatusCode): StatusCode = status
-
-        fun tryFrom(src: ByteArray): Result<StatusCode> = fromBytes(src)
+        fun parse(src: String): Result<StatusCode> {
+            return fromBytes(src.encodeToByteArray())
+        }
 
         fun tryFrom(src: String): Result<StatusCode> = fromStr(src)
 
-        fun tryFrom(src: Int): Result<StatusCode> = fromU16(src)
+        fun tryFrom(src: Int): Result<StatusCode> {
+            return fromU16(src)
+        }
 
         /** 100 Continue
          * [[RFC9110, Section 15.2.1](https://datatracker.ietf.org/doc/html/rfc9110#section-15.2.1)]
@@ -391,7 +393,9 @@ class StatusCode private constructor(
          */
         val NETWORK_AUTHENTICATION_REQUIRED: StatusCode = StatusCode(511)
 
-        fun default(): StatusCode = OK
+        fun default(): StatusCode {
+            return OK
+        }
 
         private fun decimalValue(byte: Byte): Int = (byte.toInt() and 0xff) - '0'.code
     }
@@ -413,7 +417,9 @@ class StatusCode private constructor(
      * check(status.asU16() == 200)
      * ```
      */
-    fun asU16(): Int = value
+    fun asU16(): Int {
+        return value
+    }
 
     /**
      * Returns a string representation of the `StatusCode`.
@@ -456,26 +462,42 @@ class StatusCode private constructor(
      * check(status.canonicalReason() == "OK")
      * ```
      */
-    fun canonicalReason(): String? = canonicalReason(value)
+    fun canonicalReason(): String? {
+        return canonicalReason(value)
+    }
 
     /** Check if status is within 100-199. */
-    fun isInformational(): Boolean = value in 100 until 200
+    fun isInformational(): Boolean {
+        return value in 100 until 200
+    }
 
     /** Check if status is within 200-299. */
-    fun isSuccess(): Boolean = value in 200 until 300
+    fun isSuccess(): Boolean {
+        return value in 200 until 300
+    }
 
     /** Check if status is within 300-399. */
-    fun isRedirection(): Boolean = value in 300 until 400
+    fun isRedirection(): Boolean {
+        return value in 300 until 400
+    }
 
     /** Check if status is within 400-499. */
-    fun isClientError(): Boolean = value in 400 until 500
+    fun isClientError(): Boolean {
+        return value in 400 until 500
+    }
 
     /** Check if status is within 500-599. */
-    fun isServerError(): Boolean = value in 500 until 600
+    fun isServerError(): Boolean {
+        return value in 500 until 600
+    }
 
-    fun eq(other: Int): Boolean = value == other
+    fun eq(other: Int): Boolean {
+        return value == other
+    }
 
-    fun debugString(): String = value.toString()
+    fun debugString(): String {
+        return value.toString()
+    }
 
     fun fmt(): String = debugString()
 
@@ -517,9 +539,11 @@ class InvalidStatusCode private constructor() : IllegalArgumentException("invali
         internal fun new(): InvalidStatusCode = InvalidStatusCode()
     }
 
-    override fun toString(): String = "InvalidStatusCode"
+    override fun toString(): String = "invalid status code"
 
-    fun fmt(): String = "InvalidStatusCode"
+    fun fmt(): String {
+        return "InvalidStatusCode"
+    }
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append("invalid status code")

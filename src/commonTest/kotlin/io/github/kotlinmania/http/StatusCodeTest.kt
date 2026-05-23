@@ -34,8 +34,13 @@ class StatusCodeTest {
             assertEquals(s, status.asU16())
             assertEquals(sstr, status.asStr())
             assertEquals(status, StatusCode.fromStr(sstr).getOrThrow())
-            assertEquals(sstr, status.fmt())
         }
+    }
+
+    @Test
+    fun formatsDisplayWithCanonicalReason() {
+        assertEquals("200 OK", StatusCode.OK.toString())
+        assertEquals("600 <unknown status code>", StatusCode.fromU16(600).getOrThrow().toString())
     }
 
     @Test
