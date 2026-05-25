@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 5/21 (23.8%)
-- **Function parity:** 63/611 matched (target 112) — 10.3%
-- **Class/type parity:** 19/92 matched (target 32) — 20.7%
-- **Combined symbol parity:** 82/703 matched (target 144) — 11.7%
-- **Average inline-code cosine:** 0.32 (function body across 5 matched files)
-- **Average documentation cosine:** 0.94 (doc text across 5 matched files)
+- **Files Present:** 6/21 (28.6%)
+- **Function parity:** 64/611 matched (target 114) — 10.5%
+- **Class/type parity:** 15/92 matched (target 28) — 16.3%
+- **Combined symbol parity:** 79/703 matched (target 142) — 11.2%
+- **Average inline-code cosine:** 0.53 (function body across 4 matched files)
+- **Average documentation cosine:** 0.93 (doc text across 4 matched files)
 - **Cheat-zeroed Files:** 2
-- **Critical Issues:** 4 files with <0.60 function similarity
+- **Critical Issues:** 5 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -40,14 +40,14 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 2. method
 
-- **Target:** `http.Method [ZERO]`
-- **Similarity:** 0.00
+- **Target:** `http.Method`
+- **Similarity:** 0.55
 - **Dependents:** 3
-- **Priority Score:** 3002610.0
-- **Functions:** 19/19 matched (target 35)
+- **Priority Score:** 3022604.5
+- **Functions:** 19/19 matched (target 36)
 - **Missing functions:** _none_
-- **Types:** 7/7 matched (target 19)
-- **Missing types:** _none_
+- **Types:** 5/7 matched (target 17)
+- **Missing types:** `Error`, `Err`
 - **Tests:** 5/5 matched
 
 ### 3. version
@@ -75,13 +75,24 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 5. status
 
-- **Target:** `http.Status [ZERO]`
+- **Target:** `http.Status [STUB]`
 - **Similarity:** 0.00
 - **Dependents:** 1
-- **Priority Score:** 1012110.0
-- **Functions:** 16/17 matched (target 29)
-- **Missing functions:** `new`
-- **Types:** 4/4 matched
+- **Priority Score:** 1022110.0
+- **Functions:** 17/17 matched (target 30)
+- **Missing functions:** _none_
+- **Types:** 2/4 matched (target 2)
+- **Missing types:** `Err`, `Error`
+
+### 6. header.mod
+
+- **Target:** `header.Mod [STUB]`
+- **Similarity:** 0.00
+- **Dependents:** 0
+- **Priority Score:** 10.0
+- **Functions:** 0/0 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched
 - **Missing types:** _none_
 
 ## Success Criteria
@@ -93,16 +104,6 @@ For each file to be considered "complete":
 - Documentation ported
 - port-lint header present
 
-## Next Commands
-
-```bash
-# Initialize task queue for systematic porting
-cd tools/ast_distance
-./ast_distance --init-tasks ../../tmp/http/src rust ../../src/commonMain/kotlin/io/github/kotlinmania/http kotlin tasks.json ../../AGENTS.md
-
-# Get next high-priority task
-./ast_distance --assign tasks.json <agent-id>
-```
 ## Reexport / Wiring Modules
 
 These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
@@ -114,7 +115,6 @@ do not treat them as the next implementation target by default.
 
 | Source | Expected target | Deps | Source path | Expected path |
 |--------|-----------------|------|-------------|---------------|
-| `header.mod` | `header.Mod` | 0 | `header/mod.rs` | `header/Mod.kt` |
 | `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
 | `uri.mod` | `uri.Mod` | 0 | `uri/mod.rs` | `uri/Mod.kt` |
 
