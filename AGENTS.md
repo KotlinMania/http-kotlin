@@ -1,18 +1,174 @@
 # Kotlinmania — workspace agent guide
 
 This is the single sharp guide for agents (Claude, Codex, anyone else) doing
-work in this workspace. It merges what used to live in `CLAUDE.md`, the embedded
-hourly runbook, the per-repo `SWIFT_EXPORT_ROLLOUT.md` lessons, and the long
-trail of recovered field-feedback into one place. **When this file disagrees
-with anything you remember, this file wins.**
+work in this workspace. It merges the old workspace-root `CLAUDE.md`, the
+embedded hourly runbook, the per-repo `SWIFT_EXPORT_ROLLOUT.md` lessons, and
+the long trail of recovered field-feedback into one place. **When this file
+disagrees with anything you remember, this file wins.**
 
-> Per-repo authority. For repo-specific porting rules, gates, target lists, and
-> "what counts as done," the repo's own `AGENTS.md` / `CLAUDE.md` / `README.md`
-> remain authoritative. Nothing here overrides them. But the workspace-wide
-> rules below — branch hygiene, Swift Export rollout, build-gate, JS toolchain
-> security, Android SDK normalization, test parity, completion contract — apply
-> to every `*-kotlin/` repo unless the repo's docs *explicitly* opt out and name
-> the alternative.
+> **Source-of-truth.** The workspace-root `AGENTS.md` (at
+> `/Volumes/stuff/Projects/kotlinmania/AGENTS.md`) is canonical.
+> Workspace-root `CLAUDE.md` is a tiny redirect file pointing here
+> (plain text — **never a symlink**: this workspace is Kotlin
+> Multiplatform and Windows is a first-class target, and Windows git
+> does not handle symlinks reliably). Inside each `*-kotlin/` repo
+> there is no `CLAUDE.md` at all: per-repo `CLAUDE.md` files were
+> removed via `git rm` on 2026-05-24 and must stay removed.
+>
+> **No symlinks anywhere in this workspace.** Not at the workspace
+> root, not in any repo, not under any subdirectory. If you find one,
+> replace it with the file it points to (real content) and commit the
+> replacement. Symlinks check out as the literal symlink content on
+> Windows runners — they break KMP builds in opaque ways.
+>
+> As of 2026-05-24 every `*-kotlin/AGENTS.md` is a copy of this file
+> (blasted out so the next agent in any repo reads the same rules).
+> Per-repo specifics live in the repo's `README.md` and any local
+> status notes (`NEXT_ACTIONS.md`, `PORT_REPORT.md`, etc.). When a
+> repo-local doc disagrees with this file on a workspace-wide rule
+> (branch hygiene, Swift Export, build-gate, JS toolchain security,
+> Android SDK, test parity, completion contract), this file wins.
+
+## The scheduled-task agent job
+
+The workspace runs scheduled-task automation. The job, briefly:
+
+### Focused-repo priority backlog — GitHub-flagged "JavaScript" projects
+
+These repos have so little Kotlin source ported from their upstream Rust
+crates that GitHub still classifies them as JavaScript projects. They are
+the highest-priority porting backlog. Pick the stalest one first (§3
+"Rotate to the stalest repo") unless `port_priority.json` (§3 "Pick what
+to port next") says otherwise.
+
+**Page 1 (top 10):**
+tree-sitter-bash-kotlin · tree-sitter-language-kotlin · nucleo-kotlin ·
+image-kotlin · itertools-kotlin · indexmap-kotlin · globset-kotlin ·
+futures-kotlin · deno-core-icudata-kotlin · tonic-prost-kotlin
+
+**Page 2:** opentelemetry-sdk-kotlin · rama-core-kotlin · tungstenite-kotlin
+· csv-kotlin · rama-tcp-kotlin · tokio-tungstenite-kotlin · async-io-kotlin
+· vt100-kotlin · encoding-rs-kotlin · env-logger-kotlin ·
+constant-time-eq-kotlin · clap-complete-kotlin · assert-cmd-kotlin ·
+two-face-kotlin
+
+**Page 3:** gazebo-kotlin · test-log-kotlin · ts-rs-kotlin · toml-kotlin ·
+regex-kotlin · winres-kotlin · icu-decimal-kotlin · landlock-kotlin ·
+rama-net-kotlin · async-trait-kotlin · icu-locale-core-kotlin
+
+**Page 4:** uuid-kotlin · zstd-kotlin · arboard-kotlin ·
+tracing-subscriber-kotlin · url-kotlin · textwrap-kotlin · pathdiff-kotlin
+· uds-windows-kotlin · tokio-test-kotlin · tracing-opentelemetry-kotlin
+
+**Page 5:** tonic-kotlin · tokio-stream-kotlin · toml-edit-kotlin ·
+test-case-kotlin · wiremock-kotlin · windows-kotlin · quote-kotlin ·
+bitflags-kotlin · zip-kotlin · tracing-appender-kotlin ·
+ed25519-dalek-kotlin · syntect-kotlin · serde-with-kotlin · rmcp-kotlin
+
+**Page 6:** sqlx-kotlin · socket2-kotlin · axum-kotlin · serde-json-kotlin
+· allocative-kotlin · sse-stream-kotlin · windows-sys-kotlin ·
+winapi-util-kotlin · tracing-test-kotlin · tracing-kotlin · rand-kotlin ·
+rama-socks5-kotlin · tempfile-kotlin · strum-macros-kotlin ·
+shared-library-kotlin · serde-yaml-kotlin
+
+**Page 7:** serde-path-to-error-kotlin · sentry-kotlin · rustls-kotlin ·
+reqwest-kotlin · rcgen-kotlin · rama-http-kotlin · quick-xml-kotlin ·
+pulldown-cmark-kotlin · prost-kotlin · portable-pty-kotlin ·
+pkg-config-kotlin · path-absolutize-kotlin · p256-kotlin · owo-colors-kotlin
+· opentelemetry-semantic-conventions-kotlin · opentelemetry-kotlin ·
+opentelemetry-appender-tracing-kotlin · openssl-sys-kotlin · oauth2-kotlin
+· rama-http-backend-kotlin · insta-kotlin
+
+**Page 8 (last):** once-cell-kotlin · notify-kotlin · gix-kotlin · v8-kotlin
+· libc-kotlin · rama-tls-rustls-kotlin · tokio-util-kotlin · crypto-box-kotlin
+· libwebrtc-kotlin · webbrowser-kotlin · winapi-kotlin
+
+Several of these have memory-recorded blockers that move them down the
+working order rather than out of scope — `clap-complete-kotlin` blocked on
+`clap-kotlin` publish; `nucleo-kotlin` on `nucleo-matcher-kotlin`;
+`indexmap-kotlin` on `hashbrown-kotlin` + `equivalent-kotlin`;
+`tonic-prost-kotlin` on tonic + prost; `libwebrtc-kotlin` on `bytes-kotlin`
+watchOS slices. See §3 "When you can't port a Rust dependency: check
+kotlinmania siblings first" for the decision tree.
+
+### Work order — every session, in this order
+
+Do not treat an earlier item as permission to skip a later one. The §0
+completion contract requires the whole chain, and §3 names source porting
+as the default next action when infra is clean.
+
+1. **Read this file** (you're in it). The §0 contract is non-negotiable.
+   Read the focused repo's `README.md` and any `NEXT_ACTIONS.md` /
+   `PORT_REPORT.md`. There is no per-repo `CLAUDE.md` anymore (removed
+   2026-05-24); the per-repo `AGENTS.md` is a copy of this file.
+2. **Audit + sync local main** (§11 step 1). `git fetch --prune`, inspect
+   `git status --short --branch`, and if on `main` behind `origin/main`
+   run `git pull --ff-only origin main`.
+3. **Workflow-shape audit** (§7). Fix or report any `push`/
+   `pull_request` regression on `ci.yml` / `codeql.yml` / `publish.yml` /
+   platform workflows.
+4. **Branch reconciliation** (§2). **PR-only** — never `git push origin
+   main`, never local `git switch main && git merge --no-ff <branch>`.
+   Reconcile every stranded `[gone]` branch via the documented PR flow.
+   Carry dirty work forward (§1 — never stash, never orphan).
+5. **Infra defect repair**: build, CI, CodeQL (§8 "CodeQL `java-kotlin`
+   extraction"), Dependabot security (§9), JS-toolchain security
+   patching (§9), Android SDK normalization (§8), publishing, or
+   workflow defect. Local verification first; commit; push the branch;
+   `gh pr create` + `gh pr merge --merge --delete-branch`.
+6. **Swift Export sweep** (§4) if `swiftExport { … }` is configured. The
+   five-class sweep, then `./gradlew test` which must include
+   `swift test` locally (§6).
+7. **Source porting** (§3) is the default next action when infra is
+   clean. Use `ast_distance` to inventory gaps — the binary at
+   `/Volumes/stuff/Projects/kotlinmania/bin/ast_distance` is **never a
+   blocker**; if a repo's `tools/ast_distance` is missing, copy the
+   workspace binary in (§3 gives the exact `cp` + `.gitignore` lines).
+   Translate from `tmp/` per the translation rules (one Rust file → one
+   Kotlin file, top-to-bottom, no stubs, no Rust syntax in
+   Kotlin/KDoc/comments, common sense applies). Check kotlinmania
+   siblings before declaring a dependency unportable.
+8. **Publish** if there's releasable code: bump version in
+   `build.gradle.kts` + README install snippets, commit, push, `gh
+   release create v<X.Y.Z>` to fire the `release[released]` publish
+   workflow.
+9. **Session report** (§12) with workflow-shape audit, focused repo,
+   branch, constructive outcome OR exact hard blocker, PRs and branches
+   inspected/merged/closed, local commands and outcomes, remote workflow
+   state, commits, unresolved blockers, and the PR list as full
+   clickable GitHub URLs at the very end.
+
+### Hard constraints to remember while doing the above
+
+- **`allWarningsAsErrors = true`** is the template default. Every warning
+  is a build failure. Treat every warning as a real defect — never scope
+  the flag down to silence Swift Export gate noise (§4 forbids it
+  explicitly).
+- **All configured targets build** (§0 condition 3 + §5
+  `fullTargetBuildTaskNames`). Never shrink the gate to dodge a CI
+  failure. The exceptions are the documented retired targets:
+  `watchosArm32` (§5.5.1, retired 2026-05-24 — Apple Watch armv7k EOL +
+  Mach-O 24-bit scattered relocation limit) and the JetBrains-deprecated
+  x86_64 simulator targets `tvosX64` / `watchosX64` / `macosX64`
+  (§5.5.2). These are template-law retirements, not per-repo shrinks.
+- **Swift test passes locally** (§0 condition 4). Don't wait for GitHub
+  to find Swift Export bugs — by then you've burned a CI run.
+- **Test parity with `tmp/` Rust** (§6). Every upstream `#[test]` /
+  `tests/*.rs` / `#[cfg(test)]` module gets an answer — port it, or
+  leave a one-line honest comment naming the specific semantic that
+  doesn't translate. Never write a fake simulation.
+- **`port-lint: ignore` is not a real directive** (§3). Strip it when
+  you see it. Only `port-lint: source <path>` and `port-lint: tests
+  <path>` are recognized.
+- **Workspace artifacts go under**
+  `/Volumes/stuff/Projects/kotlinmania/automation-artifacts/`. No
+  `/tmp` scratch (§1).
+
+The yarn-resolution security block, the Android SDK installer pattern,
+the build-gate task list, the canonical Swift Export rollout recipe, the
+de-generification policy, the PR-only reconciliation flow, and every
+other detailed recipe are in the sections numbered below — open the
+relevant section before acting on a summary line above.
 
 ---
 
