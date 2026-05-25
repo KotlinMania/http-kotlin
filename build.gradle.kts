@@ -5,6 +5,7 @@ import java.nio.file.StandardCopyOption
 import java.util.zip.ZipInputStream
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.ClasspathNormalizer
+import org.gradle.api.tasks.Exec
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.testing.AbstractTestTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
@@ -28,7 +29,7 @@ plugins {
 }
 
 group = "io.github.kotlinmania"
-version = "0.1.1"
+version = "0.1.2"
 
 val androidCommandLineToolsRevision = "14742923"
 val projectCompileSdk = "34"
@@ -429,7 +430,8 @@ mavenPublishing {
 // CodeQL Java/Kotlin extraction task
 //
 // .github/workflows/codeql.yml invokes `./gradlew codeqlCompileJvm` to feed
-// kotlinc-compiled commonMain through the CodeQL Java agent.
+// commonMain through a standalone multiplatform-aware kotlinc invocation for
+// the CodeQL Java agent.
 val codeqlKotlinc: Configuration by configurations.creating {
     description = "Kotlin compiler (CodeQL extraction target only - not published)"
     isCanBeResolved = true
@@ -456,6 +458,7 @@ dependencies {
     codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.11.0")
     codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.8.0")
     codeqlSourceClasspath("org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.4.0")
+    codeqlSourceClasspath("io.github.kotlinmania:bytes-kotlin-jvm:0.2.1")
     codeqlAndroidAar("io.github.kotlinmania:bytes-kotlin-android:0.2.1")
 }
 
@@ -477,6 +480,7 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
     outputs.dir(outDir)
     outputs.dir(aarExtractDir)
     outputs.dir(sentinelDir)
+    outputs.upToDateWhen { false }
 
     doFirst {
         outDir.get().asFile.mkdirs()
@@ -498,6 +502,7 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
             (codeqlSourceClasspath.resolve() + extractedJars)
                 .joinToString(File.pathSeparator) { it.absolutePath }
         val sourceFiles = sources.files.toMutableList()
+        val commonSourceFiles = sourceFiles.toMutableList()
         if (sourceFiles.isEmpty()) {
             val sentinelFile = sentinelDir.get().asFile.resolve("io/github/kotlinmania/http/CodeqlEmptySentinel.kt")
             sentinelFile.parentFile.mkdirs()
@@ -511,6 +516,7 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
                 private object CodeqlEmptySentinel
                 """.trimIndent(),
             )
+            commonSourceFiles += sentinelFile
             sourceFiles += sentinelFile
         }
         args = listOf(
@@ -521,6 +527,8 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
             "-no-reflect",
             "-language-version", "2.3",
             "-api-version", "2.3",
+            "-Xmulti-platform",
+            "-Xcommon-sources=${commonSourceFiles.joinToString(",") { it.absolutePath }}",
             "-Xexpect-actual-classes",
             "-opt-in", "kotlin.time.ExperimentalTime",
             "-opt-in", "kotlin.concurrent.atomics.ExperimentalAtomicApi",
@@ -536,22 +544,63 @@ tasks.register("setupAndroidSdk") {
     }
 }
 
+val swiftExportEnvironment = mapOf(
+    "BUILT_PRODUCTS_DIR" to layout.buildDirectory.dir("swift-test").get().asFile.absolutePath,
+    "TARGET_BUILD_DIR" to layout.buildDirectory.dir("swift-test").get().asFile.absolutePath,
+    "SDK_NAME" to "macosx",
+    "CONFIGURATION" to "Debug",
+    "ARCHS" to "arm64",
+    "FRAMEWORKS_FOLDER_PATH" to "Frameworks",
+    "MACOSX_DEPLOYMENT_TARGET" to "14.0",
+    "DEPLOYMENT_TARGET_SETTING_NAME" to "MACOSX_DEPLOYMENT_TARGET",
+)
+
+val buildSwiftExportForSwiftTest = tasks.register<Exec>("buildSwiftExportForSwiftTest") {
+    group = "verification"
+    description = "Builds the Kotlin Swift Export SPM package for the local swift test harness."
+    commandLine(
+        "./gradlew",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "embedSwiftExportForXcode",
+    )
+    environment(swiftExportEnvironment)
+    outputs.dir(layout.buildDirectory.dir("swift-test"))
+    outputs.dir(layout.buildDirectory.dir("SPMPackage/macosArm64/Debug"))
+    outputs.upToDateWhen { false }
+}
+
+val swiftExportTest = tasks.register<Exec>("swiftExportTest") {
+    group = "verification"
+    description = "Runs swift test against the Kotlin Swift Export package."
+    dependsOn(buildSwiftExportForSwiftTest)
+    workingDir(layout.projectDirectory.dir("swift-test-harness"))
+    commandLine("swift", "test")
+    outputs.upToDateWhen { false }
+}
+
+val defaultTestTasks = listOf(
+    "macosArm64Test",
+    "jvmTest",
+    "jsNodeTest",
+    "wasmJsNodeTest",
+    "compileAndroidMain",
+    "assembleUnitTest",
+)
+
+swiftExportTest.configure {
+    mustRunAfter(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
+}
+
 tasks.register("test") {
     group = "verification"
     description =
-        "Runs the host-portable test suite (macOS + JS + WasmJS + Android unit). " +
+        "Runs the host-portable test suite (macOS + JS + WasmJS + Android unit + Swift Export). " +
         "Non-host native targets (mingwX64, linuxX64) only run on their own host."
 
-    val defaultTestTasks = listOf(
-        "macosArm64Test",
-        "jvmTest",
-        "jsNodeTest",
-        "wasmJsNodeTest",
-        "compileAndroidMain",
-        "assembleUnitTest",
-    )
-
     dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
+    dependsOn(swiftExportTest)
 }
 
 // The generated Wasm-WASI Node test runner cannot see the filesystem unless
@@ -685,6 +734,7 @@ val fullTargetBuildTasks = listOf(
     "watchosSimulatorArm64Binaries",
     "watchosSimulatorArm64TestBinaries",
     "embedSwiftExportForXcode",
+    "swiftExportTest",
     "assembleHttpXCFramework",
     "assembleHttpDebugXCFramework",
     "assembleHttpReleaseXCFramework",

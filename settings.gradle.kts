@@ -24,6 +24,7 @@ if (bytesLocal.exists()) {
         dependencySubstitution {
             substitute(module("io.github.kotlinmania:bytes-kotlin")).using(project(":"))
             substitute(module("io.github.kotlinmania:bytes-kotlin-android")).using(project(":"))
+            substitute(module("io.github.kotlinmania:bytes-kotlin-jvm")).using(project(":"))
         }
     }
 }
