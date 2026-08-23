@@ -18,9 +18,9 @@ import kotlin.native.HiddenFromObjC
  * `KotlinStdlib.kt` Swift Export file (AGENTS.md §4 Pattern 4).
  */
 @HiddenFromObjC
-class InvalidUri internal constructor(internal val kind: ErrorKind) :
-    IllegalArgumentException(kind.describe()) {
-
+class InvalidUri internal constructor(
+    internal val kind: ErrorKind,
+) : IllegalArgumentException(kind.describe()) {
     override fun equals(other: Any?): Boolean =
         other is InvalidUri && other.kind == kind
 

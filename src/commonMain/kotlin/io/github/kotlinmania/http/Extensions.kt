@@ -18,13 +18,9 @@ class Extensions private constructor(
 ) {
     companion object {
         /** Create an empty `Extensions`. */
-        fun new(): Extensions {
-            return Extensions(null)
-        }
+        fun new(): Extensions = Extensions(null)
 
-        fun default(): Extensions {
-            return new()
-        }
+        fun default(): Extensions = new()
     }
 
     /**
@@ -75,13 +71,9 @@ class Extensions private constructor(
      * check(ext.get<Int>() == 5)
      * ```
      */
-    inline fun <reified T : Any> get(): T? {
-        return get(T::class) as? T
-    }
+    inline fun <reified T : Any> get(): T? = get(T::class) as? T
 
-    fun get(type: KClass<*>): Any? {
-        return map?.get(type)?.asAny()
-    }
+    fun get(type: KClass<*>): Any? = map?.get(type)?.asAny()
 
     /**
      * Get a mutable reference to a type previously inserted on this `Extensions`.
@@ -97,13 +89,9 @@ class Extensions private constructor(
      * check(ext.get<String>() == "Hello World")
      * ```
      */
-    inline fun <reified T : Any> getMut(): T? {
-        return getMut(T::class) as? T
-    }
+    inline fun <reified T : Any> getMut(): T? = getMut(T::class) as? T
 
-    fun getMut(type: KClass<*>): Any? {
-        return map?.get(type)?.asAnyMut()
-    }
+    fun getMut(type: KClass<*>): Any? = map?.get(type)?.asAnyMut()
 
     /**
      * Get a mutable reference to a type, inserting `value` if not already present on this
@@ -118,9 +106,7 @@ class Extensions private constructor(
      * check(ext.get<Int>() == 3)
      * ```
      */
-    inline fun <reified T : Any> getOrInsert(value: T): T {
-        return getOrInsertWith { value }
-    }
+    inline fun <reified T : Any> getOrInsert(value: T): T = getOrInsertWith { value }
 
     /**
      * Get a mutable reference to a type, inserting the value created by `f` if not already present
@@ -159,9 +145,7 @@ class Extensions private constructor(
      * check(ext.get<Int>() == 2)
      * ```
      */
-    inline fun <reified T : Any> getOrInsertDefault(noinline default: () -> T): T {
-        return getOrInsertWith(default)
-    }
+    inline fun <reified T : Any> getOrInsertDefault(noinline default: () -> T): T = getOrInsertWith(default)
 
     /**
      * Remove a type from this `Extensions`.
@@ -177,13 +161,9 @@ class Extensions private constructor(
      * check(ext.get<Int>() == null)
      * ```
      */
-    inline fun <reified T : Any> remove(): T? {
-        return remove(T::class) as? T
-    }
+    inline fun <reified T : Any> remove(): T? = remove(T::class) as? T
 
-    fun remove(type: KClass<*>): Any? {
-        return map?.remove(type)?.intoAny()
-    }
+    fun remove(type: KClass<*>): Any? = map?.remove(type)?.intoAny()
 
     /**
      * Clear the `Extensions` of all inserted extensions.
@@ -214,9 +194,7 @@ class Extensions private constructor(
      * check(!ext.isEmpty())
      * ```
      */
-    fun isEmpty(): Boolean {
-        return map?.isEmpty() ?: true
-    }
+    fun isEmpty(): Boolean = map?.isEmpty() ?: true
 
     /**
      * Get the number of extensions available.
@@ -230,9 +208,7 @@ class Extensions private constructor(
      * check(ext.len() == 1)
      * ```
      */
-    fun len(): Int {
-        return map?.size ?: 0
-    }
+    fun len(): Int = map?.size ?: 0
 
     /**
      * Extends `self` with another `Extensions`.
@@ -270,9 +246,7 @@ class Extensions private constructor(
         }
     }
 
-    fun clone(): Extensions {
-        return Extensions(map?.mapValues { entry -> entry.value.cloneBox() }?.toMutableMap())
-    }
+    fun clone(): Extensions = Extensions(map?.mapValues { entry -> entry.value.cloneBox() }?.toMutableMap())
 
     fun debugString(): String {
         val extensions = map ?: return "{}"
@@ -281,26 +255,20 @@ class Extensions private constructor(
         }
     }
 
-    fun fmt(): String {
-        return debugString()
-    }
+    fun fmt(): String = debugString()
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append(debugString())
         return formatter
     }
 
-    override fun toString(): String {
-        return debugString()
-    }
+    override fun toString(): String = debugString()
 }
 
 private data class TypeName(
     private val value: String,
 ) {
-    override fun toString(): String {
-        return value
-    }
+    override fun toString(): String = value
 }
 
 private class AnyClone(

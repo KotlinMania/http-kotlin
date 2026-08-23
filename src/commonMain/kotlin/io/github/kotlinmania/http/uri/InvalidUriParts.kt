@@ -17,9 +17,9 @@ import kotlin.native.HiddenFromObjC
  * subclasses — see `InvalidUri` for the rationale.
  */
 @HiddenFromObjC
-class InvalidUriParts internal constructor(internal val inner: InvalidUri) :
-    IllegalArgumentException(inner.message) {
-
+class InvalidUriParts internal constructor(
+    internal val inner: InvalidUri,
+) : IllegalArgumentException(inner.message) {
     override fun equals(other: Any?): Boolean =
         other is InvalidUriParts && other.inner == inner
 

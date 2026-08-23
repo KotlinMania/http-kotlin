@@ -79,9 +79,10 @@ class Port private constructor(
          */
         @HiddenFromObjC
         fun fromStr(bytes: String): Result<Port> {
-            val parsed = bytes.toIntOrNull(10) ?: return Result.failure(
-                InvalidUri.of(ErrorKind.InvalidPort),
-            )
+            val parsed =
+                bytes.toIntOrNull(10) ?: return Result.failure(
+                    InvalidUri.of(ErrorKind.InvalidPort),
+                )
             if (parsed !in 0..U16_MAX) {
                 return Result.failure(InvalidUri.of(ErrorKind.InvalidPort))
             }

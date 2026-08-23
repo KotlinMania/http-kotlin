@@ -8,12 +8,11 @@ internal class ByteStr private constructor(
     private val bytes: Bytes,
 ) : Comparable<ByteStr> {
     companion object {
-        fun new(): ByteStr {
-            return ByteStr(
+        fun new(): ByteStr =
+            ByteStr(
                 // Invariant: the empty slice is trivially valid UTF-8.
                 Bytes.new(),
             )
-        }
 
         fun fromStatic(value: String): ByteStr {
             // Invariant: value is a String so contains valid UTF-8.
@@ -34,20 +33,18 @@ internal class ByteStr private constructor(
             return ByteStr(bytes)
         }
 
-        fun fromUtf8(bytes: Bytes): Result<ByteStr> {
-            return runCatching {
+        fun fromUtf8(bytes: Bytes): Result<ByteStr> =
+            runCatching {
                 bytes.asRef().decodeToString(throwOnInvalidSequence = true)
                 // Invariant: just checked is utf8
                 ByteStr(bytes)
             }
-        }
 
-        fun from(src: String): ByteStr {
-            return ByteStr(
+        fun from(src: String): ByteStr =
+            ByteStr(
                 // Invariant: src is a String so contains valid UTF-8.
                 Bytes.from(src),
             )
-        }
     }
 
     fun deref(): String {
@@ -56,27 +53,15 @@ internal class ByteStr private constructor(
         return b.decodeToString()
     }
 
-    fun asStr(): String {
-        return deref()
-    }
+    fun asStr(): String = deref()
 
-    fun intoBytes(): Bytes {
-        return bytes
-    }
+    fun intoBytes(): Bytes = bytes
 
-    override fun toString(): String {
-        return asStr()
-    }
+    override fun toString(): String = asStr()
 
-    override fun compareTo(other: ByteStr): Int {
-        return asStr().compareTo(other.asStr())
-    }
+    override fun compareTo(other: ByteStr): Int = asStr().compareTo(other.asStr())
 
-    override fun equals(other: Any?): Boolean {
-        return other is ByteStr && bytes == other.bytes
-    }
+    override fun equals(other: Any?): Boolean = other is ByteStr && bytes == other.bytes
 
-    override fun hashCode(): Int {
-        return bytes.hashCode()
-    }
+    override fun hashCode(): Int = bytes.hashCode()
 }
