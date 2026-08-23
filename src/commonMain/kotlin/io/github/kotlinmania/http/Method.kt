@@ -108,27 +108,17 @@ class Method private constructor(
             }
 
         @HiddenFromObjC
-        fun tryFrom(src: ByteArray): Result<Method> {
-            return fromBytes(src)
-        }
+        fun tryFrom(src: ByteArray): Result<Method> = fromBytes(src)
 
         @HiddenFromObjC
-        fun tryFrom(src: String): Result<Method> {
-            return tryFrom(src.encodeToByteArray())
-        }
+        fun tryFrom(src: String): Result<Method> = tryFrom(src.encodeToByteArray())
 
-        fun from(method: Method): Method {
-            return method
-        }
+        fun from(method: Method): Method = method
 
         @HiddenFromObjC
-        fun fromStr(src: String): Result<Method> {
-            return tryFrom(src)
-        }
+        fun fromStr(src: String): Result<Method> = tryFrom(src)
 
-        fun default(): Method {
-            return GET
-        }
+        fun default(): Method = GET
 
         private fun extensionInline(src: ByteArray): Result<Method> =
             InlineExtension.new(src).map { inline ->
@@ -143,12 +133,11 @@ class Method private constructor(
      * See [the spec](https://tools.ietf.org/html/rfc7231#section-4.2.1)
      * for more words.
      */
-    fun isSafe(): Boolean {
-        return inner == Inner.Get ||
+    fun isSafe(): Boolean =
+        inner == Inner.Get ||
             inner == Inner.Head ||
             inner == Inner.Options ||
             inner == Inner.Trace
-    }
 
     /**
      * Whether a method is considered "idempotent", meaning the request has
@@ -181,21 +170,13 @@ class Method private constructor(
             is Inner.ExtensionAllocated -> inner.allocated.asStr()
         }
 
-    fun asRef(): String {
-        return asStr()
-    }
+    fun asRef(): String = asStr()
 
-    fun eq(other: Method): Boolean {
-        return this == other
-    }
+    fun eq(other: Method): Boolean = this == other
 
-    fun eq(other: String): Boolean {
-        return asRef() == other
-    }
+    fun eq(other: String): Boolean = asRef() == other
 
-    fun fmt(): String {
-        return asRef()
-    }
+    fun fmt(): String = asRef()
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append(asRef())
@@ -222,9 +203,7 @@ class InvalidMethod private constructor() : IllegalArgumentException("invalid HT
 
     override fun toString(): String = "InvalidMethod"
 
-    fun fmt(): String {
-        return "InvalidMethod"
-    }
+    fun fmt(): String = "InvalidMethod"
 
     fun fmt(formatter: StringBuilder): StringBuilder {
         formatter.append("invalid HTTP method")
@@ -244,20 +223,32 @@ private val METHOD_CONNECT = "CONNECT".encodeToByteArray()
 
 private sealed class Inner {
     data object Options : Inner()
+
     data object Get : Inner()
+
     data object Post : Inner()
+
     data object Put : Inner()
+
     data object Delete : Inner()
+
     data object Head : Inner()
+
     data object Trace : Inner()
+
     data object Connect : Inner()
+
     data object Patch : Inner()
 
     /** If the extension is short enough, store it inline. */
-    data class ExtensionInline(val inline: InlineExtension) : Inner()
+    data class ExtensionInline(
+        val inline: InlineExtension,
+    ) : Inner()
 
     /** Otherwise, allocate it. */
-    data class ExtensionAllocated(val allocated: AllocatedExtension) : Inner()
+    data class ExtensionAllocated(
+        val allocated: AllocatedExtension,
+    ) : Inner()
 }
 
 private data class InlineExtension(
@@ -343,32 +334,262 @@ private data class AllocatedExtension(
 // subset of the valid 1 byte UTF-8 encoding.
 private val METHOD_CHARS: ByteArray =
     byteArrayOf(
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, '!'.code.toByte(), 0, '#'.code.toByte(), '$'.code.toByte(), '%'.code.toByte(), '&'.code.toByte(), '\''.code.toByte(),
-        0, 0, '*'.code.toByte(), '+'.code.toByte(), 0, '-'.code.toByte(), '.'.code.toByte(), 0, '0'.code.toByte(), '1'.code.toByte(),
-        '2'.code.toByte(), '3'.code.toByte(), '4'.code.toByte(), '5'.code.toByte(), '6'.code.toByte(), '7'.code.toByte(), '8'.code.toByte(), '9'.code.toByte(), 0, 0,
-        0, 0, 0, 0, 0, 'A'.code.toByte(), 'B'.code.toByte(), 'C'.code.toByte(), 'D'.code.toByte(), 'E'.code.toByte(),
-        'F'.code.toByte(), 'G'.code.toByte(), 'H'.code.toByte(), 'I'.code.toByte(), 'J'.code.toByte(), 'K'.code.toByte(), 'L'.code.toByte(), 'M'.code.toByte(), 'N'.code.toByte(), 'O'.code.toByte(),
-        'P'.code.toByte(), 'Q'.code.toByte(), 'R'.code.toByte(), 'S'.code.toByte(), 'T'.code.toByte(), 'U'.code.toByte(), 'V'.code.toByte(), 'W'.code.toByte(), 'X'.code.toByte(), 'Y'.code.toByte(),
-        'Z'.code.toByte(), 0, 0, 0, '^'.code.toByte(), '_'.code.toByte(), '`'.code.toByte(), 'a'.code.toByte(), 'b'.code.toByte(), 'c'.code.toByte(),
-        'd'.code.toByte(), 'e'.code.toByte(), 'f'.code.toByte(), 'g'.code.toByte(), 'h'.code.toByte(), 'i'.code.toByte(), 'j'.code.toByte(), 'k'.code.toByte(), 'l'.code.toByte(), 'm'.code.toByte(),
-        'n'.code.toByte(), 'o'.code.toByte(), 'p'.code.toByte(), 'q'.code.toByte(), 'r'.code.toByte(), 's'.code.toByte(), 't'.code.toByte(), 'u'.code.toByte(), 'v'.code.toByte(), 'w'.code.toByte(),
-        'x'.code.toByte(), 'y'.code.toByte(), 'z'.code.toByte(), 0, '|'.code.toByte(), 0, '~'.code.toByte(), 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        '!'.code.toByte(),
+        0,
+        '#'.code.toByte(),
+        '$'.code.toByte(),
+        '%'.code.toByte(),
+        '&'.code.toByte(),
+        '\''.code.toByte(),
+        0,
+        0,
+        '*'.code.toByte(),
+        '+'.code.toByte(),
+        0,
+        '-'.code.toByte(),
+        '.'.code.toByte(),
+        0,
+        '0'.code.toByte(),
+        '1'.code.toByte(),
+        '2'.code.toByte(),
+        '3'.code.toByte(),
+        '4'.code.toByte(),
+        '5'.code.toByte(),
+        '6'.code.toByte(),
+        '7'.code.toByte(),
+        '8'.code.toByte(),
+        '9'.code.toByte(),
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        'A'.code.toByte(),
+        'B'.code.toByte(),
+        'C'.code.toByte(),
+        'D'.code.toByte(),
+        'E'.code.toByte(),
+        'F'.code.toByte(),
+        'G'.code.toByte(),
+        'H'.code.toByte(),
+        'I'.code.toByte(),
+        'J'.code.toByte(),
+        'K'.code.toByte(),
+        'L'.code.toByte(),
+        'M'.code.toByte(),
+        'N'.code.toByte(),
+        'O'.code.toByte(),
+        'P'.code.toByte(),
+        'Q'.code.toByte(),
+        'R'.code.toByte(),
+        'S'.code.toByte(),
+        'T'.code.toByte(),
+        'U'.code.toByte(),
+        'V'.code.toByte(),
+        'W'.code.toByte(),
+        'X'.code.toByte(),
+        'Y'.code.toByte(),
+        'Z'.code.toByte(),
+        0,
+        0,
+        0,
+        '^'.code.toByte(),
+        '_'.code.toByte(),
+        '`'.code.toByte(),
+        'a'.code.toByte(),
+        'b'.code.toByte(),
+        'c'.code.toByte(),
+        'd'.code.toByte(),
+        'e'.code.toByte(),
+        'f'.code.toByte(),
+        'g'.code.toByte(),
+        'h'.code.toByte(),
+        'i'.code.toByte(),
+        'j'.code.toByte(),
+        'k'.code.toByte(),
+        'l'.code.toByte(),
+        'm'.code.toByte(),
+        'n'.code.toByte(),
+        'o'.code.toByte(),
+        'p'.code.toByte(),
+        'q'.code.toByte(),
+        'r'.code.toByte(),
+        's'.code.toByte(),
+        't'.code.toByte(),
+        'u'.code.toByte(),
+        'v'.code.toByte(),
+        'w'.code.toByte(),
+        'x'.code.toByte(),
+        'y'.code.toByte(),
+        'z'.code.toByte(),
+        0,
+        '|'.code.toByte(),
+        0,
+        '~'.code.toByte(),
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
     )
 
 // writeChecked ensures, among other things, that the first src.size bytes

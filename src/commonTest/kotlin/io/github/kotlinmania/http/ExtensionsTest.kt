@@ -9,7 +9,9 @@ import kotlin.test.assertTrue
 class ExtensionsTest {
     @Test
     fun testExtensions() {
-        data class MyType(val value: Int)
+        data class MyType(
+            val value: Int,
+        )
 
         val extensions = Extensions.new()
         assertEquals("{}", extensions.debugString())

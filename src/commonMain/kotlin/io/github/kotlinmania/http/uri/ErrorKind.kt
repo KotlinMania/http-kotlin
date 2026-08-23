@@ -23,17 +23,18 @@ internal enum class ErrorKind {
     SchemeTooLong,
     ;
 
-    fun describe(): String = when (this) {
-        InvalidUriChar -> "invalid uri character"
-        InvalidScheme -> "invalid scheme"
-        InvalidAuthority -> "invalid authority"
-        InvalidPort -> "invalid port"
-        InvalidFormat -> "invalid format"
-        SchemeMissing -> "scheme missing"
-        AuthorityMissing -> "authority missing"
-        PathAndQueryMissing -> "path missing"
-        TooLong -> "uri too long"
-        Empty -> "empty string"
-        SchemeTooLong -> "scheme too long"
-    }
+    fun describe(): String =
+        when (this) {
+            InvalidUriChar -> "invalid uri character"
+            InvalidScheme -> "invalid scheme"
+            InvalidAuthority -> "invalid authority"
+            InvalidPort -> "invalid port"
+            InvalidFormat -> "invalid format"
+            SchemeMissing -> "scheme missing"
+            AuthorityMissing -> "authority missing"
+            PathAndQueryMissing -> "path missing"
+            TooLong -> "uri too long"
+            Empty -> "empty string"
+            SchemeTooLong -> "scheme too long"
+        }
 }
