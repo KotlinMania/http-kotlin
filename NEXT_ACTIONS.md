@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 6/21 (28.6%)
-- **Function parity:** 64/611 matched (target 114) — 10.5%
-- **Class/type parity:** 15/92 matched (target 28) — 16.3%
-- **Combined symbol parity:** 79/703 matched (target 142) — 11.2%
-- **Average inline-code cosine:** 0.53 (function body across 4 matched files)
-- **Average documentation cosine:** 0.93 (doc text across 4 matched files)
-- **Cheat-zeroed Files:** 2
-- **Critical Issues:** 5 files with <0.60 function similarity
+- **Files Present:** 8/21 (38.1%)
+- **Function parity:** 72/633 matched (target 132) — 11.4%
+- **Class/type parity:** 19/99 matched (target 33) — 19.2%
+- **Combined symbol parity:** 91/732 matched (target 165) — 12.4%
+- **Average inline-code cosine:** 0.43 (function body across 5 matched files)
+- **Average documentation cosine:** 0.85 (doc text across 5 matched files)
+- **Cheat-zeroed Files:** 4
+- **Critical Issues:** 7 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -53,9 +53,9 @@ Every matched file is listed below with function and type symbol parity.
 ### 3. version
 
 - **Target:** `http.Version`
-- **Similarity:** 0.61
+- **Similarity:** 0.62
 - **Dependents:** 3
-- **Priority Score:** 3000404.0
+- **Priority Score:** 3000403.8
 - **Functions:** 2/2 matched (target 6)
 - **Missing functions:** _none_
 - **Types:** 2/2 matched
@@ -73,7 +73,19 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `IdHasher`
 - **Tests:** 1/1 matched
 
-### 5. status
+### 5. uri.port
+
+- **Target:** `uri.Port [ZERO]`
+- **Similarity:** 0.00
+- **Dependents:** 1
+- **Priority Score:** 1031210.0
+- **Functions:** 8/11 matched
+- **Missing functions:** `fmt`, `from`, `partialeq_port_different_reprs`
+- **Types:** 1/1 matched (target 2)
+- **Missing types:** _none_
+- **Tests:** 3/4 matched
+
+### 6. status
 
 - **Target:** `http.Status [STUB]`
 - **Similarity:** 0.00
@@ -84,7 +96,18 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/4 matched (target 2)
 - **Missing types:** `Err`, `Error`
 
-### 6. header.mod
+### 7. uri.mod
+
+- **Target:** `uri.Mod [STUB]`
+- **Similarity:** 0.00
+- **Dependents:** 0
+- **Priority Score:** 293210.0
+- **Functions:** 0/25 matched (target 7)
+- **Missing functions:** `builder`, `from_parts`, `from_maybe_shared`, `from_shared`, `from_static`, `into_parts`, `path_and_query`, `path`, `scheme`, `scheme_str`, `authority`, `host`, `port`, `port_u16`, `query`, `has_path`, `try_from`, `from`, `parse_full`, `from_str`, `eq`, `default`, `fmt`, `s`, `hash`
+- **Types:** 3/7 matched (target 3)
+- **Missing types:** `Uri`, `Parts`, `Error`, `Err`
+
+### 8. header.mod
 
 - **Target:** `header.Mod [STUB]`
 - **Similarity:** 0.00
@@ -116,5 +139,4 @@ do not treat them as the next implementation target by default.
 | Source | Expected target | Deps | Source path | Expected path |
 |--------|-----------------|------|-------------|---------------|
 | `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
-| `uri.mod` | `uri.Mod` | 0 | `uri/mod.rs` | `uri/Mod.kt` |
 
