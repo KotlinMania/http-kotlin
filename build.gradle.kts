@@ -789,7 +789,7 @@ tasks.register("swiftExportSmokeTest") {
                         "CONFIGURATION" to "Debug",
                         "ARCHS" to "arm64",
                         "FRAMEWORKS_FOLDER_PATH" to "Frameworks",
-                        "MACOSX_DEPLOYMENT_TARGET" to "14.0",
+                        "MACOSX_DEPLOYMENT_TARGET" to "15.0",
                         "DEPLOYMENT_TARGET_SETTING_NAME" to "MACOSX_DEPLOYMENT_TARGET",
                     ),
                 )
@@ -880,4 +880,17 @@ val fullTargetBuildTaskNames =
 
 tasks.named("build") {
     dependsOn(fullTargetBuildTaskNames)
+}
+
+// Keep direct Swift export and the smoke-test consumer on the same platform floor.
+tasks.matching { it.name.contains("GenerateSPMPackage") }.configureEach {
+    doLast {
+        val manifest = layout.buildDirectory.file("SPMPackage/macosArm64/Debug/Package.swift").get().asFile
+        if (manifest.exists()) {
+            val text = manifest.readText()
+            if (!text.contains("platforms:")) {
+                manifest.writeText(text.replaceFirst(Regex("(name:\\s*\"[^\"]*\",)"), "$1\n    platforms: [.macOS(\"15.0\")],"))
+            }
+        }
+    }
 }
