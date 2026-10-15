@@ -1,5 +1,8 @@
+import groovy.json.JsonSlurper
 import org.gradle.api.GradleException
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.tasks.testing.AbstractTestTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
@@ -19,21 +22,28 @@ import org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec
 import org.jetbrains.kotlin.gradle.targets.wasm.yarn.WasmYarnRootEnvSpec
 import java.io.ByteArrayInputStream
 import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
+import java.util.Base64
+import java.util.UUID
 import java.util.zip.ZipInputStream
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.kmp)
-    alias(libs.plugins.vanniktech)
     alias(libs.plugins.detekt)
     alias(libs.plugins.ktlint)
+    `maven-publish`
+    signing
 }
 
 group = providers.gradleProperty("project.group").getOrElse("io.github.kotlinmania")
 version = providers.gradleProperty("project.version").getOrElse("0.1.0-SNAPSHOT")
+val publishProjectName = providers.gradleProperty("project.name").getOrElse(project.name)
 val frameworkName = providers.gradleProperty("project.frameworkName").getOrElse("Unnamed")
 val projectNamespace = providers.gradleProperty("project.namespace").getOrElse("io.github.kotlinmania")
 val kotlinVersion = providers.gradleProperty("versions.kotlin").getOrElse("2.4.0")
@@ -293,30 +303,20 @@ kotlin {
     linuxArm64()
     mingwX64()
 
-    // Android NDK — always built (full target surface, no opt-in gate).
-    androidNativeArm32()
+    // Android NDK — 64-bit only (32-bit retired §5.5.3, 2026-06-25).
     androidNativeArm64()
-    androidNativeX86()
     androidNativeX64()
 
     // Web
     js {
-        configureBenchmarkCompilation()
         browser()
         nodejs()
     }
 
-    // wasmJs is Stable as of Kotlin 2.2; @OptIn may be removable — verify before dropping on wasmWasi.
+    // wasmJs is Stable as of Kotlin 2.2.
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        configureBenchmarkCompilation()
         browser()
-        nodejs()
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmWasi {
-        configureBenchmarkCompilation()
         nodejs()
     }
 
@@ -488,42 +488,48 @@ rootProject.extensions.configure<NodeJsRootExtension>("kotlinNodeJs") {
     versions.kotlinWebHelpers.version = providers.gradleProperty("node.kotlinWebHelpers.version").getOrElse("3.1.0")
 }
 
-// ============================================================================
-// Maven Central publishing
-// ============================================================================
-mavenPublishing {
-    publishToMavenCentral()
-    if (project.findProperty("RELEASE_SIGNING_ENABLED") != "false") {
-        signAllPublications()
+val emptyJavadocJar =
+    tasks.register<Jar>("emptyJavadocJar") {
+        archiveClassifier.set("javadoc")
     }
-    val projectName = providers.gradleProperty("project.name").getOrElse("unnamed-project")
-    coordinates(group.toString(), projectName, version.toString())
-    pom {
-        name.set(projectName)
-        description.set(providers.gradleProperty("project.pom.description").getOrElse(""))
-        inceptionYear.set("2026")
-        url.set("https://github.com/KotlinMania/$projectName")
-        licenses {
-            license {
-                name.set(providers.gradleProperty("project.pom.licenseName").getOrElse("MIT"))
-                url.set(
-                    providers.gradleProperty("project.pom.licenseUrl").getOrElse("https://opensource.org/licenses/MIT"),
-                )
-                distribution.set("repo")
+
+publishing {
+    publications.withType<MavenPublication>().configureEach {
+        artifact(emptyJavadocJar)
+        pom {
+            name.set(publishProjectName)
+            description.set(providers.gradleProperty("project.pom.description").getOrElse(""))
+            inceptionYear.set("2026")
+            url.set("https://github.com/KotlinMania/$publishProjectName")
+            licenses {
+                license {
+                    name.set(providers.gradleProperty("project.pom.licenseName").getOrElse("MIT"))
+                    url.set(
+                        providers.gradleProperty("project.pom.licenseUrl").getOrElse("https://opensource.org/licenses/MIT"),
+                    )
+                    distribution.set("repo")
+                }
+            }
+            developers {
+                developer {
+                    id.set("sydneyrenee")
+                    name.set("Sydney Renee")
+                    email.set("sydney@solace.ofharmony.ai")
+                    url.set("https://github.com/sydneyrenee")
+                }
+            }
+            scm {
+                url.set("https://github.com/KotlinMania/$publishProjectName")
+                connection.set("scm:git:git://github.com/KotlinMania/$publishProjectName.git")
+                developerConnection.set("scm:git:ssh://github.com/KotlinMania/$publishProjectName.git")
             }
         }
-        developers {
-            developer {
-                id.set("sydneyrenee")
-                name.set("Sydney Renee")
-                email.set("sydney@solace.ofharmony.ai")
-                url.set("https://github.com/sydneyrenee")
-            }
-        }
-        scm {
-            url.set("https://github.com/KotlinMania/$projectName")
-            connection.set("scm:git:git://github.com/KotlinMania/$projectName.git")
-            developerConnection.set("scm:git:ssh://github.com/KotlinMania/$projectName.git")
+    }
+
+    repositories {
+        maven {
+            name = "centralPortalStaging"
+            url = uri(layout.buildDirectory.dir("staging-deploy"))
         }
     }
 }
@@ -553,22 +559,24 @@ centralPortalPublishTasks.configureEach {
 }
 
 // Zip the staged Maven layout into a single Central Portal deployment bundle.
-val centralPortalBundle by tasks.registering(Zip::class) {
-    group = "publishing"
-    description = "Bundles the staged Maven artifacts into a Central Portal deployment zip."
-    dependsOn(centralPortalPublishTasks)
-    from(layout.buildDirectory.dir("staging-deploy"))
-    archiveFileName.set("$publishProjectName-$version-bundle.zip")
-    destinationDirectory.set(layout.buildDirectory.dir("central-portal"))
-}
+val centralPortalBundle =
+    tasks.register<Zip>("centralPortalBundle") {
+        group = "publishing"
+        description = "Bundles the staged Maven artifacts into a Central Portal deployment zip."
+        dependsOn(centralPortalPublishTasks)
+        from(layout.buildDirectory.dir("staging-deploy"))
+        archiveFileName.set("$publishProjectName-$version-bundle.zip")
+        destinationDirectory.set(layout.buildDirectory.dir("central-portal"))
+    }
 
 // Upload the bundle to the Sonatype Central Portal Publisher API.
 // publishingType: USER_MANAGED (default, safe — validates then waits for a
 // manual release in the Portal UI) or AUTOMATIC (publishes after validation).
-val publishToCentralPortal by tasks.registering {
-    group = "publishing"
-    description = "Uploads the deployment bundle to the Sonatype Central Portal."
-    dependsOn(centralPortalBundle)
+val publishToCentralPortal =
+    tasks.register("publishToCentralPortal") {
+        group = "publishing"
+        description = "Uploads the deployment bundle to the Sonatype Central Portal."
+        dependsOn(centralPortalBundle)
     doLast {
         val user =
             providers.gradleProperty("mavenCentralUsername").orNull
@@ -780,10 +788,8 @@ tasks.register("swiftExportSmokeTest") {
 // ============================================================================
 val nativeTargetNames =
     listOf(
-        "androidNativeArm32",
         "androidNativeArm64",
         "androidNativeX64",
-        "androidNativeX86",
         "iosArm64",
         "iosSimulatorArm64",
         "iosX64",
@@ -793,7 +799,6 @@ val nativeTargetNames =
         "mingwX64",
         "tvosArm64",
         "tvosSimulatorArm64",
-        "watchosArm64",
         "watchosDeviceArm64",
         "watchosSimulatorArm64",
     )
@@ -815,8 +820,6 @@ val fullTargetBuildTaskNames =
                 "jsTestClasses",
                 "wasmJsMainClasses",
                 "wasmJsTestClasses",
-                "wasmWasiMainClasses",
-                "wasmWasiTestClasses",
                 "swiftExportSmokeTest",
                 "assemble${frameworkName}XCFramework",
             ),
