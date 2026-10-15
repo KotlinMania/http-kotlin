@@ -3,8 +3,6 @@
 
 package io.github.kotlinmania.http
 
-import kotlin.native.HiddenFromObjC
-
 /**
  * The HTTP request method.
  *
@@ -64,7 +62,7 @@ class Method private constructor(
         val TRACE: Method = Method(Inner.Trace)
 
         /** Converts a slice of bytes to an HTTP method. */
-        @HiddenFromObjC
+
         fun fromBytes(src: ByteArray): Result<Method> =
             when (src.size) {
                 0 -> Result.failure(InvalidMethod.new())
@@ -107,15 +105,12 @@ class Method private constructor(
                     }
             }
 
-        @HiddenFromObjC
         fun tryFrom(src: ByteArray): Result<Method> = fromBytes(src)
 
-        @HiddenFromObjC
         fun tryFrom(src: String): Result<Method> = tryFrom(src.encodeToByteArray())
 
         fun from(method: Method): Method = method
 
-        @HiddenFromObjC
         fun fromStr(src: String): Result<Method> = tryFrom(src)
 
         fun default(): Method = GET
@@ -195,7 +190,7 @@ class Method private constructor(
 }
 
 /** A possible error value when converting `Method` from bytes. */
-@HiddenFromObjC
+
 class InvalidMethod private constructor() : IllegalArgumentException("invalid HTTP method") {
     companion object {
         internal fun new(): InvalidMethod = InvalidMethod()

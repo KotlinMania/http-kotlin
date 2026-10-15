@@ -3,8 +3,6 @@
 
 package io.github.kotlinmania.http
 
-import kotlin.native.HiddenFromObjC
-
 /**
  * HTTP status codes.
  *
@@ -48,7 +46,7 @@ class StatusCode private constructor(
 ) : Comparable<StatusCode> {
     companion object {
         /** Converts an integer to a status code. */
-        @HiddenFromObjC
+
         fun fromU16(src: Int): Result<StatusCode> =
             if (src in 100..999) {
                 Result.success(StatusCode(src))
@@ -57,7 +55,7 @@ class StatusCode private constructor(
             }
 
         /** Converts a byte array to a status code. */
-        @HiddenFromObjC
+
         fun fromBytes(src: ByteArray): Result<StatusCode> {
             if (src.size != 3) {
                 return Result.failure(InvalidStatusCode.new())
@@ -77,16 +75,12 @@ class StatusCode private constructor(
 
         fun from(status: StatusCode): StatusCode = status
 
-        @HiddenFromObjC
         fun fromStr(src: String): Result<StatusCode> = parse(src)
 
-        @HiddenFromObjC
         fun parse(src: String): Result<StatusCode> = fromBytes(src.encodeToByteArray())
 
-        @HiddenFromObjC
         fun tryFrom(src: String): Result<StatusCode> = fromStr(src)
 
-        @HiddenFromObjC
         fun tryFrom(src: Int): Result<StatusCode> = fromU16(src)
 
         /** 100 Continue
@@ -520,7 +514,7 @@ class StatusCode private constructor(
  * This error indicates that the supplied input was not a valid number, was less
  * than 100, or was greater than 999.
  */
-@HiddenFromObjC
+
 class InvalidStatusCode private constructor() : IllegalArgumentException("invalid status code") {
     companion object {
         internal fun new(): InvalidStatusCode = InvalidStatusCode()
