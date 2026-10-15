@@ -20,7 +20,6 @@ class InvalidUri internal constructor(
     override fun hashCode(): Int = kind.hashCode()
 
     companion object {
-
         internal fun of(kind: ErrorKind): InvalidUri = InvalidUri(kind)
     }
 }

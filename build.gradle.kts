@@ -885,7 +885,11 @@ tasks.named("build") {
 // Keep direct Swift export and the smoke-test consumer on the same platform floor.
 tasks.matching { it.name.contains("GenerateSPMPackage") }.configureEach {
     doLast {
-        val manifest = layout.buildDirectory.file("SPMPackage/macosArm64/Debug/Package.swift").get().asFile
+        val manifest =
+            layout.buildDirectory
+                .file("SPMPackage/macosArm64/Debug/Package.swift")
+                .get()
+                .asFile
         if (manifest.exists()) {
             val text = manifest.readText()
             if (!text.contains("platforms:")) {

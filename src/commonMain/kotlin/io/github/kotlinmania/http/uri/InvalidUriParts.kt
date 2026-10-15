@@ -21,7 +21,6 @@ class InvalidUriParts internal constructor(
     override fun hashCode(): Int = inner.hashCode()
 
     companion object {
-
         internal fun of(kind: ErrorKind): InvalidUriParts =
             InvalidUriParts(InvalidUri.of(kind))
     }
