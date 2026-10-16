@@ -1,6 +1,4 @@
 // port-lint: source method.rs
-@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
-
 package io.github.kotlinmania.http
 
 /**

@@ -1407,7 +1407,7 @@ val X_FRAME_OPTIONS: HeaderName = HeaderName.from(StandardHeader.XFrameOptions)
  * detect reflected cross-site scripting (XSS) attacks. Although these
  * protections are largely unnecessary in modern browsers when sites
  * implement a strong Content-Security-Policy that disables the use of
- * inline JavaScript ('unsafe-inline'), they can still provide protections
+ * inline JavaScript, they can still provide protections
  * for users of older web browsers that don't yet support CSP.
  */
 val X_XSS_PROTECTION: HeaderName = HeaderName.from(StandardHeader.XXssProtection)

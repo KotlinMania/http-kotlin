@@ -1,5 +1,3 @@
-@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
-
 package io.github.kotlinmania.http.uri
 
 /**

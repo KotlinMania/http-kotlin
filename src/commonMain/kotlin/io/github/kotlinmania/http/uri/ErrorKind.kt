@@ -1,4 +1,3 @@
-// port-lint: source uri/mod.rs
 package io.github.kotlinmania.http.uri
 
 /**
