@@ -450,10 +450,11 @@ val wasmYarnVersion = providers.gradleProperty("wasm.yarn.version").getOrElse(ya
 // store; a Dependabot bump of package.json/yarn.lock is honored rather than
 // overridden. (These two values previously lived in gradle.properties, which
 // Dependabot cannot see, so a bump there would silently revert the build.)
-@Suppress("UNCHECKED_CAST")
-val webpackVersion: String =
-    (groovy.json.JsonSlurper().parse(rootProject.file("kotlin-js-store/package.json")) as Map<String, Any>)
-        .let { it["dependencies"] as Map<String, Any> }["webpack"] as String
+val webpackPackage = groovy.json.JsonSlurper().parse(rootProject.file("kotlin-js-store/package.json")) as? Map<*, *>
+val webpackDependencies = webpackPackage?.get("dependencies") as? Map<*, *>
+val webpackVersion =
+    webpackDependencies?.get("webpack") as? String
+        ?: throw GradleException("kotlin-js-store/package.json must declare a webpack dependency")
 
 rootProject.extensions.configure<NodeJsEnvSpec>("kotlinNodeJsSpec") { version.set(nodeVersion) }
 rootProject.extensions.configure<WasmNodeJsEnvSpec>("kotlinWasmNodeJsSpec") { version.set(wasmNodeVersion) }
@@ -789,7 +790,7 @@ tasks.register("swiftExportSmokeTest") {
                         "CONFIGURATION" to "Debug",
                         "ARCHS" to "arm64",
                         "FRAMEWORKS_FOLDER_PATH" to "Frameworks",
-                        "MACOSX_DEPLOYMENT_TARGET" to "14.0",
+                        "MACOSX_DEPLOYMENT_TARGET" to "15.0",
                         "DEPLOYMENT_TARGET_SETTING_NAME" to "MACOSX_DEPLOYMENT_TARGET",
                     ),
                 )
@@ -880,4 +881,21 @@ val fullTargetBuildTaskNames =
 
 tasks.named("build") {
     dependsOn(fullTargetBuildTaskNames)
+}
+
+// Keep direct Swift export and the smoke-test consumer on the same platform floor.
+tasks.matching { it.name.contains("GenerateSPMPackage") }.configureEach {
+    doLast {
+        val manifest =
+            layout.buildDirectory
+                .file("SPMPackage/macosArm64/Debug/Package.swift")
+                .get()
+                .asFile
+        if (manifest.exists()) {
+            val text = manifest.readText()
+            if (!text.contains("platforms:")) {
+                manifest.writeText(text.replaceFirst(Regex("(name:\\s*\"[^\"]*\",)"), "$1\n    platforms: [.macOS(\"15.0\")],"))
+            }
+        }
+    }
 }

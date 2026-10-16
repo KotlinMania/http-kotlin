@@ -2,7 +2,6 @@
 package io.github.kotlinmania.http.uri
 
 import kotlin.experimental.ExperimentalObjCRefinement
-import kotlin.native.HiddenFromObjC
 
 /**
  * The port component of a URI.
@@ -77,7 +76,7 @@ class Port private constructor(
          * tests outside the module can exercise it directly (the Rust tests
          * exercise it via `super::*`).
          */
-        @HiddenFromObjC
+
         fun fromStr(bytes: String): Result<Port> {
             val parsed =
                 bytes.toIntOrNull(10) ?: return Result.failure(

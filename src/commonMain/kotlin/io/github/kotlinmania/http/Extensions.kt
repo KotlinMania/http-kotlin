@@ -3,8 +3,6 @@ package io.github.kotlinmania.http
 
 import kotlin.reflect.KClass
 
-private typealias AnyMap = MutableMap<KClass<*>, AnyClone>
-
 /**
  * A type map of protocol extensions.
  *
@@ -14,7 +12,7 @@ private typealias AnyMap = MutableMap<KClass<*>, AnyClone>
 class Extensions private constructor(
     // If extensions are never used, no need to carry around an empty HashMap.
     // That's 3 words. Instead, this is only 1 word.
-    private var map: AnyMap?,
+    private var map: MutableMap<KClass<*>, AnyClone>?,
 ) {
     companion object {
         /** Create an empty `Extensions`. */

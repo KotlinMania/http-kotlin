@@ -1,4 +1,3 @@
-// port-lint: source uri/mod.rs
 package io.github.kotlinmania.http.uri
 
 import io.github.kotlinmania.bytes.Bytes
@@ -238,7 +237,7 @@ class Uri internal constructor(
             }
 
         internal fun fromShared(s: Bytes): Result<Uri> {
-            if (s.len() > MAX_LEN) {
+            if (s.len() > maxUriLength) {
                 return Result.failure(InvalidUri.of(ErrorKind.TooLong))
             }
 

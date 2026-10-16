@@ -1,9 +1,4 @@
-// port-lint: source uri/mod.rs
-@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
-
 package io.github.kotlinmania.http.uri
-
-import kotlin.native.HiddenFromObjC
 
 /**
  * An error resulting from a failed attempt to construct a URI from its
@@ -13,10 +8,8 @@ import kotlin.native.HiddenFromObjC
  * distinction by wrapping an [InvalidUri] inside [InvalidUriParts] rather
  * than collapsing them.
  *
- * `@HiddenFromObjC` matches the project convention for `IllegalArgumentException`
- * subclasses — see `InvalidUri` for the rationale.
  */
-@HiddenFromObjC
+
 class InvalidUriParts internal constructor(
     internal val inner: InvalidUri,
 ) : IllegalArgumentException(inner.message) {
@@ -26,7 +19,6 @@ class InvalidUriParts internal constructor(
     override fun hashCode(): Int = inner.hashCode()
 
     companion object {
-        @HiddenFromObjC
         internal fun of(kind: ErrorKind): InvalidUriParts =
             InvalidUriParts(InvalidUri.of(kind))
     }
