@@ -15,13 +15,20 @@ class Scheme internal constructor(
      */
     fun asStr(): String =
         when (val s = inner) {
-            is Scheme2.Standard ->
+            is Scheme2.Standard -> {
                 when (s.protocol) {
                     Protocol.Http -> "http"
                     Protocol.Https -> "https"
                 }
-            is Scheme2.Other -> s.str.asStr()
-            Scheme2.None -> error("Scheme::None has no string representation")
+            }
+
+            is Scheme2.Other -> {
+                s.str.asStr()
+            }
+
+            Scheme2.None -> {
+                error("Scheme::None has no string representation")
+            }
         }
 
     fun asRef(): String = asStr()
@@ -33,12 +40,21 @@ class Scheme internal constructor(
         if (other !is Scheme) return false
 
         return when {
-            inner is Scheme2.Standard && other.inner is Scheme2.Standard ->
+            inner is Scheme2.Standard && other.inner is Scheme2.Standard -> {
                 inner.protocol == other.inner.protocol
-            inner is Scheme2.Other && other.inner is Scheme2.Other ->
+            }
+
+            inner is Scheme2.Other && other.inner is Scheme2.Other -> {
                 inner.str.asStr().equals(other.inner.str.asStr(), ignoreCase = true)
-            inner is Scheme2.None && other.inner is Scheme2.None -> true
-            else -> false
+            }
+
+            inner is Scheme2.None && other.inner is Scheme2.None -> {
+                true
+            }
+
+            else -> {
+                false
+            }
         }
     }
 
@@ -49,12 +65,17 @@ class Scheme internal constructor(
 
     override fun hashCode(): Int =
         when (val s = inner) {
-            Scheme2.None -> 0
-            is Scheme2.Standard ->
+            Scheme2.None -> {
+                0
+            }
+
+            is Scheme2.Standard -> {
                 when (s.protocol) {
                     Protocol.Http -> 1
                     Protocol.Https -> 2
                 }
+            }
+
             is Scheme2.Other -> {
                 val str = s.str.asStr()
                 var h = str.length
@@ -76,11 +97,20 @@ class Scheme internal constructor(
 
         fun tryFrom(bytes: ByteArray): Result<Scheme> =
             when (val parsed = Scheme2.parseExact(bytes)) {
-                is Scheme2Result.Failure -> Result.failure(parsed.error)
+                is Scheme2Result.Failure -> {
+                    Result.failure(parsed.error)
+                }
+
                 is Scheme2Result.Success -> {
                     when (val s = parsed.value) {
-                        Scheme2.None -> Result.failure(InvalidUri.of(ErrorKind.InvalidScheme))
-                        is Scheme2.Standard -> Result.success(Scheme(s))
+                        Scheme2.None -> {
+                            Result.failure(InvalidUri.of(ErrorKind.InvalidScheme))
+                        }
+
+                        is Scheme2.Standard -> {
+                            Result.success(Scheme(s))
+                        }
+
                         is Scheme2.Other -> {
                             val b = Bytes.copyFromSlice(bytes)
                             val string = ByteStr.fromUtf8Unchecked(b)
@@ -110,8 +140,14 @@ internal sealed class Scheme2 {
     companion object {
         fun parseExact(s: ByteArray): Scheme2Result =
             when {
-                s.contentEquals(HTTP_BYTES) -> Scheme2Result.Success(Standard(Protocol.Http))
-                s.contentEquals(HTTPS_BYTES) -> Scheme2Result.Success(Standard(Protocol.Https))
+                s.contentEquals(HTTP_BYTES) -> {
+                    Scheme2Result.Success(Standard(Protocol.Http))
+                }
+
+                s.contentEquals(HTTPS_BYTES) -> {
+                    Scheme2Result.Success(Standard(Protocol.Https))
+                }
+
                 else -> {
                     if (s.size > MAX_SCHEME_LEN) {
                         Scheme2Result.Failure(InvalidUri.of(ErrorKind.SchemeTooLong))
