@@ -464,16 +464,17 @@ class UriTest {
 
     @Test
     fun testUriToPathAndQuery() {
-        val cases = listOf(
-            "/" to "/",
-            "/foo?bar" to "/foo?bar",
-            "/foo?bar#nope" to "/foo?bar",
-            "http://hyper.rs" to "/",
-            "http://hyper.rs/" to "/",
-            "http://hyper.rs/path" to "/path",
-            "http://hyper.rs?query" to "/?query",
-            "*" to "*",
-        )
+        val cases =
+            listOf(
+                "/" to "/",
+                "/foo?bar" to "/foo?bar",
+                "/foo?bar#nope" to "/foo?bar",
+                "http://hyper.rs" to "/",
+                "http://hyper.rs/" to "/",
+                "http://hyper.rs/path" to "/path",
+                "http://hyper.rs?query" to "/?query",
+                "*" to "*",
+            )
 
         for ((input, expected) in cases) {
             val uri = Uri.fromStr(input).getOrThrow()

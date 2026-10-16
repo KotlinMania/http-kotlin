@@ -25,6 +25,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collectionsImmutable" }
 
 bytes-kotlin = { module = "io.github.kotlinmania:bytes-kotlin", version = "0.2.1" }
+rand-kotlin = { module = "io.github.kotlinmania:rand-kotlin", version = "0.1.0" }
 [bundles]
 http-commonMain = [
     "kotlinx-coroutines-core",

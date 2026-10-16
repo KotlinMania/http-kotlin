@@ -98,8 +98,14 @@ class Scheme internal constructor(
 
 internal sealed class Scheme2 {
     data object None : Scheme2()
-    data class Standard(val protocol: Protocol) : Scheme2()
-    data class Other(val str: ByteStr) : Scheme2()
+
+    data class Standard(
+        val protocol: Protocol,
+    ) : Scheme2()
+
+    data class Other(
+        val str: ByteStr,
+    ) : Scheme2()
 
     companion object {
         fun parseExact(s: ByteArray): Scheme2Result =
@@ -164,14 +170,25 @@ internal sealed class Scheme2 {
 }
 
 internal sealed class Scheme2Result {
-    data class Success(val value: Scheme2) : Scheme2Result()
-    data class Failure(val error: InvalidUri) : Scheme2Result()
+    data class Success(
+        val value: Scheme2,
+    ) : Scheme2Result()
+
+    data class Failure(
+        val error: InvalidUri,
+    ) : Scheme2Result()
 }
 
 internal sealed class SchemeParseResult {
     data object None : SchemeParseResult()
-    data class Standard(val protocol: Protocol) : SchemeParseResult()
-    data class Other(val length: Int) : SchemeParseResult()
+
+    data class Standard(
+        val protocol: Protocol,
+    ) : SchemeParseResult()
+
+    data class Other(
+        val length: Int,
+    ) : SchemeParseResult()
 }
 
 internal enum class Protocol {
@@ -190,13 +207,14 @@ private const val MAX_SCHEME_LEN: Int = 64
 private val HTTP_BYTES: ByteArray = "http".encodeToByteArray()
 private val HTTPS_BYTES: ByteArray = "https".encodeToByteArray()
 
-private val SCHEME_CHARS: ByteArray = ByteArray(256).apply {
-    this['+'.code] = '+'.code.toByte()
-    this['-'.code] = '-'.code.toByte()
-    this['.'.code] = '.'.code.toByte()
-    for (c in '0'..'9') this[c.code] = c.code.toByte()
-    this[':'.code] = ':'.code.toByte()
-    for (c in 'A'..'Z') this[c.code] = c.code.toByte()
-    for (c in 'a'..'z') this[c.code] = c.code.toByte()
-    this['~'.code] = '~'.code.toByte()
-}
+private val SCHEME_CHARS: ByteArray =
+    ByteArray(256).apply {
+        this['+'.code] = '+'.code.toByte()
+        this['-'.code] = '-'.code.toByte()
+        this['.'.code] = '.'.code.toByte()
+        for (c in '0'..'9') this[c.code] = c.code.toByte()
+        this[':'.code] = ':'.code.toByte()
+        for (c in 'A'..'Z') this[c.code] = c.code.toByte()
+        for (c in 'a'..'z') this[c.code] = c.code.toByte()
+        this['~'.code] = '~'.code.toByte()
+    }

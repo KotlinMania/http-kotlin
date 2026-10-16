@@ -7,12 +7,14 @@ import kotlin.test.assertEquals
 class BuilderTest {
     @Test
     fun buildFromStr() {
-        val uri = Builder.new()
-            .scheme(Scheme.HTTP)
-            .authority("hyper.rs")
-            .pathAndQuery("/foo?a=1")
-            .build()
-            .getOrThrow()
+        val uri =
+            Builder
+                .new()
+                .scheme(Scheme.HTTP)
+                .authority("hyper.rs")
+                .pathAndQuery("/foo?a=1")
+                .build()
+                .getOrThrow()
         assertEquals("http", uri.schemeStr())
         assertEquals("hyper.rs", uri.authority()?.host())
         assertEquals("/foo", uri.path())
@@ -22,10 +24,12 @@ class BuilderTest {
     @Test
     fun buildFromString() {
         for (i in 1 until 10) {
-            val uri = Builder.new()
-                .pathAndQuery("/foo?a=$i")
-                .build()
-                .getOrThrow()
+            val uri =
+                Builder
+                    .new()
+                    .pathAndQuery("/foo?a=$i")
+                    .build()
+                    .getOrThrow()
             val expectedQuery = "a=$i"
             assertEquals("/foo", uri.path())
             assertEquals(expectedQuery, uri.query())

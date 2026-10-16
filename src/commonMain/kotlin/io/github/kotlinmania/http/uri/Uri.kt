@@ -94,23 +94,24 @@ class Uri internal constructor(
     private fun hasPath(): Boolean =
         pathAndQuery.data.asStr().isNotEmpty() || scheme.inner !is Scheme2.None
 
-    override fun toString(): String = buildString {
-        val s = scheme()
-        if (s != null) {
-            append(s.asStr())
-            append("://")
+    override fun toString(): String =
+        buildString {
+            val s = scheme()
+            if (s != null) {
+                append(s.asStr())
+                append("://")
+            }
+            val a = authority()
+            if (a != null) {
+                append(a.asStr())
+            }
+            append(path())
+            val q = query()
+            if (q != null) {
+                append('?')
+                append(q)
+            }
         }
-        val a = authority()
-        if (a != null) {
-            append(a.asStr())
-        }
-        append(path())
-        val q = query()
-        if (q != null) {
-            append('?')
-            append(q)
-        }
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -243,32 +244,33 @@ class Uri internal constructor(
 
             when (s.len()) {
                 0 -> return Result.failure(InvalidUri.of(ErrorKind.Empty))
-                1 -> when (s.asRef()[0]) {
-                    '/'.code.toByte() -> return Result.success(
-                        Uri(
-                            scheme = Scheme.empty(),
-                            authority = Authority.empty(),
-                            pathAndQuery = PathAndQuery.slash(),
-                        ),
-                    )
-                    '*'.code.toByte() -> return Result.success(
-                        Uri(
-                            scheme = Scheme.empty(),
-                            authority = Authority.empty(),
-                            pathAndQuery = PathAndQuery.star(),
-                        ),
-                    )
-                    else -> {
-                        val authority = Authority.fromShared(s).getOrElse { return Result.failure(it) }
-                        return Result.success(
+                1 ->
+                    when (s.asRef()[0]) {
+                        '/'.code.toByte() -> return Result.success(
                             Uri(
                                 scheme = Scheme.empty(),
-                                authority = authority,
-                                pathAndQuery = PathAndQuery.empty(),
+                                authority = Authority.empty(),
+                                pathAndQuery = PathAndQuery.slash(),
                             ),
                         )
+                        '*'.code.toByte() -> return Result.success(
+                            Uri(
+                                scheme = Scheme.empty(),
+                                authority = Authority.empty(),
+                                pathAndQuery = PathAndQuery.star(),
+                            ),
+                        )
+                        else -> {
+                            val authority = Authority.fromShared(s).getOrElse { return Result.failure(it) }
+                            return Result.success(
+                                Uri(
+                                    scheme = Scheme.empty(),
+                                    authority = authority,
+                                    pathAndQuery = PathAndQuery.empty(),
+                                ),
+                            )
+                        }
                     }
-                }
             }
 
             if (s.asRef()[0] == '/'.code.toByte()) {
@@ -290,18 +292,19 @@ class Uri internal constructor(
             val raw = s.asRef()
 
             val schemeParse = Scheme2.parse(raw).getOrElse { return Result.failure(it) }
-            val scheme: Scheme2 = when (schemeParse) {
-                is SchemeParseResult.None -> Scheme2.None
-                is SchemeParseResult.Standard -> {
-                    s = s.slice(schemeParse.protocol.len() + 3, s.len())
-                    Scheme2.Standard(schemeParse.protocol)
+            val scheme: Scheme2 =
+                when (schemeParse) {
+                    is SchemeParseResult.None -> Scheme2.None
+                    is SchemeParseResult.Standard -> {
+                        s = s.slice(schemeParse.protocol.len() + 3, s.len())
+                        Scheme2.Standard(schemeParse.protocol)
+                    }
+                    is SchemeParseResult.Other -> {
+                        val schemeBytes = s.slice(0, schemeParse.length)
+                        s = s.slice(schemeParse.length + 3, s.len())
+                        Scheme2.Other(ByteStr.fromUtf8Unchecked(schemeBytes))
+                    }
                 }
-                is SchemeParseResult.Other -> {
-                    val schemeBytes = s.slice(0, schemeParse.length)
-                    s = s.slice(schemeParse.length + 3, s.len())
-                    Scheme2.Other(ByteStr.fromUtf8Unchecked(schemeBytes))
-                }
-            }
 
             val authorityEnd = Authority.parse(s.asRef()).getOrElse { return Result.failure(it) }
 
