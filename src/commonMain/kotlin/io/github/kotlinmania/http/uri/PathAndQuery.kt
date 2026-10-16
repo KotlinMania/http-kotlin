@@ -16,11 +16,12 @@ class PathAndQuery internal constructor(
      */
     fun path(): String {
         val str = data.asStr()
-        val ret = if (query == NONE) {
-            str
-        } else {
-            str.substring(0, query)
-        }
+        val ret =
+            if (query == NONE) {
+                str
+            } else {
+                str.substring(0, query)
+            }
         return if (ret.isEmpty()) "/" else ret
     }
 
@@ -116,16 +117,17 @@ class PathAndQuery internal constructor(
                     break
                 }
 
-                val allowed = b == 0x21
-                    || (b in 0x24..0x3B)
-                    || b == 0x3D
-                    || (b in 0x40..0x5F)
-                    || (b in 0x61..0x7A)
-                    || b == 0x7C
-                    || b == 0x7E
-                    || b == '"'.code
-                    || b == '{'.code
-                    || b == '}'.code
+                val allowed =
+                    b == 0x21 ||
+                        (b in 0x24..0x3B) ||
+                        b == 0x3D ||
+                        (b in 0x40..0x5F) ||
+                        (b in 0x61..0x7A) ||
+                        b == 0x7C ||
+                        b == 0x7E ||
+                        b == '"'.code ||
+                        b == '{'.code ||
+                        b == '}'.code
 
                 if (allowed) {
                     // ok
@@ -146,10 +148,11 @@ class PathAndQuery internal constructor(
                         break
                     }
 
-                    val allowed = b == 0x21
-                        || (b in 0x24..0x3B)
-                        || b == 0x3D
-                        || (b in 0x3F..0x7E)
+                    val allowed =
+                        b == 0x21 ||
+                            (b in 0x24..0x3B) ||
+                            b == 0x3D ||
+                            (b in 0x3F..0x7E)
 
                     if (allowed) {
                         // ok
@@ -162,19 +165,21 @@ class PathAndQuery internal constructor(
                 }
             }
 
-            val finalBytes = if (fragment != null) {
-                src.slice(0, fragment)
-            } else {
-                src
-            }
-
-            val data = if (isMaybeNotUtf8) {
-                ByteStr.fromUtf8(finalBytes).getOrElse {
-                    return Result.failure(InvalidUri.of(ErrorKind.InvalidUriChar))
+            val finalBytes =
+                if (fragment != null) {
+                    src.slice(0, fragment)
+                } else {
+                    src
                 }
-            } else {
-                ByteStr.fromUtf8Unchecked(finalBytes)
-            }
+
+            val data =
+                if (isMaybeNotUtf8) {
+                    ByteStr.fromUtf8(finalBytes).getOrElse {
+                        return Result.failure(InvalidUri.of(ErrorKind.InvalidUriChar))
+                    }
+                } else {
+                    ByteStr.fromUtf8Unchecked(finalBytes)
+                }
 
             return Result.success(PathAndQuery(data, query))
         }
@@ -201,17 +206,18 @@ internal fun validatePathAndQueryBytes(bytes: ByteArray): Int {
         } else if (b == '#'.code) {
             return -1
         } else {
-            val allowed = b == 0x21
-                || (b in 0x24..0x3B)
-                || b == 0x3D
-                || (b in 0x40..0x5F)
-                || (b in 0x61..0x7A)
-                || b == 0x7C
-                || b == 0x7E
-                || b == '"'.code
-                || b == '{'.code
-                || b == '}'.code
-                || (b >= 0x7F)
+            val allowed =
+                b == 0x21 ||
+                    (b in 0x24..0x3B) ||
+                    b == 0x3D ||
+                    (b in 0x40..0x5F) ||
+                    (b in 0x61..0x7A) ||
+                    b == 0x7C ||
+                    b == 0x7E ||
+                    b == '"'.code ||
+                    b == '{'.code ||
+                    b == '}'.code ||
+                    (b >= 0x7F)
 
             if (!allowed) {
                 return -1
@@ -227,11 +233,12 @@ internal fun validatePathAndQueryBytes(bytes: ByteArray): Int {
                 return -1
             }
 
-            val allowed = b == 0x21
-                || (b in 0x24..0x3B)
-                || b == 0x3D
-                || (b in 0x3F..0x7E)
-                || (b >= 0x7F)
+            val allowed =
+                b == 0x21 ||
+                    (b in 0x24..0x3B) ||
+                    b == 0x3D ||
+                    (b in 0x3F..0x7E) ||
+                    (b >= 0x7F)
 
             if (!allowed) {
                 return -1
