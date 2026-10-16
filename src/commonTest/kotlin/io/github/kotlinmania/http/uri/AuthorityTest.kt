@@ -126,8 +126,9 @@ class AuthorityTest {
         assertTrue(err1.isFailure)
         assertEquals(InvalidUri.of(ErrorKind.InvalidUriChar), err1.exceptionOrNull())
 
-        val err2 = Authority.fromShared(Bytes.fromStatic(byteArrayOf(0xc0.toByte()).decodeToString()))
-        // decodeToString on invalid byte will produce replacement or exception
+        val err2 = Authority.fromShared(Bytes.fromStatic(byteArrayOf(0xc0.toByte())))
+        assertTrue(err2.isFailure)
+        assertEquals(InvalidUri.of(ErrorKind.InvalidUriChar), err2.exceptionOrNull())
     }
 
     @Test

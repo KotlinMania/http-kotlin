@@ -63,37 +63,50 @@ class Method private constructor(
 
         fun fromBytes(src: ByteArray): Result<Method> =
             when (src.size) {
-                0 -> Result.failure(InvalidMethod.new())
-                3 ->
+                0 -> {
+                    Result.failure(InvalidMethod.new())
+                }
+
+                3 -> {
                     when {
                         src.contentEquals(METHOD_GET) -> Result.success(Method(Inner.Get))
                         src.contentEquals(METHOD_PUT) -> Result.success(Method(Inner.Put))
                         else -> extensionInline(src)
                     }
-                4 ->
+                }
+
+                4 -> {
                     when {
                         src.contentEquals(METHOD_POST) -> Result.success(Method(Inner.Post))
                         src.contentEquals(METHOD_HEAD) -> Result.success(Method(Inner.Head))
                         else -> extensionInline(src)
                     }
-                5 ->
+                }
+
+                5 -> {
                     when {
                         src.contentEquals(METHOD_PATCH) -> Result.success(Method(Inner.Patch))
                         src.contentEquals(METHOD_TRACE) -> Result.success(Method(Inner.Trace))
                         else -> extensionInline(src)
                     }
-                6 ->
+                }
+
+                6 -> {
                     when {
                         src.contentEquals(METHOD_DELETE) -> Result.success(Method(Inner.Delete))
                         else -> extensionInline(src)
                     }
-                7 ->
+                }
+
+                7 -> {
                     when {
                         src.contentEquals(METHOD_OPTIONS) -> Result.success(Method(Inner.Options))
                         src.contentEquals(METHOD_CONNECT) -> Result.success(Method(Inner.Connect))
                         else -> extensionInline(src)
                     }
-                else ->
+                }
+
+                else -> {
                     if (src.size <= InlineExtension.MAX) {
                         extensionInline(src)
                     } else {
@@ -101,6 +114,7 @@ class Method private constructor(
                             Method(Inner.ExtensionAllocated(allocated))
                         }
                     }
+                }
             }
 
         fun tryFrom(src: ByteArray): Result<Method> = fromBytes(src)
@@ -144,6 +158,7 @@ class Method private constructor(
             Inner.Put,
             Inner.Delete,
             -> true
+
             else -> isSafe()
         }
 

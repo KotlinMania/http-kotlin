@@ -18,7 +18,10 @@ class HeaderName private constructor(
         private fun fromTable(src: ByteArray, table: ByteArray, lowercase: Boolean): HeaderNameResult {
             val parsed = parseHdr(src, table) ?: return HeaderNameResult.err(InvalidHeaderName.new())
             return when (val repr = parsed.inner) {
-                is HeaderNameRepr.Standard -> HeaderNameResult.ok(from(repr.header))
+                is HeaderNameRepr.Standard -> {
+                    HeaderNameResult.ok(from(repr.header))
+                }
+
                 is HeaderNameRepr.Custom -> {
                     val borrowed = repr.value
                     val normalized = ByteArray(borrowed.buf.size)
@@ -67,7 +70,10 @@ class HeaderName private constructor(
 
         internal fun from(src: HdrName): HeaderName =
             when (val repr = src.inner) {
-                is HeaderNameRepr.Standard -> from(repr.header)
+                is HeaderNameRepr.Standard -> {
+                    from(repr.header)
+                }
+
                 is HeaderNameRepr.Custom -> {
                     val borrowed = repr.value
                     val bytes =
@@ -108,11 +114,17 @@ class HeaderName private constructor(
 
     internal fun eq(other: HdrName): Boolean =
         when (val a = inner) {
-            is HeaderNameRepr.Standard -> (other.inner as? HeaderNameRepr.Standard)?.header == a.header
-            is HeaderNameRepr.Custom ->
+            is HeaderNameRepr.Standard -> {
+                (other.inner as? HeaderNameRepr.Standard)?.header == a.header
+            }
+
+            is HeaderNameRepr.Custom -> {
                 when (val b = other.inner) {
-                    is HeaderNameRepr.Standard -> false
-                    is HeaderNameRepr.Custom ->
+                    is HeaderNameRepr.Standard -> {
+                        false
+                    }
+
+                    is HeaderNameRepr.Custom -> {
                         if (b.value.lower) {
                             a.value.value
                                 .intoBytes()
@@ -126,19 +138,25 @@ class HeaderName private constructor(
                                 b.value.buf,
                             )
                         }
+                    }
                 }
+            }
         }
 
     override fun equals(other: Any?): Boolean = other is HeaderName && eq(other)
 
     override fun hashCode(): Int =
         when (val repr = inner) {
-            is HeaderNameRepr.Standard -> repr.header.hashCode()
-            is HeaderNameRepr.Custom ->
+            is HeaderNameRepr.Standard -> {
+                repr.header.hashCode()
+            }
+
+            is HeaderNameRepr.Custom -> {
                 repr.value.value
                     .intoBytes()
                     .asRef()
                     .contentHashCode()
+            }
         }
 
     override fun toString(): String = asStr()
@@ -170,7 +188,10 @@ internal class HdrName(
 
     override fun hashCode(): Int =
         when (val repr = inner) {
-            is HeaderNameRepr.Standard -> repr.header.hashCode()
+            is HeaderNameRepr.Standard -> {
+                repr.header.hashCode()
+            }
+
             is HeaderNameRepr.Custom -> {
                 val borrowed = repr.value
                 if (borrowed.lower) {
@@ -1934,7 +1955,10 @@ private val headerCharsH2 =
 
 private fun parseHdr(data: ByteArray, table: ByteArray): HdrName? =
     when (data.size) {
-        0 -> null
+        0 -> {
+            null
+        }
+
         in 1..scratchBufferSize -> {
             val name = ByteArray(data.size) { table[data[it].toInt() and 255] }
             val standard = StandardHeader.fromBytes(name)
@@ -1946,8 +1970,14 @@ private fun parseHdr(data: ByteArray, table: ByteArray): HdrName? =
                 HdrName.custom(name, true)
             }
         }
-        in (scratchBufferSize + 1)..maxHeaderNameLength -> HdrName.custom(data, false)
-        else -> null
+
+        in (scratchBufferSize + 1)..maxHeaderNameLength -> {
+            HdrName.custom(data, false)
+        }
+
+        else -> {
+            null
+        }
     }
 
 private fun eqIgnoreAsciiCase(lower: ByteArray, other: ByteArray): Boolean =

@@ -67,3 +67,7 @@ DerivedData/
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
 tools/ast_distance
+
+NEXT_ACTIONS.md
+port_lint_proposed_changes.md
+tools/

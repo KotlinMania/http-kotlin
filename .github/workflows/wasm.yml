@@ -28,8 +28,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v7.0.0
         with:
-          node-version: '24.15.0'
-          check-latest: false
+          node-version: '24'
+          check-latest: true
 
       - name: Set up Yarn
         run: |
@@ -43,13 +43,18 @@ jobs:
           yarn --version
 
       - name: Build and test WASM targets
-        # wasmJs runs under both Chrome (browser) and Node.
+        # wasmJs runs under both Chrome (browser) and Node; wasmWasi runs
+        # under Node with the wasi-preview1 shim. The generated
+        # wasmWasiNodeTest runner calls `wasi.finalizeBindings(...)` which
+        # only exists on Node 24+ — that's why build.gradle.kts pins
+        # `kotlinWasmNodeJsSpec` to 24.15.0 (Active LTS "Krypton").
         env:
           ORG_GRADLE_PROJECT_kotlin_js_yarn_download: "false"
         run: >
           ./gradlew
           wasmJsBrowserTest
           wasmJsNodeTest
+          wasmWasiNodeTest
           --no-configuration-cache
 
       - name: Upload test reports (WASM)
