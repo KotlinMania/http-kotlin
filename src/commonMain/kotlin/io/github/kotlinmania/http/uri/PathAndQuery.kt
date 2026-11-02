@@ -15,13 +15,9 @@ class PathAndQuery internal constructor(
      * Returns the path component.
      */
     fun path(): String {
-        val str = data.asStr()
-        val ret =
-            if (query == NONE) {
-                str
-            } else {
-                str.substring(0, query)
-            }
+        val bytes = data.asBytes()
+        val end = if (query == NONE) bytes.size else query
+        val ret = bytes.decodeToString(endIndex = end, throwOnInvalidSequence = true)
         return if (ret.isEmpty()) "/" else ret
     }
 
@@ -30,9 +26,7 @@ class PathAndQuery internal constructor(
      */
     fun query(): String? {
         if (query == NONE) return null
-        val str = data.asStr()
-        val i = query + 1
-        return if (i <= str.length) str.substring(i) else ""
+        return data.asBytes().decodeToString(startIndex = query + 1, throwOnInvalidSequence = true)
     }
 
     /**
@@ -72,10 +66,10 @@ class PathAndQuery internal constructor(
     }
 
     override fun compareTo(other: PathAndQuery): Int =
-        asStr().compareTo(other.asStr())
+        Bytes.from(asStr()).compareTo(Bytes.from(other.asStr()))
 
     fun compareTo(other: String): Int =
-        asStr().compareTo(other)
+        Bytes.from(asStr()).compareTo(Bytes.from(other))
 
     override fun hashCode(): Int = data.hashCode()
 
@@ -108,7 +102,7 @@ class PathAndQuery internal constructor(
             while (i < bytes.size) {
                 val b = bytes[i].toInt() and 0xFF
                 if (b == '?'.code) {
-                    query = i
+                    query = i.toUShort().toInt()
                     i++
                     break
                 }
@@ -200,7 +194,7 @@ internal fun validatePathAndQueryBytes(bytes: ByteArray): Int {
     while (i < bytes.size) {
         val b = bytes[i].toInt() and 0xFF
         if (b == '?'.code) {
-            query = i
+            query = i.toUShort().toInt()
             i++
             break
         } else if (b == '#'.code) {

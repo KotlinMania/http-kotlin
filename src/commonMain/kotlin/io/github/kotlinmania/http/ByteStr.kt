@@ -55,6 +55,8 @@ internal class ByteStr private constructor(
 
     fun asStr(): String = deref()
 
+    fun asBytes(): ByteArray = bytes.asRef()
+
     fun intoBytes(): Bytes = bytes
 
     override fun toString(): String = asStr()

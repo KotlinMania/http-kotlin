@@ -65,3 +65,78 @@ mod tests {
         assert_ne!(header, "Key");
     }
 }
+
+#[cfg(test)]
+mod path_tests {
+    use http::uri::PathAndQuery;
+    use http::Uri;
+    use std::cmp::Ordering;
+
+    #[test]
+    fn utf8_path_and_query_use_byte_boundaries() {
+        for (text, path, query) in [("/é?q=1", "/é", "q=1"), ("/😀?", "/😀", ""), ("/é😀?q=é😀", "/é😀", "q=é😀")] {
+            let value: PathAndQuery = text.parse().unwrap();
+            assert_eq!(value.path(), path);
+            assert_eq!(value.query(), Some(query));
+            assert_eq!(value.as_str(), text);
+        }
+        let value = PathAndQuery::from_static("/😀?");
+        assert_eq!(value.path(), "/😀");
+        assert_eq!(value.query(), Some(""));
+    }
+    #[test]
+    fn fragments_and_uri_delegation_preserve_unicode() {
+        let value: PathAndQuery = "/é?q=☃#ignored".parse().unwrap();
+        assert_eq!(value.path(), "/é");
+        assert_eq!(value.query(), Some("q=☃"));
+        assert_eq!(value.as_str(), "/é?q=☃");
+        let uri: Uri = "http://example/é😀?q=☃".parse().unwrap();
+        assert_eq!(uri.path(), "/é😀");
+        assert_eq!(uri.query(), Some("q=☃"));
+    }
+    #[test]
+    fn ordering_uses_unsigned_utf8_bytes() {
+        let high: PathAndQuery = "/\u{10000}".parse().unwrap();
+        let low: PathAndQuery = "/\u{e000}".parse().unwrap();
+        assert_eq!(high.partial_cmp(&low), Some(Ordering::Greater));
+        assert_eq!(high.partial_cmp("/\u{e000}"), Some(Ordering::Greater));
+        let query_high: PathAndQuery = "/?q=\u{10000}".parse().unwrap();
+        let query_low: PathAndQuery = "/?q=\u{e000}".parse().unwrap();
+        assert_eq!(query_high.partial_cmp(&query_low), Some(Ordering::Greater));
+    }
+    #[test]
+    fn empty_and_case_sensitive_ordering_keep_source_behavior() {
+        let empty = PathAndQuery::from_static("");
+        let slash = PathAndQuery::from_static("/");
+        assert_eq!(empty.path(), "/");
+        assert_eq!(empty.query(), None);
+        assert_eq!(empty.partial_cmp(&slash), Some(Ordering::Equal));
+        assert_ne!(empty, slash);
+        assert_eq!(PathAndQuery::from_static("/A").partial_cmp("/a"), Some(Ordering::Less));
+        let unicode: PathAndQuery = "/😀".parse().unwrap();
+        assert_eq!(unicode.path(), "/😀");
+        assert_eq!(unicode.query(), None);
+    }
+    #[test]
+    fn invalid_utf8_still_returns_invalid_uri() {
+        for text in [&b"/\xff?x"[..], &b"/x?\xff"[..]] {
+            assert!(PathAndQuery::try_from(text).is_err());
+        }
+    }
+    #[test]
+    fn query_offset_keeps_upstream_u16_narrowing() {
+        for pos in [65534usize, 65535, 65536] {
+            let text = format!("/{}?q", "a".repeat(pos - 1));
+            let parsed: PathAndQuery = text.parse().unwrap();
+            let constant = PathAndQuery::from_static(Box::leak(text.clone().into_boxed_str()));
+            for value in [parsed, constant] {
+                match pos {
+                    65534 => { assert_eq!(value.path().len(), 65534); assert_eq!(value.query(), Some("q")); }
+                    65535 => { assert_eq!(value.path().len(), 65537); assert_eq!(value.query(), None); }
+                    65536 => { assert_eq!(value.path(), "/"); assert_eq!(value.query().unwrap(), &text[1..]); }
+                    _ => unreachable!(),
+                }
+            }
+        }
+    }
+}
