@@ -59,7 +59,7 @@ internal class ByteStr private constructor(
 
     override fun toString(): String = asStr()
 
-    override fun compareTo(other: ByteStr): Int = asStr().compareTo(other.asStr())
+    override fun compareTo(other: ByteStr): Int = bytes.compareTo(other.bytes)
 
     override fun equals(other: Any?): Boolean = other is ByteStr && bytes == other.bytes
 
