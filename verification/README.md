@@ -294,3 +294,14 @@ checks.
 The shared helper matches Libc PR135's tested implementation; exact-head compiler/link/runtime
 receipts remain necessary for each project and target. The focused Android sync
 route does not rewrite existing FFI specialization or apply this change to a fleet.
+
+
+## HeaderValue core coverage (2026-11-02)
+
+`src/commonMain/kotlin/io/github/kotlinmania/http/header/Value.kt` owns the canonical `io.github.kotlinmania.http.header.HeaderValue`, `InvalidHeaderValue` and `ToStrError` types. No root-package or consuming-library copies were added. The current translator output for `tmp/http/src/header/value.rs` was used for comparison, followed by direct source adaptation to the existing Bytes owner.
+
+Supported: static/string/byte constructors; checked shared Bytes, ByteArray and String inputs; normalized HeaderName conversion; typed failures and ASCII-only text conversion; lengths and bytes; independent sensitivity and cloning; case-sensitive unsigned-byte equality/order; source-exact debug escaping and sensitive output. A checked shared Bytes input obtains an independent cursor handle because Kotlin cannot consume the caller's handle. Returned ByteArrays are snapshots of read-only data; no zero-copy or allocation-equivalence claim is made.
+
+Still missing: integer conversion impls that use the upstream itoa dependency; the generic AsRef input protocol beyond these concrete overloads; build-dependent unchecked construction; reverse string/byte-array trait adapters; general fallible formatter integration. HeaderMap/Request/Response coverage and downstream caller migrations are outside this slice. Do not replace these gaps with broad Any dispatch, native number-format shortcuts or always-checked unchecked helpers.
+
+The offline locked HTTP oracle in `verification/uri-ascii-oracle` compiles the unchanged upstream dependency. HeaderValue checks cover all 256 byte values, opaque/text distinctions, exact errors/debug output, shared ownership, copied inputs, sensitivity and comparisons. Kotlin regressions initially fail to compile because the production types were absent; no test stand-in types were introduced.

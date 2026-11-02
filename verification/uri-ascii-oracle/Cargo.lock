@@ -20,6 +20,7 @@ dependencies = [
 name = "http-uri-ascii-oracle"
 version = "0.0.0"
 dependencies = [
+ "bytes",
  "http",
 ]
 

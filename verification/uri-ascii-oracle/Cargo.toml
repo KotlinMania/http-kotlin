@@ -8,3 +8,4 @@ publish = false
 
 [dependencies]
 http = { path = "../../tmp/http" }
+bytes = "=1.11.1"
