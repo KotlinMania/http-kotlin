@@ -3,6 +3,8 @@ package io.github.kotlinmania.http.uri
 
 import io.github.kotlinmania.bytes.Bytes
 import io.github.kotlinmania.http.ByteStr
+import io.github.kotlinmania.http.compareIgnoreAsciiCase
+import io.github.kotlinmania.http.eqIgnoreAsciiCase
 
 /**
  * Represents the authority component of a URI.
@@ -42,10 +44,10 @@ class Authority internal constructor(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other is Authority) {
-            return asStr().equals(other.asStr(), ignoreCase = true)
+            return eqIgnoreAsciiCase(asStr(), other.asStr())
         }
         if (other is String) {
-            return asStr().equals(other, ignoreCase = true)
+            return eqIgnoreAsciiCase(asStr(), other)
         }
         return false
     }
@@ -53,13 +55,13 @@ class Authority internal constructor(
     /**
      * Case-insensitive equality with a string.
      */
-    fun eq(other: String): Boolean = asStr().equals(other, ignoreCase = true)
+    fun eq(other: String): Boolean = eqIgnoreAsciiCase(asStr(), other)
 
     override fun compareTo(other: Authority): Int =
-        asStr().compareTo(other.asStr(), ignoreCase = true)
+        compareIgnoreAsciiCase(asStr(), other.asStr())
 
     fun compareTo(other: String): Int =
-        asStr().compareTo(other, ignoreCase = true)
+        compareIgnoreAsciiCase(asStr(), other)
 
     override fun hashCode(): Int {
         val s = asStr()

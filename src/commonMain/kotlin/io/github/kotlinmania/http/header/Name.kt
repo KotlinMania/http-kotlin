@@ -3,6 +3,7 @@ package io.github.kotlinmania.http.header
 
 import io.github.kotlinmania.bytes.Bytes
 import io.github.kotlinmania.http.ByteStr
+import io.github.kotlinmania.http.eqIgnoreAsciiCase
 
 /** An HTTP header field name. Custom names are normalized to lowercase. */
 class HeaderName private constructor(
@@ -1979,8 +1980,5 @@ private fun parseHdr(data: ByteArray, table: ByteArray): HdrName? =
             null
         }
     }
-
-private fun eqIgnoreAsciiCase(lower: ByteArray, other: ByteArray): Boolean =
-    lower.size == other.size && lower.indices.all { lower[it] == headerChars[other[it].toInt() and 255] }
 
 private const val scratchBufferSize = 64

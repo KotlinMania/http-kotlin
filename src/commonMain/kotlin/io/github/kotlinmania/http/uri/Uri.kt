@@ -137,7 +137,7 @@ class Uri internal constructor(
             val schemeStr = s.asStr()
             absolute = true
             if (other.length < schemeStr.length + 3) return false
-            if (!other.substring(0, schemeStr.length).equals(schemeStr, ignoreCase = true)) return false
+            if (!s.eq(other.substring(0, schemeStr.length))) return false
             other = other.substring(schemeStr.length)
             if (!other.startsWith("://")) return false
             other = other.substring(3)
@@ -148,7 +148,7 @@ class Uri internal constructor(
             val authStr = auth.asStr()
             absolute = true
             if (other.length < authStr.length) return false
-            if (!other.substring(0, authStr.length).equals(authStr, ignoreCase = true)) return false
+            if (!auth.eq(other.substring(0, authStr.length))) return false
             other = other.substring(authStr.length)
         }
 

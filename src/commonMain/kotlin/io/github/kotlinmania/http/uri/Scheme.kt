@@ -3,6 +3,7 @@ package io.github.kotlinmania.http.uri
 
 import io.github.kotlinmania.bytes.Bytes
 import io.github.kotlinmania.http.ByteStr
+import io.github.kotlinmania.http.eqIgnoreAsciiCase
 
 /**
  * Represents the scheme component of a URI.
@@ -45,7 +46,7 @@ class Scheme internal constructor(
             }
 
             inner is Scheme2.Other && other.inner is Scheme2.Other -> {
-                inner.str.asStr().equals(other.inner.str.asStr(), ignoreCase = true)
+                eqIgnoreAsciiCase(inner.str.asStr(), other.inner.str.asStr())
             }
 
             inner is Scheme2.None && other.inner is Scheme2.None -> {
@@ -61,7 +62,7 @@ class Scheme internal constructor(
     /**
      * Case-insensitive equality with a string.
      */
-    fun eq(other: String): Boolean = asStr().equals(other, ignoreCase = true)
+    fun eq(other: String): Boolean = eqIgnoreAsciiCase(asStr(), other)
 
     override fun hashCode(): Int =
         when (val s = inner) {
