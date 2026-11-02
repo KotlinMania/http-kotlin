@@ -273,3 +273,81 @@ mod shared_header_value_tests {
         assert_eq!(value.as_bytes(), b"hello");
     }
 }
+
+#[cfg(test)]
+mod header_integer_tests {
+    use http::header::HeaderValue;
+
+    macro_rules! assert_value {
+        ($value:expr, $expected:literal, $capacity:literal) => {{
+            let value = HeaderValue::from($value);
+            assert_eq!(value.as_bytes(), $expected.as_bytes());
+            assert_eq!(value.to_str().unwrap(), $expected);
+            assert_eq!(value.len(), $expected.len());
+            assert!(value.len() <= $capacity);
+            assert!(!value.is_sensitive());
+        }};
+    }
+
+    #[test]
+    fn unsigned_16_bit_values() {
+        assert_value!(0u16, "0", 5);
+        assert_value!(55u16, "55", 5);
+        assert_value!(u16::MAX, "65535", 5);
+    }
+    #[test]
+    fn signed_16_bit_values() {
+        assert_value!(0i16, "0", 6);
+        assert_value!(-55i16, "-55", 6);
+        assert_value!(i16::MIN, "-32768", 6);
+        assert_value!(i16::MAX, "32767", 6);
+    }
+    #[test]
+    fn unsigned_32_bit_values() {
+        assert_value!(0u32, "0", 10);
+        assert_value!(55u32, "55", 10);
+        assert_value!(u32::MAX, "4294967295", 10);
+    }
+    #[test]
+    fn signed_32_bit_values() {
+        assert_value!(0i32, "0", 11);
+        assert_value!(-55i32, "-55", 11);
+        assert_value!(i32::MIN, "-2147483648", 11);
+        assert_value!(i32::MAX, "2147483647", 11);
+    }
+    #[test]
+    fn unsigned_64_bit_values() {
+        assert_value!(0u64, "0", 20);
+        assert_value!(55u64, "55", 20);
+        assert_value!(u64::MAX, "18446744073709551615", 20);
+    }
+    #[test]
+    fn signed_64_bit_values() {
+        assert_value!(0i64, "0", 20);
+        assert_value!(-55i64, "-55", 20);
+        assert_value!(i64::MIN, "-9223372036854775808", 20);
+        assert_value!(i64::MAX, "9223372036854775807", 20);
+    }
+    #[test]
+    #[cfg(target_pointer_width = "64")]
+    fn pointer_width_values_on_the_64_bit_source_profile() {
+        assert_value!(usize::MAX, "18446744073709551615", 20);
+        assert_value!(isize::MIN, "-9223372036854775808", 20);
+        assert_value!(isize::MAX, "9223372036854775807", 20);
+    }
+    #[test]
+    fn decimal_chunk_and_digit_boundaries() {
+        assert_value!(9u64, "9", 20);
+        assert_value!(10u64, "10", 20);
+        assert_value!(99u64, "99", 20);
+        assert_value!(100u64, "100", 20);
+        assert_value!(9999u64, "9999", 20);
+        assert_value!(10000u64, "10000", 20);
+        assert_value!(99999999u64, "99999999", 20);
+        assert_value!(100000000u64, "100000000", 20);
+        assert_value!(10000000000000000000u64, "10000000000000000000", 20);
+        assert_value!(-9999i64, "-9999", 20);
+        assert_value!(-10000i64, "-10000", 20);
+        assert_value!(-100000000i64, "-100000000", 20);
+    }
+}
