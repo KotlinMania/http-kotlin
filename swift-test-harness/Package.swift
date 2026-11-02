@@ -4,23 +4,24 @@ import PackageDescription
 let package = Package(
     name: "SwiftTestHarness",
     platforms: [
-        .macOS("15.0"),
+        .macOS(.v15),
     ],
     dependencies: [
-        .package(name: "Http", path: "../build/SPMPackage/macosArm64/Debug")
+        .package(name: "Template", path: "../build/SPMPackage/macosArm64/Debug")
     ],
     targets: [
         .testTarget(
             name: "SwiftTestHarnessTests",
             dependencies: [
-                .product(name: "HttpLibrary", package: "Http")
+                .product(name: "TemplateLibrary", package: "Template")
             ],
             linkerSettings: [
                 .unsafeFlags([
                     "-L", "../build/swift-test",
-                    "-lHttp",
+                    "-lTemplate",
                 ]),
             ]
         ),
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
