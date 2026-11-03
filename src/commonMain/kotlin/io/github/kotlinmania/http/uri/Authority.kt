@@ -102,6 +102,19 @@ class Authority internal constructor(
             return parse(s)
         }
 
+        /**
+         * Converts a shared buffer through the complete-authority parser using an
+         * independent canonical handle. Rust consumes its Bytes argument; Kotlin
+         * retains the caller's handle, so cursor changes must remain independent.
+         */
+        fun fromMaybeShared(src: Bytes): Result<Authority> = fromShared(src.clone())
+
+        /** Copies byte input through the existing complete-authority validation. */
+        fun fromMaybeShared(src: ByteArray): Result<Authority> = tryFrom(src)
+
+        /** Converts text through the same byte validation as other inputs. */
+        fun fromMaybeShared(src: String): Result<Authority> = tryFrom(src)
+
         fun tryFrom(bytes: ByteArray): Result<Authority> {
             val authEnd = parseNonEmpty(bytes).getOrElse { return Result.failure(it) }
             if (authEnd != bytes.size) {
