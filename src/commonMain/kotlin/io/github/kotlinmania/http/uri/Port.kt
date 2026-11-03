@@ -66,8 +66,9 @@ class Port private constructor(
     companion object {
         /**
          * Parses a port number from its textual representation. The supplied
-         * string must contain a single valid `u16` decimal literal with no
-         * surrounding whitespace, sign, or radix prefix.
+         * string must contain ASCII decimal digits, optionally preceded by a
+         * single `+`, with no surrounding whitespace or radix prefix. Leading
+         * zeros are accepted, matching Rust's `u16` parser.
          *
          * Returns [Result.success] holding the parsed `Port` on success, or
          * [Result.failure] holding an [InvalidUri] with [ErrorKind.InvalidPort]
@@ -78,6 +79,14 @@ class Port private constructor(
          */
 
         fun fromStr(bytes: String): Result<Port> {
+            // Kotlin's signed parser also accepts negative zero and Unicode digits.
+            // Restrict its input to the grammar of the upstream u16 parser.
+            for (index in bytes.indices) {
+                val ch = bytes[index]
+                if (ch !in '0'..'9' && (index != 0 || ch != '+')) {
+                    return Result.failure(InvalidUri.of(ErrorKind.InvalidPort))
+                }
+            }
             val parsed =
                 bytes.toIntOrNull(10) ?: return Result.failure(
                     InvalidUri.of(ErrorKind.InvalidPort),
