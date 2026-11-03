@@ -178,6 +178,19 @@ class PathAndQuery internal constructor(
             return Result.success(PathAndQuery(data, query))
         }
 
+        /**
+         * Converts a shared buffer using an independent owned handle. This is the
+         * Kotlin binding of Rust's consuming `from_maybe_shared` Bytes branch;
+         * cloning the canonical handle keeps caller cursor changes independent.
+         */
+        fun fromMaybeShared(src: Bytes): Result<PathAndQuery> = fromShared(src.clone())
+
+        /** Converts a byte slice, copying into the existing owned buffer parser. */
+        fun fromMaybeShared(src: ByteArray): Result<PathAndQuery> = tryFrom(src)
+
+        /** Converts text through the same UTF-8 byte validation as other inputs. */
+        fun fromMaybeShared(src: String): Result<PathAndQuery> = tryFrom(src)
+
         fun tryFrom(bytes: ByteArray): Result<PathAndQuery> =
             fromShared(Bytes.copyFromSlice(bytes))
 

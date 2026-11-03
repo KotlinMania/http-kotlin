@@ -1,0 +1,141 @@
+{
+  "baseline": "6e4d010",
+  "recordedAtUTC": "2026-11-03T01:56:51.252261+00:00",
+  "preExistingDirtyWorkIncluded": false,
+  "priorWorkSeparate": {
+    "http": "6e4d010",
+    "serde": "9ae88dd"
+  },
+  "graphDirectReverseDependents": 16,
+  "productionScope": "Add Bytes/ByteArray/String fromMaybeShared overloads only; all existing parsers/constructors/errors and URI Port implementation byte-preserved. Canonical Bytes handle cloned at non-consuming Kotlin boundary. No pins or owners changed.",
+  "apiChange": "Additive overloads; no existing public signature replaced. Canonical dependency types retain one owner.",
+  "callerReview": "Bounded workspace source scan found only newly authored canonical HTTP calls; canonical import/alias scan also found unrelated ramahttp PathAndQuery types, excluded. No external edits or broad downstream builds.",
+  "existingTestsOrAssertionsChanged": false,
+  "newTestLayoutOnly": {
+    "old": "        val uri = Uri.builder().scheme(\"http\").authority(\"example.org:+80\").pathAndQuery(path).build().getOrThrow()",
+    "new": "        val uri =\n            Uri.builder()\n                .scheme(\"http\")\n                .authority(\"example.org:+80\")\n                .pathAndQuery(path)\n                .build()\n                .getOrThrow()",
+    "whitespaceOnly": true,
+    "secondWhitespaceReplacement": {
+      "old": "            Uri.builder()\n",
+      "new": "            Uri\n                .builder()\n"
+    }
+  },
+  "red": {
+    "kind": "compile-time API absence",
+    "runtimeSuiteExecuted": false,
+    "message": "Unresolved reference 'fromMaybeShared'",
+    "log": "build/rust-kotlin-path-shared-api/red-jvm.log"
+  },
+  "rustOracle": {
+    "passedGroups": 7,
+    "failed": 0,
+    "actualUpstreamFromMaybeShared": true,
+    "inputs": [
+      "Bytes",
+      "Vec<u8>",
+      "String"
+    ],
+    "copyMutationControl": "Rust borrowed TryFrom<&[u8]> exercises the same byte-copy path; Kotlin ByteArray mutation is an explicit binding control, not mutation after Rust move."
+  },
+  "translatorEvidence": {
+    "command": [
+      "/Volumes/stuff/Projects/kotlinmania/rust-kotlin/build/bin/nativeMacos/releaseExecutable/rust-kotlin.kexe",
+      "translate",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/uri/path.rs",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-path-shared-api/PathReview.kt"
+    ],
+    "exit": 0,
+    "stdout": "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/uri/path.rs -> /Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-path-shared-api/PathReview.kt; 36 items translated\n",
+    "stderr": "",
+    "timedOut": false,
+    "sourceSha256": "1e9871fd1501f24400f1f3a061988e252da81260b355e9b9a2b68777a80551a8",
+    "cliSha256": "027d237f2844e0291cf2b9e06ab4bd73e828abccce02db65db992fb3478396c4",
+    "outputExists": true,
+    "guardBypassed": false,
+    "currentGeneratorBuildNotAttested": true,
+    "outputSha256": "f5539f5ea94a9a7d12c3318644483e2d511e24bdd5b2aedccd3ea3f47012f8a2"
+  },
+  "generatedOutputScope": "Recorded-binary source comparison only; output not compiled. No generator edits, rebuild investigation or owner contact. Earlier recorded-binary finding remains current-build unverified.",
+  "finalValidation": {
+    "jvmTest": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "PathSharedApiParityTest[jvm]",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T01:54:55.016Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.003"
+      }
+    },
+    "macosArm64Test": {
+      "tests": 164,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "macosArm64Test.io.github.kotlinmania.http.uri.PathSharedApiParityTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T01:55:00.238Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.0"
+      }
+    },
+    "ktlintCommonMainSourceSetCheck": 0,
+    "ktlintCommonTestSourceSetCheck": 0,
+    "ktlintJsMainSourceSetCheck": 0,
+    "ktlintJvmMainSourceSetCheck": 0,
+    "ktlintKotlinScriptCheck": 0,
+    "authoredKtlint": [],
+    "externalKtlint": [],
+    "detektFindings": 0,
+    "authoredDetekt": []
+  },
+  "firstValidation": "Runtime passed both targets; one new call-chain newline finding corrected. Original first log, test source and suite XML retained. Final checks rerun after formatting-only correction.",
+  "limits": [
+    "Kotlin cannot enforce Rust move/lifetime/static/Drop/Send/Sync semantics. Independent cursor and copied mutable input behavior tested; memory address/allocation/zero-copy equivalence not claimed.",
+    "Malformed UTF-16, other platforms and downstream source/binary compatibility unverified.",
+    "Concurrent log-kotlin conversion files and other owners untouched."
+  ],
+  "noRemoteOrConfigurationActions": true,
+  "hashes": {
+    "build/rust-kotlin-path-shared-api/PathReview.kt": "f5539f5ea94a9a7d12c3318644483e2d511e24bdd5b2aedccd3ea3f47012f8a2",
+    "build/rust-kotlin-path-shared-api/attribution.log": "b099f89f4e9e15c4c356121602228891e11ee0b46d7ebcf9163fdee9c0a39012",
+    "build/rust-kotlin-path-shared-api/final-check.log": "9de4996add1d7a74bd5d88fbbd000926b4be672a24493482e7da81d60cdef2da",
+    "build/rust-kotlin-path-shared-api/final-validation.json": "904ae19be6c589b4b6e6efe7abf8296e7748bac053073e0219f8bc7a8aebe713",
+    "build/rust-kotlin-path-shared-api/first-final-check.log": "c10c87e2e7b7b3c7e98537c2541d10973bd7ec1011160e80207b3c503e5d677a",
+    "build/rust-kotlin-path-shared-api/first-final-test-source.kt": "58121668e491c85724aa43625eef173df32c6fdfa4e7ad106c4a77f57e07431a",
+    "build/rust-kotlin-path-shared-api/first-jvmTest-suite.xml": "5a7167327e99ef4611654b3922ae2a42c1b5f1468a860dd367d725d09617df2a",
+    "build/rust-kotlin-path-shared-api/first-macosArm64Test-suite.xml": "e947527b8eaacff85f94634c6b6e2f870449d3c7f3fbf3cd81c0779f95aaf66f",
+    "build/rust-kotlin-path-shared-api/new-test-before-fix.sha256": "bda22c63964eecdc825a6ab5c78ec54a303ec838e75b4057d8a2c6bf4c4931a4",
+    "build/rust-kotlin-path-shared-api/oracle.log": "51538d541f728c4d9e0a47f9a55abec58c1ccbd1585f7095c46dfb2ca01501e3",
+    "build/rust-kotlin-path-shared-api/production-change.json": "1cda6ee834cb08125fa9b0bd661f6094c01077ddd298ba0a740b02ae696eeb41",
+    "build/rust-kotlin-path-shared-api/red-jvm.log": "a7f72cb37387233fee89968c387aef5b3cc3710281c2de2ba6e8e85b3fec16bf",
+    "build/rust-kotlin-path-shared-api/red-test-source.kt": "e2c6e010fc606e98f8214b0d6d7c5ef9634ac77e98eadac9904f93430b2253c7",
+    "build/rust-kotlin-path-shared-api/test-layout-change.json": "4ebbd3ce82b90ef1a3f9427912236de3e89e5833ca4a715f46daec99b30fb035",
+    "build/rust-kotlin-path-shared-api/translator-attempt.json": "afd05e5c0a39a054c86bea7695ab103cda94893e4b84481bd98b00cbc0806404",
+    "build/rust-kotlin-path-shared-api/verify_final.py": "45cf6df982b867cfc9f3f8a377fb5e321ec850791db7b4133c043712cc07d7e6",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "0ee68f0b9b6aef3bb4655eb248094fa45f35de535e513a3c01587cb8273f8bf5",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "333d6519acfd7efa72e166c6bd6d1b3619a4887c22ff1a996a69d7f494182fc9",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "21c22c3df5bf681ae633d3431c7942f08a54f572c004a37b5aeec0cb431cbd05",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "12298977bc8727933804a78d8a6df4ee466101df5d22d8191da22f67f8c43cc7",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/ByteStr.kt": "ce5f2a77173a20cb86dc8dbcffbb28332bf6314c50466ba31933955038afc438",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Builder.kt": "52fe7097c11eb8221efce7923c7bd6963430fa4e751f2855921defcdc16e1faa",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/PathAndQuery.kt": "35d50df47719f38fb8167bdad9845ff4c1ca83f9c12b46b8b6a63cce86a6dd0d",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Port.kt": "a72e4994ad3b88099a5d52368f804fcd1253b463c58df8a5b301a914dd13c8d2",
+    "src/commonTest/kotlin/io/github/kotlinmania/http/uri/PathSharedApiParityTest.kt": "1108de33ff0c6e9006f631372b1af8009eee3621f4148a937cdd44e8f6c3c3a6",
+    "tmp/http/src/uri/path.rs": "1e9871fd1501f24400f1f3a061988e252da81260b355e9b9a2b68777a80551a8",
+    "verification/path-shared-api-oracle/Cargo.lock": "9d94817569da93a750d9a4ddf8c30f46b5368aeeeb4322d55ed93e32b91f377b",
+    "verification/path-shared-api-oracle/Cargo.toml": "4be1d3e32340a11120a297a00d24df7112e46f202db4f50b0b54f531bd83909e",
+    "verification/path-shared-api-oracle/README.md": "202a4d27cdbd402b258a69f800ca5070533fbad5773db879a2a8ea2a851f7495",
+    "verification/path-shared-api-oracle/src/lib.rs": "c534bd4a9baa60bf91b5e5219829f9ad71be37300e6849076792a9dfda1edcad"
+  }
+}
