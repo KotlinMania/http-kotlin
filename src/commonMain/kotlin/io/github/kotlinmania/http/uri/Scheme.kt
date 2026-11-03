@@ -32,6 +32,16 @@ class Scheme internal constructor(
             }
         }
 
+    /** Field-wise clone of the source enum, including its internal empty state. */
+    fun clone(): Scheme =
+        Scheme(
+            when (val value = inner) {
+                Scheme2.None -> Scheme2.None
+                is Scheme2.Standard -> Scheme2.Standard(value.protocol)
+                is Scheme2.Other -> Scheme2.Other(value.str.clone())
+            },
+        )
+
     fun asRef(): String = asStr()
 
     override fun toString(): String = asStr()

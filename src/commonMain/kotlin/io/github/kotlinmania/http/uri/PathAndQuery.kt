@@ -37,6 +37,9 @@ class PathAndQuery internal constructor(
         return if (ret.isEmpty()) "/" else ret
     }
 
+    /** Clones the existing buffer view and query offset without reparsing. */
+    fun clone(): PathAndQuery = PathAndQuery(data.clone(), query)
+
     fun asRef(): String = asStr()
 
     override fun toString(): String {

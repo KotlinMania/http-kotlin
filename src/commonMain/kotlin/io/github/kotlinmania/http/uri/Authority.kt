@@ -37,6 +37,9 @@ class Authority internal constructor(
      */
     fun asStr(): String = data.asStr()
 
+    /** Field-wise clone retaining an independent canonical byte-buffer handle. */
+    fun clone(): Authority = Authority(data.clone())
+
     fun asRef(): String = asStr()
 
     override fun toString(): String = asStr()

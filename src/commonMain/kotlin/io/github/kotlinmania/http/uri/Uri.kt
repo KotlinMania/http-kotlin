@@ -176,6 +176,9 @@ class Uri internal constructor(
         return other.isEmpty() || other.startsWith('#')
     }
 
+    /** Clones component fields directly, preserving their existing parser state. */
+    fun clone(): Uri = Uri(scheme.clone(), authority.clone(), pathAndQuery.clone())
+
     override fun hashCode(): Int {
         var h = 0
         val s = scheme()

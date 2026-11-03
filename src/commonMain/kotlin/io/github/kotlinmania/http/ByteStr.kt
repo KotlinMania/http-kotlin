@@ -47,6 +47,9 @@ internal class ByteStr private constructor(
             )
     }
 
+    /** Clones the canonical byte-buffer handle, preserving its current view. */
+    fun clone(): ByteStr = ByteStr(bytes.clone())
+
     fun deref(): String {
         val b = bytes.asRef()
         // Safety: the invariant of `bytes` is that it contains valid UTF-8.
