@@ -236,9 +236,9 @@ or the existing workspace `bin/ast_distance` when the local tool is unavailable:
 
 ```sh
 # Execute from the existing library checkout with explicit source/target paths.
-tools/ast_distance --deep tmp/libc/src rust src/commonMain/kotlin/io/github/kotlinmania/libc kotlin
-tools/ast_distance --symbol-parity tmp/libc/src src/commonMain/kotlin/io/github/kotlinmania/libc --kind function
-tools/ast_distance --compare-functions tmp/libc/src/macros.rs rust src/commonTest/kotlin/io/github/kotlinmania/libc/MacrosTest.kt kotlin
+tools/ast_distance --deep tmp/libc/src rust src/common/commonMain/kotlin/io/github/kotlinmania/libc kotlin
+tools/ast_distance --symbol-parity tmp/libc/src src/common/commonMain/kotlin/io/github/kotlinmania/libc --kind function
+tools/ast_distance --compare-functions tmp/libc/src/macros.rs rust src/common/commonTest/kotlin/io/github/kotlinmania/libc/MacrosTest.kt kotlin
 ```
 
 Record the binary/configuration hashes, exact commands, upstream revision,
@@ -298,7 +298,7 @@ route does not rewrite existing FFI specialization or apply this change to a fle
 
 ## HeaderValue core coverage (2026-11-02)
 
-`src/commonMain/kotlin/io/github/kotlinmania/http/header/Value.kt` owns the canonical `io.github.kotlinmania.http.header.HeaderValue`, `InvalidHeaderValue` and `ToStrError` types. No root-package or consuming-library copies were added. The current translator output for `tmp/http/src/header/value.rs` was used for comparison, followed by direct source adaptation to the existing Bytes owner.
+`src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Value.kt` owns the canonical `io.github.kotlinmania.http.header.HeaderValue`, `InvalidHeaderValue` and `ToStrError` types. No root-package or consuming-library copies were added. The current translator output for `tmp/http/src/header/value.rs` was used for comparison, followed by direct source adaptation to the existing Bytes owner.
 
 Supported: static/string/byte constructors; checked shared Bytes, ByteArray and String inputs; normalized HeaderName conversion; typed failures and ASCII-only text conversion; lengths and bytes; independent sensitivity and cloning; case-sensitive unsigned-byte equality/order; source-exact debug escaping and sensitive output. A checked shared Bytes input obtains an independent cursor handle because Kotlin cannot consume the caller's handle. Returned ByteArrays are snapshots of read-only data; no zero-copy or allocation-equivalence claim is made.
 
