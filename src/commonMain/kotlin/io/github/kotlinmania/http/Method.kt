@@ -178,6 +178,16 @@ class Method private constructor(
             is Inner.ExtensionAllocated -> inner.allocated.asStr()
         }
 
+    /** Clones the stored method representation without reparsing or normalizing it. */
+    fun clone(): Method =
+        Method(
+            when (val value = inner) {
+                is Inner.ExtensionInline -> Inner.ExtensionInline(value.inline.clone())
+                is Inner.ExtensionAllocated -> Inner.ExtensionAllocated(value.allocated.clone())
+                else -> value
+            },
+        )
+
     fun asRef(): String = asStr()
 
     fun eq(other: Method): Boolean = this == other
@@ -281,6 +291,9 @@ private data class InlineExtension(
         }
     }
 
+    /** Rust's derived array-field clone copies the complete inline storage and length. */
+    fun clone(): InlineExtension = InlineExtension(data.copyOf(), len)
+
     fun asStr(): String {
         // Safety: the invariant of InlineExtension ensures that the first
         // len bytes of data contain valid UTF-8.
@@ -312,6 +325,9 @@ private data class AllocatedExtension(
             return Result.success(AllocatedExtension(data))
         }
     }
+
+    /** Rust's boxed byte-slice clone copies the stored extension bytes. */
+    fun clone(): AllocatedExtension = AllocatedExtension(data.copyOf())
 
     fun asStr(): String {
         // Safety: the invariant of AllocatedExtension ensures that data
