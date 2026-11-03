@@ -1,0 +1,139 @@
+{
+  "baseline": "0b6d92f",
+  "recordedAtUTC": "2026-11-03T02:08:02.741471+00:00",
+  "preExistingDirtyWorkIncluded": false,
+  "priorWorkSeparate": {
+    "http": [
+      "0b6d92f",
+      "bc503c0",
+      "6e4d010"
+    ],
+    "serde": "9ae88dd"
+  },
+  "graphDirectReverseDependents": 16,
+  "productionScope": "Only additive Uri.fromMaybeShared Bytes/ByteArray/String overloads. Existing complete-URI parser and byte-length limit/error order, all component constructors and URI plus-port behavior byte-preserved. No pins changed.",
+  "apiChange": "Three new overloads; no existing descriptor replaced. Arbitrary custom Rust AsRef input implementations not represented; no duplicate dependency type owner introduced.",
+  "callerReview": "Bounded exact-call/canonical Uri and wildcard import scan retained in caller-review.txt. No external owner edits or downstream builds; not a typechecked workspace resolver or binary compatibility proof.",
+  "existingTestsOrAssertionsChanged": false,
+  "newTestByteUnchangedSinceRed": true,
+  "red": {
+    "kind": "compile-time missing API",
+    "runtimeSuiteExecuted": false,
+    "message": "Unresolved reference 'fromMaybeShared'",
+    "log": "build/rust-kotlin-uri-shared-api/red-jvm.log"
+  },
+  "rustOracle": {
+    "passedGroups": 8,
+    "failed": 0,
+    "actualUpstreamFromMaybeShared": true,
+    "inputs": [
+      "Bytes",
+      "Vec<u8>",
+      "String"
+    ],
+    "boundary": "65534 bytes accepted, 65535 rejected; UTF-8 byte versus UTF-16-unit cases and pre-fragment limit order checked.",
+    "copyMutationControl": "Rust borrowed TryFrom<&[u8]> exercises source copy conversion; Kotlin ByteArray mutation is explicit binding behavior, not mutation after Rust move."
+  },
+  "translatorEvidence": {
+    "command": [
+      "/Volumes/stuff/Projects/kotlinmania/rust-kotlin/build/bin/nativeMacos/releaseExecutable/rust-kotlin.kexe",
+      "translate",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/uri/mod.rs",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-uri-shared-api/UriReview.kt"
+    ],
+    "exit": 0,
+    "stdout": "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/uri/mod.rs -> /Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-uri-shared-api/UriReview.kt; 56 items translated\n",
+    "stderr": "",
+    "timedOut": false,
+    "sourceSha256": "4c2f5fcbdfa8857fa9afc1e0446cd0a7855c2e3241e625491cca618f15d3cffa",
+    "cliSha256": "027d237f2844e0291cf2b9e06ab4bd73e828abccce02db65db992fb3478396c4",
+    "outputExists": true,
+    "guardBypassed": false,
+    "currentGeneratorBuildNotAttested": true,
+    "outputSha256": "4f4542a2fd58ca35ce761394be266d0979bf0a5d76db78ee2ac1a8bc94eb72af"
+  },
+  "generatedOutputScope": "One bounded original mod.rs translation exited 0, no extraction/rename/guard bypass. Recorded-binary output inspected, not compiled; current generator build unverified. No generator edit/rebuild investigation or owner contact.",
+  "finalValidation": {
+    "jvmTest": {
+      "tests": 179,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "UriSharedApiParityTest[jvm]",
+        "tests": "8",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T02:05:52.841Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.004"
+      }
+    },
+    "macosArm64Test": {
+      "tests": 179,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "macosArm64Test.io.github.kotlinmania.http.uri.UriSharedApiParityTest",
+        "tests": "8",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T02:05:57.583Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.001"
+      }
+    },
+    "ktlintCommonMainSourceSetCheck": 0,
+    "ktlintCommonTestSourceSetCheck": 0,
+    "ktlintJsMainSourceSetCheck": 0,
+    "ktlintJvmMainSourceSetCheck": 0,
+    "ktlintKotlinScriptCheck": 0,
+    "authoredKtlint": [],
+    "externalKtlint": [],
+    "detektFindings": 0,
+    "authoredDetekt": []
+  },
+  "limits": [
+    "Rust move/static/lifetime/Drop/Send/Sync, allocation/address-sharing equivalence and arbitrary AsRef inputs not represented or claimed.",
+    "Other platforms, malformed Kotlin UTF-16 and downstream source/binary compatibility unverified.",
+    "Existing URI plus prefixes remain distinct from unchanged socket parsing."
+  ],
+  "noRemoteOrConfigurationActions": true,
+  "hashes": {
+    "build/rust-kotlin-uri-shared-api/UriReview.kt": "4f4542a2fd58ca35ce761394be266d0979bf0a5d76db78ee2ac1a8bc94eb72af",
+    "build/rust-kotlin-uri-shared-api/attribution.log": "7b7d562ff65476ec3acdb16b61ae304d9bfcbceb17855c682a5f154807051190",
+    "build/rust-kotlin-uri-shared-api/caller-review.txt": "80167e5b62c3ee70ae68cc20706d34d032829f09361034b68129fee7336baed2",
+    "build/rust-kotlin-uri-shared-api/final-check.log": "c6496cd56cf4da2375b2d059fa0e6a17c395bbed8eba9a088f59328a50e7e50e",
+    "build/rust-kotlin-uri-shared-api/final-validation.json": "7678fb5ba71bf76a626eac323b51968e9724c8cc5bf759b21e133d6e9b217c6b",
+    "build/rust-kotlin-uri-shared-api/new-test-before-fix.sha256": "b7ef27d6718abd25cb22384aec354ec18e5df08798d35ae968f74ae4eb2bdb6b",
+    "build/rust-kotlin-uri-shared-api/oracle.log": "0ecdfbd8898e7776f1648be9c225a5c18f12bc6d8003f013e6326849e49fd428",
+    "build/rust-kotlin-uri-shared-api/production-change.json": "e6706dfcd2b9d58f2066de58bbce583e2cb0efd6689d3a4753c32fe5f8c55fd9",
+    "build/rust-kotlin-uri-shared-api/red-jvm.log": "be1266a8a4339267619208a51ce1e5849d5e975b911636235cc8e02339194a43",
+    "build/rust-kotlin-uri-shared-api/red-test-source.kt": "749daf3a3d63bbf868e9edbd5526e7db9811f47c06f330d95f91688a7e19ad7c",
+    "build/rust-kotlin-uri-shared-api/translator-attempt.json": "ddf0386932813a42917c89d5c6c709a6b1f07fdd8ed1ffd1f6e7eda6f4b4ead6",
+    "build/rust-kotlin-uri-shared-api/verify_final.py": "cf815be7a51c032f1f746b3fdec3faf82fe80d31a1db01eaae69dc32c438bc2f",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest.xml": "775adec30ffb209fa6b80a0517b203de6cc95516a8b822bdbb90e22d7f4fc811",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "65a42d15db69480f3683bc27f57c3f0b7ca3c06bfde48fdf4dfd5bf13f7adda2",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "71d2def181fcb1866818218fbc0e2cd54c9f76fb210d478ef77452a171de0ba4",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.UriSharedApiParityTest.xml": "9ddcc70789ecffe1f58f7d3851a2d42b04c7b95fc4ec30c1d7ba423459c5ed36",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest.xml": "ffc8066f3d1fbdfe0c4f03648914a1d54d6b23b2228bfd236cb0ad17cc89af50",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "d0ce0d5aa111b9620d2f81b85b70edd82644d91858f3fe6a17bf49ac05dd8eb1",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "c49b7829988e18e0c2f60038c7af411a4adc7022e6601471cf11277d0a6f56f9",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.UriSharedApiParityTest.xml": "5e186cf5c7f4beaa15a57306d8a182f5f483c02cee4b334cc1f096da47bf3021",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/ByteStr.kt": "ce5f2a77173a20cb86dc8dbcffbb28332bf6314c50466ba31933955038afc438",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Authority.kt": "a69afbae53f50343c92e9c8faf4cced32ffa930da41aaaba35048604ccc233bc",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/PathAndQuery.kt": "35d50df47719f38fb8167bdad9845ff4c1ca83f9c12b46b8b6a63cce86a6dd0d",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Port.kt": "a72e4994ad3b88099a5d52368f804fcd1253b463c58df8a5b301a914dd13c8d2",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Uri.kt": "4ea600d5c5747a70cdf63c7e847a967e57996d82f137dbaa0ddac1de2d4005b2",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/UriLimit.kt": "7c76f946e117d150f5f503d5adb193e78b765394638cf68b7c34344cd85b2884",
+    "src/commonTest/kotlin/io/github/kotlinmania/http/uri/UriSharedApiParityTest.kt": "749daf3a3d63bbf868e9edbd5526e7db9811f47c06f330d95f91688a7e19ad7c",
+    "tmp/http/src/uri/mod.rs": "4c2f5fcbdfa8857fa9afc1e0446cd0a7855c2e3241e625491cca618f15d3cffa",
+    "verification/uri-shared-api-oracle/Cargo.lock": "c618f973294aa26a2132fdfbd6bfcf8d4fb0d56dc55aff6d47ac8d3ef6cdc1fc",
+    "verification/uri-shared-api-oracle/Cargo.toml": "3610d4c541c8581300ba974deeacee37bd54636aae717eccbaed8faf2df86f71",
+    "verification/uri-shared-api-oracle/README.md": "50fc034065dcaaaa6d32c817ece805bd5f55c3bca1a4ca562a551cade522129b",
+    "verification/uri-shared-api-oracle/src/lib.rs": "7a0955c1ca5a001bbbae72bfd7c36b9dee29685299cabb600252da1c5c91a684"
+  }
+}

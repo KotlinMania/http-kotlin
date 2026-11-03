@@ -353,6 +353,19 @@ class Uri internal constructor(
             )
         }
 
+        /**
+         * Converts a shared buffer through the existing complete-URI parser.
+         * Rust consumes its Bytes argument; Kotlin keeps an independent canonical
+         * handle so parsing and later caller cursor changes cannot affect each other.
+         */
+        fun fromMaybeShared(src: Bytes): Result<Uri> = fromShared(src.clone())
+
+        /** Copies byte input through the existing URI validation and byte-length limit. */
+        fun fromMaybeShared(src: ByteArray): Result<Uri> = tryFrom(src)
+
+        /** Converts text through the existing UTF-8 byte conversion and URI parser. */
+        fun fromMaybeShared(src: String): Result<Uri> = tryFrom(src)
+
         fun tryFrom(bytes: ByteArray): Result<Uri> =
             fromShared(Bytes.copyFromSlice(bytes))
 
