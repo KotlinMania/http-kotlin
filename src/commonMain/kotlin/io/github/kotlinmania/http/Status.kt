@@ -473,6 +473,9 @@ class StatusCode private constructor(
     /** Check if status is within 500-599. */
     fun isServerError(): Boolean = value in 500 until 600
 
+    /** Copies the stored validated scalar, matching the source's derived Clone. */
+    fun clone(): StatusCode = StatusCode(value)
+
     fun eq(other: Int): Boolean = value == other
 
     fun debugString(): String = value.toString()

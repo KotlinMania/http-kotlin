@@ -1,0 +1,926 @@
+{
+  "baseline": "a4418aa",
+  "recordedAtUTC": "2026-11-03T02:31:09.605149+00:00",
+  "preExistingDirtyWorkIncluded": false,
+  "priorWorkSeparate": {
+    "http": [
+      "a4418aa",
+      "5bacb5a",
+      "6a41956",
+      "0b6d92f",
+      "bc503c0",
+      "6e4d010"
+    ],
+    "serde": "9ae88dd"
+  },
+  "graphDirectReverseDependents": 16,
+  "productionScope": "Only direct scalar field-copy clone methods on StatusCode and Version. Exact source replacements prove every existing parser/formatter/classifier/reason/order/API body byte-preserved; Method/URI/Bytes work and pins unchanged.",
+  "apiChange": "Two new public methods; no existing descriptor replaced or generic clone/type-owner framework introduced.",
+  "callerReview": {
+    "scope": "Bounded canonical scalar type/wildcard/alias import and clone-line review. Both new members additive; no existing descriptor replaced. Not a typechecked resolver or downstream compatibility proof.",
+    "localNewCallGraph": "StatusCode.clone -> private StatusCode scalar constructor; Version.clone -> private Version enum constructor. No parser calls.",
+    "files": [
+      {
+        "path": "../rama-tcp-kotlin/src/commonTest/kotlin/io/github/kotlinmania/ramatcp/client/RequestTest.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.http.Version"
+          },
+          {
+            "line": 5,
+            "text": "import io.github.kotlinmania.ramacore.Extensions"
+          },
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.ramanet.NetProtocol"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.ramanet.TransportProtocol"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.ramanet.address.HostWithOptPort"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.ramanet.address.HostWithPort"
+          },
+          {
+            "line": 10,
+            "text": "import kotlin.test.Test"
+          },
+          {
+            "line": 11,
+            "text": "import kotlin.test.assertEquals"
+          },
+          {
+            "line": 12,
+            "text": "import kotlin.test.assertNull"
+          },
+          {
+            "line": 13,
+            "text": "import kotlin.test.assertTrue"
+          }
+        ]
+      },
+      {
+        "path": "../rama-tcp-kotlin/src/commonMain/kotlin/io/github/kotlinmania/ramatcp/client/Request.kt",
+        "lines": [
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.http.Version"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.ramacore.Extensions"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.ramacore.ExtensionsMut"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.ramacore.ExtensionsRef"
+          },
+          {
+            "line": 10,
+            "text": "import io.github.kotlinmania.ramanet.NetProtocol"
+          },
+          {
+            "line": 11,
+            "text": "import io.github.kotlinmania.ramanet.TransportContext"
+          },
+          {
+            "line": 12,
+            "text": "import io.github.kotlinmania.ramanet.TransportProtocol"
+          },
+          {
+            "line": 13,
+            "text": "import io.github.kotlinmania.ramanet.TryRefIntoTransportContext"
+          },
+          {
+            "line": 14,
+            "text": "import io.github.kotlinmania.ramanet.address.HostWithOptPort"
+          },
+          {
+            "line": 15,
+            "text": "import io.github.kotlinmania.ramanet.address.HostWithPort"
+          },
+          {
+            "line": 16,
+            "text": "import kotlin.experimental.ExperimentalObjCRefinement"
+          },
+          {
+            "line": 17,
+            "text": "import kotlin.native.HiddenFromObjC"
+          }
+        ]
+      },
+      {
+        "path": "../codex-kotlin/src/commonMain/kotlin/io/github/kotlinmania/codex/client/error/TransportError.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 5,
+            "text": "import io.ktor.http.Headers"
+          }
+        ]
+      },
+      {
+        "path": "../codex-kotlin/src/commonMain/kotlin/io/github/kotlinmania/codex/api/error/ApiError.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.codex.client.error.TransportError"
+          },
+          {
+            "line": 5,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 6,
+            "text": "import kotlin.time.Duration"
+          }
+        ]
+      },
+      {
+        "path": "../codex-kotlin/src/commonMain/kotlin/io/github/kotlinmania/codex/api/telemetry/Telemetry.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 5,
+            "text": "import kotlin.time.Duration"
+          }
+        ]
+      },
+      {
+        "path": "../codex-kotlin/src/commonMain/kotlin/io/github/kotlinmania/codex/core/client/ModelClient.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.codex.api.AuthProvider"
+          },
+          {
+            "line": 5,
+            "text": "import io.github.kotlinmania.codex.api.common.CompactionInput"
+          },
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.codex.api.common.Reasoning"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.codex.api.common.createTextParamForRequest"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.codex.api.endpoint.ChatClient"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.codex.api.endpoint.CompactClient"
+          },
+          {
+            "line": 10,
+            "text": "import io.github.kotlinmania.codex.api.endpoint.ResponsesClient"
+          },
+          {
+            "line": 11,
+            "text": "import io.github.kotlinmania.codex.api.endpoint.ResponsesOptions"
+          },
+          {
+            "line": 12,
+            "text": "import io.github.kotlinmania.codex.api.endpoint.aggregate"
+          },
+          {
+            "line": 13,
+            "text": "import io.github.kotlinmania.codex.api.endpoint.streamingMode"
+          },
+          {
+            "line": 14,
+            "text": "import io.github.kotlinmania.codex.api.error.ApiError"
+          },
+          {
+            "line": 15,
+            "text": "import io.github.kotlinmania.codex.api.telemetry.RequestTelemetry"
+          },
+          {
+            "line": 16,
+            "text": "import io.github.kotlinmania.codex.api.telemetry.SseTelemetry"
+          },
+          {
+            "line": 17,
+            "text": "import io.github.kotlinmania.codex.core.AuthManager"
+          },
+          {
+            "line": 18,
+            "text": "import io.github.kotlinmania.codex.core.AuthMode"
+          },
+          {
+            "line": 19,
+            "text": "import io.github.kotlinmania.codex.core.CodexAuth"
+          },
+          {
+            "line": 20,
+            "text": "import io.github.kotlinmania.codex.core.CodexErr"
+          },
+          {
+            "line": 21,
+            "text": "import io.github.kotlinmania.codex.core.config.Config"
+          },
+          {
+            "line": 22,
+            "text": "import io.github.kotlinmania.codex.core.model.ModelFamily"
+          },
+          {
+            "line": 23,
+            "text": "import io.github.kotlinmania.codex.core.model.ModelProviderInfo"
+          },
+          {
+            "line": 24,
+            "text": "import io.github.kotlinmania.codex.core.model.WireApi"
+          },
+          {
+            "line": 25,
+            "text": "import io.github.kotlinmania.codex.core.prompt.Prompt"
+          },
+          {
+            "line": 26,
+            "text": "import io.github.kotlinmania.codex.protocol.ConversationId"
+          },
+          {
+            "line": 27,
+            "text": "import io.github.kotlinmania.codex.protocol.ReasoningEffort"
+          },
+          {
+            "line": 28,
+            "text": "import io.github.kotlinmania.codex.protocol.ReasoningSummary"
+          },
+          {
+            "line": 29,
+            "text": "import io.github.kotlinmania.codex.protocol.ResponseEvent"
+          },
+          {
+            "line": 30,
+            "text": "import io.github.kotlinmania.codex.protocol.ResponseItem"
+          },
+          {
+            "line": 31,
+            "text": "import io.github.kotlinmania.codex.protocol.SessionSource"
+          },
+          {
+            "line": 32,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 33,
+            "text": "import io.ktor.client.HttpClient"
+          },
+          {
+            "line": 34,
+            "text": "import kotlinx.coroutines.flow.Flow"
+          },
+          {
+            "line": 35,
+            "text": "import kotlinx.coroutines.flow.flow"
+          },
+          {
+            "line": 36,
+            "text": "import kotlinx.serialization.json.JsonElement"
+          },
+          {
+            "line": 37,
+            "text": "import kotlin.time.Duration"
+          },
+          {
+            "line": 38,
+            "text": "import io.github.kotlinmania.codex.api.common.Prompt as ApiPrompt"
+          },
+          {
+            "line": 39,
+            "text": "import io.github.kotlinmania.codex.api.common.ResponseStream as ApiResponseStream"
+          }
+        ]
+      },
+      {
+        "path": "../rama-http-kotlin/src/commonMain/kotlin/io/github/kotlinmania/ramahttp/io/Upgrade.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 5,
+            "text": "import io.github.kotlinmania.ramacore.Extensions"
+          },
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.ramacore.ExtensionsMut"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.ramacore.ExtensionsRef"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.ramahttp.types.HeaderName"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.ramahttp.types.Request"
+          },
+          {
+            "line": 10,
+            "text": "import io.github.kotlinmania.ramahttp.types.Response"
+          },
+          {
+            "line": 11,
+            "text": "import kotlinx.coroutines.CompletableDeferred"
+          }
+        ]
+      },
+      {
+        "path": "../rama-http-kotlin/src/commonMain/kotlin/io/github/kotlinmania/ramahttp/types/StatusCode.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.http.StatusCode as HttpStatusCode"
+          }
+        ]
+      },
+      {
+        "path": "../rama-http-backend-kotlin/src/commonTest/kotlin/io/github/kotlinmania/ramahttpbackend/IntegrationTest.kt",
+        "lines": [
+          {
+            "line": 3,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.ramahttp.types.Body"
+          },
+          {
+            "line": 5,
+            "text": "import io.github.kotlinmania.ramahttp.types.Method"
+          },
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.ramahttp.types.Request"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.ramahttp.types.Uri"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.ramahttp.types.Version"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.ramahttpbackend.client.HttpClientService"
+          },
+          {
+            "line": 10,
+            "text": "import io.github.kotlinmania.ramahttpbackend.client.proxy.layer.HttpProxyAddressLayer"
+          },
+          {
+            "line": 11,
+            "text": "import io.github.kotlinmania.ramahttpbackend.client.proxy.layer.proxyconnector.HttpProxyConnector"
+          },
+          {
+            "line": 12,
+            "text": "import io.github.kotlinmania.ramahttpbackend.server.HttpServer"
+          },
+          {
+            "line": 13,
+            "text": "import io.github.kotlinmania.ramanet.NetProtocol"
+          },
+          {
+            "line": 14,
+            "text": "import io.github.kotlinmania.ramanet.address.ProxyAddress"
+          },
+          {
+            "line": 15,
+            "text": "import kotlin.test.Test"
+          },
+          {
+            "line": 16,
+            "text": "import kotlin.test.assertEquals"
+          },
+          {
+            "line": 17,
+            "text": "import kotlin.test.assertNotNull"
+          },
+          {
+            "line": 18,
+            "text": "import kotlin.test.assertTrue"
+          }
+        ]
+      },
+      {
+        "path": "../rama-http-backend-kotlin/src/commonMain/kotlin/io/github/kotlinmania/ramahttpbackend/client/Svc.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 5,
+            "text": "import io.github.kotlinmania.ramacore.Extensions"
+          },
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.ramacore.ExtensionsMut"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.ramacore.RamaResult"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.ramacore.service.Service"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.ramahttp.types.Authority"
+          },
+          {
+            "line": 10,
+            "text": "import io.github.kotlinmania.ramahttp.types.Body"
+          },
+          {
+            "line": 11,
+            "text": "import io.github.kotlinmania.ramahttp.types.HeaderMap"
+          },
+          {
+            "line": 12,
+            "text": "import io.github.kotlinmania.ramahttp.types.Method"
+          },
+          {
+            "line": 13,
+            "text": "import io.github.kotlinmania.ramahttp.types.PathAndQuery"
+          },
+          {
+            "line": 14,
+            "text": "import io.github.kotlinmania.ramahttp.types.Request"
+          },
+          {
+            "line": 15,
+            "text": "import io.github.kotlinmania.ramahttp.types.Response"
+          },
+          {
+            "line": 16,
+            "text": "import io.github.kotlinmania.ramahttp.types.Scheme"
+          },
+          {
+            "line": 17,
+            "text": "import io.github.kotlinmania.ramahttp.types.Uri"
+          },
+          {
+            "line": 18,
+            "text": "import io.github.kotlinmania.ramahttp.types.Version"
+          },
+          {
+            "line": 19,
+            "text": "import io.github.kotlinmania.ramanet.address.ProxyAddress"
+          },
+          {
+            "line": 144,
+            "text": "                val reqCopy = Request(req.method, req.uri, req.version, req.headers.clone(), req.extensions.copy(), req.body)"
+          },
+          {
+            "line": 179,
+            "text": "                    Request(req.method, req.uri, req.version, req.headers.clone(), req.extensions.copy(), req.body)"
+          }
+        ]
+      },
+      {
+        "path": "../rama-http-backend-kotlin/src/commonMain/kotlin/io/github/kotlinmania/ramahttpbackend/client/proxy/layer/proxyconnector/Connector.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 5,
+            "text": "import io.github.kotlinmania.ramacore.Extensions"
+          },
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.ramacore.ExtensionsMut"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.ramacore.RamaResult"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.ramahttp.io.Upgraded"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.ramahttp.types.Body"
+          },
+          {
+            "line": 10,
+            "text": "import io.github.kotlinmania.ramahttp.types.HeaderMap"
+          },
+          {
+            "line": 11,
+            "text": "import io.github.kotlinmania.ramahttp.types.Method"
+          },
+          {
+            "line": 12,
+            "text": "import io.github.kotlinmania.ramahttp.types.Request"
+          },
+          {
+            "line": 13,
+            "text": "import io.github.kotlinmania.ramahttp.types.Response"
+          },
+          {
+            "line": 14,
+            "text": "import io.github.kotlinmania.ramahttp.types.Uri"
+          },
+          {
+            "line": 15,
+            "text": "import io.github.kotlinmania.ramahttp.types.Version"
+          },
+          {
+            "line": 16,
+            "text": "import io.github.kotlinmania.ramanet.address.HostWithOptPort"
+          }
+        ]
+      },
+      {
+        "path": "../oauth2-kotlin/src/commonMain/kotlin/io/github/kotlinmania/oauth2/Endpoint.kt",
+        "lines": [
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.base64.alphabet.Alphabet"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.base64.encodedLen"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.http.Method"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          }
+        ]
+      },
+      {
+        "path": "../oauth2-kotlin/src/commonMain/kotlin/io/github/kotlinmania/oauth2/Devicecode.kt",
+        "lines": [
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.serde.SerdeError"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.serde.SerdeResult"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.serdecore.de.Deserialize"
+          },
+          {
+            "line": 10,
+            "text": "import io.github.kotlinmania.serdecore.de.Deserializer"
+          },
+          {
+            "line": 11,
+            "text": "import io.github.kotlinmania.serdecore.de.I64Deserialize"
+          },
+          {
+            "line": 12,
+            "text": "import io.github.kotlinmania.serdecore.de.IgnoredAny"
+          },
+          {
+            "line": 13,
+            "text": "import io.github.kotlinmania.serdecore.de.MapAccess"
+          },
+          {
+            "line": 14,
+            "text": "import io.github.kotlinmania.serdecore.de.StringDeserialize"
+          },
+          {
+            "line": 15,
+            "text": "import io.github.kotlinmania.serdecore.de.Visitor"
+          },
+          {
+            "line": 16,
+            "text": "import io.github.kotlinmania.serdecore.ser.Serialize"
+          },
+          {
+            "line": 17,
+            "text": "import io.github.kotlinmania.serdecore.ser.SerializeStruct"
+          },
+          {
+            "line": 18,
+            "text": "import io.github.kotlinmania.serdecore.ser.Serializer"
+          },
+          {
+            "line": 19,
+            "text": "import io.github.kotlinmania.serdejson.fromSlice"
+          },
+          {
+            "line": 20,
+            "text": "import io.github.kotlinmania.serdejson.fromStr"
+          },
+          {
+            "line": 21,
+            "text": "import io.github.kotlinmania.serdejson.toStr"
+          },
+          {
+            "line": 22,
+            "text": "import kotlin.native.HiddenFromObjC"
+          },
+          {
+            "line": 23,
+            "text": "import kotlin.time.Duration"
+          },
+          {
+            "line": 24,
+            "text": "import kotlin.time.Duration.Companion.seconds"
+          },
+          {
+            "line": 25,
+            "text": "import kotlin.time.TimeSource"
+          }
+        ]
+      },
+      {
+        "path": "../rmcp-kotlin/src/commonTest/kotlin/io/github/kotlinmania/rmcp/transport/common/ServerSideHttpTest.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.bytes.Bytes"
+          },
+          {
+            "line": 5,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.tokioutil.sync.cancellationtoken.CancellationToken"
+          },
+          {
+            "line": 7,
+            "text": "import kotlinx.serialization.json.JsonPrimitive"
+          },
+          {
+            "line": 8,
+            "text": "import kotlin.test.Test"
+          },
+          {
+            "line": 9,
+            "text": "import kotlin.test.assertEquals"
+          },
+          {
+            "line": 10,
+            "text": "import kotlin.test.assertFalse"
+          },
+          {
+            "line": 11,
+            "text": "import kotlin.test.assertNotNull"
+          },
+          {
+            "line": 12,
+            "text": "import kotlin.test.assertTrue"
+          },
+          {
+            "line": 13,
+            "text": "import kotlin.time.Duration.Companion.seconds"
+          }
+        ]
+      },
+      {
+        "path": "../rmcp-kotlin/src/commonMain/kotlin/io/github/kotlinmania/rmcp/transport/common/ServerSideHttp.kt",
+        "lines": [
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.bytes.Bytes"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.ssestream.Sse"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.ssestream.toByteArray"
+          },
+          {
+            "line": 10,
+            "text": "import io.github.kotlinmania.tokioutil.sync.cancellationtoken.CancellationToken"
+          },
+          {
+            "line": 11,
+            "text": "import io.github.kotlinmania.uuid.Uuid"
+          },
+          {
+            "line": 12,
+            "text": "import io.github.kotlinmania.uuid.newV4"
+          },
+          {
+            "line": 13,
+            "text": "import kotlinx.serialization.json.Json"
+          },
+          {
+            "line": 14,
+            "text": "import kotlinx.serialization.json.JsonElement"
+          },
+          {
+            "line": 15,
+            "text": "import kotlin.time.Duration"
+          },
+          {
+            "line": 16,
+            "text": "import kotlin.time.Duration.Companion.seconds"
+          }
+        ]
+      }
+    ]
+  },
+  "existingTestsOrAssertionsChanged": false,
+  "newTestReadabilityOnly": {
+    "old": "        assertEquals(200, StatusCode.OK.clone().clone().asU16())\n        assertEquals(999, StatusCode.fromU16(999).getOrThrow().clone().clone().asU16())\n        assertEquals(Version.HTTP_11, Version.default().clone().clone())",
+    "new": "        val standard = StatusCode.OK.clone().clone()\n        assertEquals(200, standard.asU16())\n        val custom = StatusCode.fromU16(999).getOrThrow()\n        val customClone = custom.clone().clone()\n        assertEquals(999, customClone.asU16())\n        val defaultVersion = Version.default()\n        assertEquals(Version.HTTP_11, defaultVersion.clone().clone())",
+    "scope": "Name identical intermediate results to avoid long call chains; three expectations, clone counts and input values unchanged."
+  },
+  "red": {
+    "kind": "compile-time missing API",
+    "runtimeSuiteExecuted": false,
+    "receivers": [
+      "StatusCode",
+      "Version"
+    ],
+    "log": "build/rust-kotlin-http-scalar-clones/red-jvm.log"
+  },
+  "rustOracle": {
+    "passedGroups": 6,
+    "failed": 0,
+    "actualUpstreamDerivedCloneTypes": [
+      "StatusCode",
+      "Version"
+    ],
+    "acceptedStatusValues": 900,
+    "publicVersionValues": 5,
+    "versionOrderingPairs": 25,
+    "scope": "Value/equality/relative hash/format/classification/reason/order preservation; defaults and repeated clones. Version Rust Debug maps to existing Kotlin fmt/toString; no new Display or cross-runtime numeric hash equality claim.",
+    "identityScope": "Kotlin fresh-wrapper assertions are binding controls, not Rust address/allocation/implicit-Copy equivalence."
+  },
+  "translatorEvidence": [
+    {
+      "command": [
+        "/Volumes/stuff/Projects/kotlinmania/rust-kotlin/build/bin/nativeMacos/releaseExecutable/rust-kotlin.kexe",
+        "translate",
+        "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/status.rs",
+        "/Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-http-scalar-clones/StatusReview.kt"
+      ],
+      "exit": 0,
+      "stdout": "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/status.rs -> /Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-http-scalar-clones/StatusReview.kt; 26 items translated\n",
+      "stderr": "",
+      "timedOut": false,
+      "sourceSha256": "69748fc8369ff915d33a6fc65d10f05e07c4c1afbabdf40d901438fd4d0b165b",
+      "cliSha256": "027d237f2844e0291cf2b9e06ab4bd73e828abccce02db65db992fb3478396c4",
+      "outputExists": true,
+      "guardBypassed": false,
+      "currentGeneratorBuildNotAttested": true,
+      "outputSha256": "ec3461b37853c07461fb94e2364af65db9b47ee6482add843500d6c1762c7dd8"
+    },
+    {
+      "command": [
+        "/Volumes/stuff/Projects/kotlinmania/rust-kotlin/build/bin/nativeMacos/releaseExecutable/rust-kotlin.kexe",
+        "translate",
+        "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/version.rs",
+        "/Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-http-scalar-clones/VersionReview.kt"
+      ],
+      "exit": 0,
+      "stdout": "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/version.rs -> /Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-http-scalar-clones/VersionReview.kt; 6 items translated\n",
+      "stderr": "",
+      "timedOut": false,
+      "sourceSha256": "623ef60a450203b051f3457e2f095508b66aaaa799b1447fb1b34d92cb2e7d62",
+      "cliSha256": "027d237f2844e0291cf2b9e06ab4bd73e828abccce02db65db992fb3478396c4",
+      "outputExists": true,
+      "guardBypassed": false,
+      "currentGeneratorBuildNotAttested": true,
+      "outputSha256": "33b1183c941f4dbb2adff62460cee411aae6d8d6ba1e878217b746a152001246"
+    }
+  ],
+  "generatedOutputScope": "Original status/version source translated through recorded binary only; field/type output inspected, not compiled. No current-generator attestation, edit/rebuild investigation or owner contact.",
+  "finalValidation": {
+    "jvmTest": {
+      "tests": 199,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "ScalarCloneParityTest[jvm]",
+        "tests": "6",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T02:29:09.556Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.005"
+      }
+    },
+    "macosArm64Test": {
+      "tests": 199,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "macosArm64Test.io.github.kotlinmania.http.ScalarCloneParityTest",
+        "tests": "6",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T02:29:10.161Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.001"
+      }
+    },
+    "ktlintCommonMainSourceSetCheck": 0,
+    "ktlintCommonTestSourceSetCheck": 0,
+    "ktlintJsMainSourceSetCheck": 0,
+    "ktlintJvmMainSourceSetCheck": 0,
+    "ktlintKotlinScriptCheck": 0,
+    "authoredKtlint": [],
+    "externalKtlint": [],
+    "detektFindings": 0,
+    "authoredDetekt": []
+  },
+  "limits": [
+    "General Clone/Copy traits, default clone_from, Rust move/borrow semantics and physical address/allocation/GC equivalence not modeled.",
+    "Private non-exhaustive version sentinel not publicly constructible and not claimed covered.",
+    "Other targets/downstream source or binary compatibility unverified."
+  ],
+  "noRemoteOrConfigurationActions": true,
+  "hashes": {
+    "build/rust-kotlin-http-scalar-clones/StatusReview.kt": "ec3461b37853c07461fb94e2364af65db9b47ee6482add843500d6c1762c7dd8",
+    "build/rust-kotlin-http-scalar-clones/VersionReview.kt": "33b1183c941f4dbb2adff62460cee411aae6d8d6ba1e878217b746a152001246",
+    "build/rust-kotlin-http-scalar-clones/attribution.log": "2bbaeb7ee551808f2227fef051a9e952ac44a9633d54db22f92d13e58bd81f67",
+    "build/rust-kotlin-http-scalar-clones/caller-review.json": "223cc1f3975c094bc5923eb30af6ddc889febde12f202b48d1ae3b8b41c7c238",
+    "build/rust-kotlin-http-scalar-clones/final-check.log": "d7c085b80d53496d28ef1944ef1f397713f8e0afc8b64b9faa6f9651a4d3f554",
+    "build/rust-kotlin-http-scalar-clones/final-validation.json": "a433e86fcaac10331cfc141ff0bdfa8609f9c52e5f85baec80c17e11b73a464a",
+    "build/rust-kotlin-http-scalar-clones/new-test-before-fix.sha256": "5b95310955278c6eef50e9809fa6ba381d1e2ed5175ecb090f071e8381236402",
+    "build/rust-kotlin-http-scalar-clones/oracle.log": "97c6bb3a4f5a4d8a8d4490786e68500117f7fa9208f23ee1331fcae033ec63bd",
+    "build/rust-kotlin-http-scalar-clones/production-change.json": "a991b2158d3e97beeb76f3cd31a59c2d96acb9aa3a90bce5b3ac0edc62362ef4",
+    "build/rust-kotlin-http-scalar-clones/red-jvm.log": "7dceab9d82f51872fa353d7755ece0443555a79e40cfd75816a968f29fee4379",
+    "build/rust-kotlin-http-scalar-clones/red-test-source.kt": "b59e69528953caadbbeaf9a9ced0eabc015716f49107f47c39fd42517f763f33",
+    "build/rust-kotlin-http-scalar-clones/test-readability-change.json": "58c811cef118bc23f8678ad22d738726302f2bdc1baba2ff6d7bfa0acc8c5fc6",
+    "build/rust-kotlin-http-scalar-clones/translator-attempts.json": "4a619cb3229c572d2485294cb3abd54a6d123ff4128092f89657821ca7440fb9",
+    "build/rust-kotlin-http-scalar-clones/verify_final.py": "27b4ca6fd1adef7f086c28701f369debbe854adc35ef12c5a7950a07eecd0f9c",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.MethodCloneParityTest.xml": "2b2a7142e37b587b486943f92fe1b2ce8669893019364f0169029a3767ec8e8e",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.ScalarCloneParityTest.xml": "5b2b2c4a9e592afe18661e60a9f2de3bfd1e1f32855898767e82cfc4de409eb8",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest.xml": "53e627db048acb0ab40da8416d8f0523c1521c4def77ec90cf35e48c343e0bcd",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "111f6da98d64d93dfce5932752e6299b7ddd31c0d4055637cf18ecb5c4afd44a",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "24894192ba939bf25cc689f509c94c7f79bd75afb0eac5ae0383fbe0460626a4",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.UriCloneParityTest.xml": "007077e56748337963b2380f989d094366d482f07879b7abedfa6106c4559416",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.UriSharedApiParityTest.xml": "57fe7f34aa7b15fe12ffa02d2cca17d119b44b58893f2b12c17b34cddd8547bf",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.MethodCloneParityTest.xml": "c2f679e610cfd34f93d69676f99db25bd075d17fa8f40f78ceb847204e9c5adc",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.ScalarCloneParityTest.xml": "7e23be17e1756d8ba63804d0ff64753d4fdd943057367220c7db48381138e5fe",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest.xml": "5f8baed8b2a7019397b514b39c0643305e8171da4ecee72cb73c165d8aebf115",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "7215e42d21f0e7670d4f6c9b012d851235c6da33fac9dfeb99ae3f4b2bdcb9cc",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "12bcdf54e1fd7e64d508d071c3f73470c3216960fbd1fad9b03cf06ea7012c87",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.UriCloneParityTest.xml": "d660eef5d805a508e6bb88ece8a79b7cbcccc080423503e322bade2648a34acd",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.UriSharedApiParityTest.xml": "a48fa591bebc6984d799d534472e37301cdcb8dd48d1a55068ce262e718dff94",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/ByteStr.kt": "2d79022e1333e928d6c486426da035aaf6bd1a0874ab6b2c92eb5e482c3547bf",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/Method.kt": "be558377a02d8da6a84981f40db679ecb6074ffdddb2236ffccb96b0f09e1625",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/Status.kt": "fb11ac6995a185ad3b13f5c3ba0cf44a322d30d6b2751c7d31e8735f6aa5d082",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/Version.kt": "ccfca12d8864a252a0ea6792c6c0d470f3c8221c158cf2823ae11847411cd564",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Authority.kt": "8cf1c84baf71ebaf837d11c1c68e7cd6fa899566d2ef6bd306dae8b6dbc217c4",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/PathAndQuery.kt": "3d6ef4cdc2c746052ce5f3575c15d6a97d47cb7052259411a9bf0b1b0275511f",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Port.kt": "a72e4994ad3b88099a5d52368f804fcd1253b463c58df8a5b301a914dd13c8d2",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Scheme.kt": "985a7d19c8c3a7138b1a546b585543b91a4720b1a18cf63bd81463b92d3c4f4f",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Uri.kt": "33bf99b63e3d944daf87eef040986daff2576c351f17bb9743a60b3b2895bea3",
+    "src/commonTest/kotlin/io/github/kotlinmania/http/ScalarCloneParityTest.kt": "ef263cee5e691beea1ae5a35ed539abcfb799cb82931b44befbb0a2036edd78d",
+    "tmp/http/src/status.rs": "69748fc8369ff915d33a6fc65d10f05e07c4c1afbabdf40d901438fd4d0b165b",
+    "tmp/http/src/version.rs": "623ef60a450203b051f3457e2f095508b66aaaa799b1447fb1b34d92cb2e7d62",
+    "verification/http-scalar-clones-oracle/Cargo.lock": "8d39c6cc8db773aee85dc1c735a77c7eeac60746a738ef1ad97d75d05fe8262c",
+    "verification/http-scalar-clones-oracle/Cargo.toml": "0528a454d2ad07394a34f1760eb1875f0be8960e3f75c73f130776bebe35b072",
+    "verification/http-scalar-clones-oracle/README.md": "86cd5eb6ed2f8add4babbeec6fad67b761584c57c194a341f3ed0df19c37c194",
+    "verification/http-scalar-clones-oracle/src/lib.rs": "badd90a8c2303f5fd65fe58c5cecd3e280b2e4098f753bea94bd2c51d207bdea"
+  }
+}

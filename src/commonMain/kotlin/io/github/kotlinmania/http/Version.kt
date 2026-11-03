@@ -45,6 +45,9 @@ class Version private constructor(
         fun default(): Version = HTTP_11
     }
 
+    /** Copies the stored version enum without parsing or formatting it. */
+    fun clone(): Version = Version(http)
+
     override fun compareTo(other: Version): Int = http.compareTo(other.http)
 
     override fun equals(other: Any?): Boolean = other is Version && http == other.http
