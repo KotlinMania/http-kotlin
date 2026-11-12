@@ -1,21 +1,15 @@
-#if canImport(Testing)
 import Testing
-import Template
+import Http
 
-@Suite("Template Swift Export Tests")
-struct TemplateExportTests {
-    @Test("Template swift module imported cleanly")
-    func testSwiftModuleLoads() throws {
-        #expect(Bool(true), "Template swift module imported cleanly")
+@Suite("Http Header Round Trip Tests")
+struct HttpHeaderRoundTripTests {
+    @Test("Normalized custom headers compare equal when parsed again")
+    func normalizedHeaderRoundTrip() {
+        let first = Http.header.HeaderName.Companion.shared.fromStr(src: "X-TRACE-ID")
+        #expect(first.isSuccess())
+        #expect(first.value?.asStr() == "x-trace-id")
+        let second = Http.header.HeaderName.Companion.shared.fromStr(src: "x-trace-id")
+        #expect(second.isSuccess())
+        #expect(first.value?.asStr() == second.value?.asStr())
     }
 }
-#elseif canImport(XCTest)
-import XCTest
-import Template
-
-final class TemplateExportTests: XCTestCase {
-    func testSwiftModuleLoads() throws {
-        XCTAssertTrue(true, "Template swift module imported cleanly")
-    }
-}
-#endif

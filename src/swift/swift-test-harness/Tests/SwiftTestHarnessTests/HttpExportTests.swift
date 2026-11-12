@@ -1,4 +1,3 @@
-#if canImport(Testing)
 import Testing
 import Http
 
@@ -23,33 +22,9 @@ struct HttpExportTests {
         #expect(result.error?.debugString() == "InvalidHeaderName")
     }
 
-    @Test("Swift module loads")
-    func testSwiftModuleLoads() {
-        #expect(Bool(true), "Http swift module imported cleanly")
+    @Test("Standard header names retain their canonical form")
+    func standardHeaderName() {
+        #expect(Http.header.HOST.asStr() == "host")
+        #expect(Http.header.HOST.eq(other: "HOST"))
     }
 }
-#elseif canImport(XCTest)
-import XCTest
-import Http
-
-final class HttpExportTests: XCTestCase {
-    func testHeaderNameNormalization() {
-        let result = Http.header.HeaderName.Companion.shared.fromStr(src: "X-REQUEST-ID")
-        XCTAssertTrue(result.isSuccess())
-        XCTAssertNil(result.error)
-        XCTAssertEqual(result.value?.asStr(), "x-request-id")
-        XCTAssertEqual(Http.header.HOST.asStr(), "host")
-    }
-
-    func testHeaderNameFailure() {
-        let result = Http.header.HeaderName.Companion.shared.fromStr(src: "bad name")
-        XCTAssertTrue(result.isFailure())
-        XCTAssertNil(result.value)
-        XCTAssertEqual(result.error?.message, "invalid HTTP header name")
-    }
-
-    func testSwiftModuleLoads() throws {
-        XCTAssertTrue(true, "Http swift module imported cleanly")
-    }
-}
-#endif
