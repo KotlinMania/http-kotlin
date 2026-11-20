@@ -76,6 +76,88 @@ class Error internal constructor(
     }
 }
 
+/** Result alias matching Rust `http::Result<T>` without exposing `Throwable` to Swift Export. */
+class HttpResult<T : Any> private constructor(
+    val value: T?,
+    val error: Error?,
+) {
+    val isSuccess: Boolean get() = error == null
+    val isFailure: Boolean get() = error != null
+
+    /** Returns true if this result holds a success value. */
+    fun isOk(): Boolean = error == null
+
+    /** Returns true if this result holds an [Error]. */
+    fun isErr(): Boolean = error != null
+
+    /** Returns the contained value, or null if failed. */
+    fun ok(): T? = value
+
+    /** Returns the contained [Error], or null if succeeded. */
+    fun err(): Error? = error
+
+    /** Returns the contained value, throwing [IllegalStateException] if failed. */
+    fun unwrap(): T = value ?: error(error?.message ?: "HttpResult failure")
+
+    /** Alias for [unwrap] matching Kotlin `Result.getOrThrow`. */
+    fun getOrThrow(): T = unwrap()
+
+    /** Returns the contained value, or null if failed. */
+    fun getOrNull(): T? = value
+
+    /** Returns the contained [Error], or null if succeeded. */
+    fun errorOrNull(): Error? = error
+
+    /** Transforms the contained success value with [transform], preserving any failure. */
+    fun <R : Any> map(transform: (T) -> R): HttpResult<R> {
+        val current = value
+        return if (error == null && current != null) {
+            ok(transform(current))
+        } else {
+            err(checkNotNull(error))
+        }
+    }
+
+    /** Chains another fallible computation returning [HttpResult], preserving any prior failure. */
+    fun <R : Any> andThen(transform: (T) -> HttpResult<R>): HttpResult<R> {
+        val current = value
+        return if (error == null && current != null) {
+            transform(current)
+        } else {
+            err(checkNotNull(error))
+        }
+    }
+
+    override fun equals(other: Any?): Boolean =
+        other is HttpResult<*> && value == other.value && error == other.error
+
+    override fun hashCode(): Int = 31 * (value?.hashCode() ?: 0) + (error?.hashCode() ?: 0)
+
+    override fun toString(): String =
+        if (error == null) {
+            "Ok($value)"
+        } else {
+            "Err($error)"
+        }
+
+    companion object {
+        fun <T : Any> ok(value: T): HttpResult<T> = HttpResult(value = value, error = null)
+
+        fun <T : Any> err(error: Error): HttpResult<T> = HttpResult(value = null, error = error)
+    }
+}
+
+internal fun errorFromThrowable(err: Throwable): Error =
+    when (err) {
+        is HeaderMaxSizeReached -> Error.from(err)
+        is InvalidStatusCode -> Error.from(err)
+        is InvalidMethod -> Error.from(err)
+        is InvalidUri -> Error.from(err)
+        is InvalidUriParts -> Error.from(err)
+        is InvalidHeaderValue -> Error.from(err)
+        else -> error("unexpected HTTP throwable: $err")
+    }
+
 /** Sealed hierarchy representing the concrete inner error kind inside [Error]. */
 internal sealed class ErrorKind {
     data class StatusCode(

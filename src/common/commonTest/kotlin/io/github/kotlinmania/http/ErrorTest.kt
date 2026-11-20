@@ -84,4 +84,48 @@ class ErrorTest {
         assertEquals("max size reached", wrappedMax.toString())
         assertEquals("http::Error(MaxSizeReached)", wrappedMax.debugString())
     }
+
+    @Test
+    fun httpResultSupportsOkErrMapAndThenAndUnwrap() {
+        val okRes = HttpResult.ok(21)
+        assertTrue(okRes.isSuccess)
+        assertFalse(okRes.isFailure)
+        assertTrue(okRes.isOk())
+        assertFalse(okRes.isErr())
+        assertEquals(21, okRes.ok())
+        assertNull(okRes.err())
+        assertEquals(21, okRes.unwrap())
+        assertEquals(21, okRes.getOrThrow())
+        assertEquals(21, okRes.getOrNull())
+        assertNull(okRes.errorOrNull())
+        assertEquals("Ok(21)", okRes.toString())
+
+        val mapped = okRes.map { it * 2 }
+        assertEquals(42, mapped.unwrap())
+
+        val chained =
+            mapped.andThen { v ->
+                if (v > 40) {
+                    HttpResult.ok("v=$v")
+                } else {
+                    HttpResult.err(Error.from(HeaderName.fromStr("bad name").error!!))
+                }
+            }
+        assertEquals("v=42", chained.unwrap())
+
+        val innerErr = HeaderName.fromStr("bad name").error!!
+        val errObj = Error.from(innerErr)
+        val errRes = HttpResult.err<Int>(errObj)
+        assertFalse(errRes.isSuccess)
+        assertTrue(errRes.isFailure)
+        assertFalse(errRes.isOk())
+        assertTrue(errRes.isErr())
+        assertNull(errRes.ok())
+        assertEquals(errObj, errRes.err())
+        assertNull(errRes.getOrNull())
+        assertEquals(errObj, errRes.errorOrNull())
+        assertEquals(errRes, errRes.map { it + 1 })
+        assertEquals(HttpResult.err<String>(errObj), errRes.andThen { HttpResult.ok("never") })
+        assertEquals("Err(invalid HTTP header name)", errRes.toString())
+    }
 }

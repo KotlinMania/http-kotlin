@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 15/21 (71.4%)
-- **Function parity:** 295/634 matched (target 500) — 46.5%
-- **Class/type parity:** 55/92 matched (target 98) — 59.8%
-- **Combined symbol parity:** 350/726 matched (target 598) — 48.2%
-- **Average inline-code cosine:** 0.10 (function body across 14 matched files)
-- **Average documentation cosine:** 0.66 (doc text across 14 matched files)
+- **Files Present:** 17/21 (81.0%)
+- **Function parity:** 363/634 matched (target 678) — 57.3%
+- **Class/type parity:** 57/92 matched (target 107) — 62.0%
+- **Combined symbol parity:** 420/726 matched (target 785) — 57.9%
+- **Average inline-code cosine:** 0.11 (function body across 16 matched files)
+- **Average documentation cosine:** 0.64 (doc text across 16 matched files)
 - **Cheat-zeroed Files:** 4
-- **Critical Issues:** 15 files with <0.60 function similarity
+- **Critical Issues:** 17 files with <0.60 function similarity
 - **Needs Review:** 0 files with 0.60-0.84 function similarity
 - **Excellent:** 0 files with >=0.85 function similarity
 
@@ -35,9 +35,9 @@ Every matched file is listed below with function and type symbol parity.
 - **Similarity:** 0.25
 - **Dependents:** 6
 - **Priority Score:** 6061707.5
-- **Functions:** 9/14 matched (target 18)
+- **Functions:** 9/14 matched (target 34)
 - **Missing functions:** `fmt`, `fmt`, `is`, `from`, `inner_error_is_invalid_status_code`
-- **Types:** 2/3 matched (target 9)
+- **Types:** 2/3 matched (target 10)
 - **Missing types:** `Result`
 - **Tests:** 0/1 matched
 
@@ -111,7 +111,19 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `Error`, `Err`
 - **Tests:** 0/3 matched
 
-### 8. uri.port
+### 8. request
+
+- **Target:** `Request`
+- **Similarity:** 0.17
+- **Dependents:** 1
+- **Priority Score:** 1095108.2
+- **Functions:** 41/48 matched (target 101)
+- **Missing functions:** `method_mut`, `uri_mut`, `version_mut`, `body_mut`, `fmt`, `fmt`, `it_can_map_a_body_from_one_type_to_another`
+- **Types:** 1/3 matched (target 4)
+- **Missing types:** `Parts`, `Builder`
+- **Tests:** 0/1 matched
+
+### 9. uri.port
 
 - **Target:** `uri.Port [ZERO]`
 - **Similarity:** 0.00
@@ -123,7 +135,19 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **Tests:** 0/4 matched
 
-### 9. extensions
+### 10. response
+
+- **Target:** `Response`
+- **Similarity:** 0.15
+- **Dependents:** 1
+- **Priority Score:** 1083608.5
+- **Functions:** 27/33 matched (target 61)
+- **Missing functions:** `status_mut`, `version_mut`, `body_mut`, `fmt`, `fmt`, `it_can_map_a_body_from_one_type_to_another`
+- **Types:** 1/3 matched (target 4)
+- **Missing types:** `Parts`, `Builder`
+- **Tests:** 0/1 matched
+
+### 11. extensions
 
 - **Target:** `Extensions`
 - **Similarity:** 0.06
@@ -135,7 +159,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `AnyMap`, `IdHasher`, `MyType`
 - **Tests:** 0/1 matched
 
-### 10. status
+### 12. status
 
 - **Target:** `Status [STUB]`
 - **Similarity:** 0.00
@@ -146,7 +170,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/4 matched (target 2)
 - **Missing types:** `Err`, `Error`
 
-### 11. uri.builder
+### 13. uri.builder
 
 - **Target:** `uri.Builder`
 - **Similarity:** 0.12
@@ -158,7 +182,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **Tests:** 0/4 matched
 
-### 12. header.map
+### 14. header.map
 
 - **Target:** `header.Map`
 - **Similarity:** 0.11
@@ -170,7 +194,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `Size`, `HashValue`, `RawLinks`, `Item`, `Error`, `Output`, `FnvHasher`, `Sealed`, `TryEntryError`
 - **Tests:** 0/2 matched
 
-### 13. uri.path
+### 15. uri.path
 
 - **Target:** `uri.PathAndQuery [ZERO]`
 - **Similarity:** 0.00
@@ -182,7 +206,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `PathAndQueryError`, `Error`, `Err`
 - **Tests:** 0/17 matched
 
-### 14. header.value
+### 16. header.value
 
 - **Target:** `header.Value`
 - **Similarity:** 0.08
@@ -194,7 +218,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `Err`, `Error`
 - **Tests:** 0/4 matched
 
-### 15. convert
+### 17. convert
 
 - **Target:** `Convert [ZERO]`
 - **Similarity:** 0.00
