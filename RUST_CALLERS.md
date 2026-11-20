@@ -16,15 +16,15 @@ For every Rust crate this repo owns (under `tmp/`), this file lists every **cros
 
 | package | module | inbound use sites | distinct caller crates | distinct caller repos | codex sites |
 |---|---|---:|---:|---:|---:|
-| `http` | `http` | 461 | 25 | 16 | 89 |
+| `http` | `http` | 788 | 27 | 18 | 89 |
 
 ## `http`
 
-### Inbound symbols (59 distinct, 461 total `use` sites)
+### Inbound symbols (67 distinct, 788 total `use` sites)
 
 Sorted by codex demand, then total demand. The first symbols are the priority queue for porting `http`.
 
-#### `http::HeaderMap` — 54 site(s) (31 codex, 23 other, 13 caller crates)
+#### `http::HeaderMap` — 68 site(s) (31 codex, 37 other, 14 caller crates)
 
 - ✅ `codex-kotlin/codex-api` `src/api_bridge.rs:13` — `use http::HeaderMap`
 - ✅ `codex-kotlin/codex-api` `src/auth.rs:4` — `use http::HeaderMap`
@@ -38,9 +38,9 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - ✅ `codex-kotlin/codex-api` `src/endpoint/responses.rs:18` — `use http::HeaderMap`
 - ✅ `codex-kotlin/codex-api` `src/endpoint/responses_websocket.rs:16` — `use http::HeaderMap`
 - ✅ `codex-kotlin/codex-api` `src/endpoint/session.rs:12` — `use http::HeaderMap`
-- _… and 42 more site(s)._
+- _… and 56 more site(s)._
 
-#### `http::HeaderValue` — 48 site(s) (17 codex, 31 other, 14 caller crates)
+#### `http::HeaderValue` — 69 site(s) (17 codex, 52 other, 15 caller crates)
 
 - ✅ `codex-kotlin/codex-api` `src/endpoint/realtime_call.rs:12` — `use http::HeaderValue`
 - ✅ `codex-kotlin/codex-api` `src/endpoint/realtime_websocket/methods.rs:25` — `use http::HeaderValue`
@@ -54,9 +54,9 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - ✅ `codex-kotlin/codex-client` `src/default_client.rs:4` — `use http::HeaderValue`
 - ✅ `codex-kotlin/codex-client` `src/request.rs:157` — `use http::HeaderValue`
 - ✅ `codex-kotlin/codex-core` `src/client.rs:92` — `use http::HeaderValue`
-- _… and 36 more site(s)._
+- _… and 57 more site(s)._
 
-#### `http::StatusCode` — 49 site(s) (14 codex, 35 other, 12 caller crates)
+#### `http::StatusCode` — 76 site(s) (14 codex, 62 other, 13 caller crates)
 
 - ✅ `codex-kotlin/codex-api` `src/endpoint/memories.rs:82` — `use http::StatusCode`
 - ✅ `codex-kotlin/codex-api` `src/endpoint/models.rs:87` — `use http::StatusCode`
@@ -70,9 +70,9 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - ✅ `codex-kotlin/codex-client` `src/error.rs:2` — `use http::StatusCode`
 - ✅ `codex-kotlin/codex-client` `src/telemetry.rs:2` — `use http::StatusCode`
 - ✅ `codex-kotlin/codex-client` `src/transport.rs:13` — `use http::StatusCode`
-- _… and 37 more site(s)._
+- _… and 64 more site(s)._
 
-#### `http::Method` — 30 site(s) (12 codex, 18 other, 8 caller crates)
+#### `http::Method` — 48 site(s) (12 codex, 36 other, 10 caller crates)
 
 - ✅ `codex-kotlin/codex-api` `src/endpoint/compact.rs:10` — `use http::Method`
 - ✅ `codex-kotlin/codex-api` `src/endpoint/memories.rs:10` — `use http::Method`
@@ -86,9 +86,9 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - ✅ `codex-kotlin/codex-aws-auth` `src/lib.rs:10` — `use http::Method`
 - ✅ `codex-kotlin/codex-client` `src/request.rs:2` — `use http::Method`
 - ✅ `codex-kotlin/codex-client` `src/transport.rs:12` — `use http::Method`
-- _… and 18 more site(s)._
+- _… and 36 more site(s)._
 
-#### `http::Uri` — 30 site(s) (2 codex, 28 other, 9 caller crates)
+#### `http::Uri` — 45 site(s) (2 codex, 43 other, 11 caller crates)
 
 - ✅ `codex-kotlin/codex-aws-auth` `src/signing.rs:11` — `use http::Uri`
 - ✅ `codex-kotlin/codex-otel` `src/otlp.rs:3` — `use http::Uri`
@@ -102,9 +102,9 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `axum-kotlin/axum` `src/extract/query.rs:2` — `use http::Uri`
 - `axum-kotlin/axum` `src/response/mod.rs:91` — `use http::Uri`
 - `axum-kotlin/axum` `src/routing/strip_prefix.rs:1` — `use http::Uri`
-- _… and 18 more site(s)._
+- _… and 33 more site(s)._
 
-#### `http::HeaderName` — 13 site(s) (2 codex, 11 other, 6 caller crates)
+#### `http::HeaderName` — 19 site(s) (2 codex, 17 other, 7 caller crates)
 
 - ✅ `codex-kotlin/codex-api` `src/endpoint/responses_websocket.rs:17` — `use http::HeaderName`
 - ✅ `codex-kotlin/codex-client` `src/default_client.rs:3` — `use http::HeaderName`
@@ -115,12 +115,12 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `opentelemetry-otlp-kotlin/opentelemetry-otlp` `src/exporter/tonic/mod.rs:529` — `use http::HeaderName`
 - `tonic-kotlin/tonic` `src/metadata/map.rs:1` — `use http::HeaderName`
 - `tonic-kotlin/tonic` `src/status.rs:5` — `use http::HeaderName`
-- `tungstenite-kotlin/tungstenite` `src/client.rs:8` — `use http::HeaderName`
-- `wiremock-kotlin/wiremock` `src/http.rs:1` — `pub_use http::HeaderName`
-- `wiremock-kotlin/wiremock` `src/matchers.rs:13` — `use http::HeaderName`
-- _… and 1 more site(s)._
+- `tower-http-kotlin/tower-http` `src/compression/mod.rs:102` — `use http::HeaderName`
+- `tower-http-kotlin/tower-http` `src/cors/allow_private_network.rs:122` — `use http::HeaderName`
+- `tower-http-kotlin/tower-http` `src/cors/mod.rs:54` — `use http::HeaderName`
+- _… and 7 more site(s)._
 
-#### `http::Request` — 29 site(s) (1 codex, 28 other, 7 caller crates)
+#### `http::Request` — 93 site(s) (1 codex, 92 other, 9 caller crates)
 
 - ✅ `codex-kotlin/codex-aws-auth` `src/signing.rs:10` — `use http::Request`
 - `aws-config-kotlin/aws-config` `src/http_credential_provider.rs:246` — `use http::Request`
@@ -134,13 +134,14 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `axum-kotlin/axum` `src/middleware/map_request.rs:6` — `use http::Request`
 - `axum-kotlin/axum` `src/middleware/map_response.rs:4` — `use http::Request`
 - `axum-kotlin/axum` `src/routing/not_found.rs:3` — `use http::Request`
-- _… and 17 more site(s)._
+- _… and 81 more site(s)._
 
-#### `http::Response` — 22 site(s) (1 codex, 21 other, 9 caller crates)
+#### `http::Response` — 87 site(s) (1 codex, 86 other, 11 caller crates)
 
 - ✅ `codex-kotlin/codex-protocol` `src/error_tests.rs:8` — `use http::Response as HttpResponse`
 - `aws-config-kotlin/aws-config` `src/http_credential_provider.rs:246` — `use http::Response`
 - `aws-types-kotlin/aws-types` `src/request_id.rs:78` — `use http::Response`
+- `axum-server-kotlin/axum-server` `src/service.rs:1` — `use http::Response`
 - `oauth2-kotlin/oauth2` `src/devicecode.rs:721` — `use http::Response`
 - `oauth2-kotlin/oauth2` `src/endpoint.rs:252` — `use http::Response`
 - `oauth2-kotlin/oauth2` `src/introspection.rs:459` — `use http::Response`
@@ -149,10 +150,9 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `reqwest-kotlin/reqwest` `src/async_impl/h3_client/mod.rs:12` — `use http::Response`
 - `reqwest-kotlin/reqwest` `src/async_impl/h3_client/pool.rs:19` — `use http::Response`
 - `reqwest-kotlin/reqwest` `src/cookie.rs:194` — `use http::Response`
-- `rmcp-kotlin/rmcp` `src/transport/common/server_side_http.rs:5` — `use http::Response`
-- _… and 10 more site(s)._
+- _… and 75 more site(s)._
 
-#### `http::header::HeaderValue` — 20 site(s) (1 codex, 19 other, 7 caller crates)
+#### `http::header::HeaderValue` — 31 site(s) (1 codex, 30 other, 8 caller crates)
 
 - ✅ `codex-kotlin/codex-model-provider-info` `src/lib.rs:18` — `use http::header::HeaderValue`
 - `axum-kotlin/axum` `src/extract/ws.rs:101` — `use http::header::HeaderValue`
@@ -166,9 +166,25 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `reqwest-kotlin/reqwest` `src/async_impl/client.rs:48` — `use http::header::HeaderValue`
 - `reqwest-kotlin/reqwest` `src/blocking/client.rs:12` — `use http::header::HeaderValue`
 - `reqwest-kotlin/reqwest` `src/connect.rs:2` — `use http::header::HeaderValue`
-- _… and 8 more site(s)._
+- _… and 19 more site(s)._
 
-#### `http::header::CONTENT_TYPE` — 16 site(s) (1 codex, 15 other, 6 caller crates)
+#### `http::header::HeaderName` — 26 site(s) (1 codex, 25 other, 6 caller crates)
+
+- ✅ `codex-kotlin/codex-model-provider-info` `src/lib.rs:17` — `use http::header::HeaderName`
+- `axum-kotlin/axum` `src/extract/ws.rs:101` — `use http::header::HeaderName`
+- `axum-kotlin/axum` `src/test_helpers/test_client.rs:4` — `use http::header::HeaderName`
+- `oauth2-kotlin/oauth2` `src/tests.rs:16` — `use http::header::HeaderName`
+- `tonic-kotlin/tonic` `src/metadata/key.rs:2` — `use http::header::HeaderName`
+- `tower-http-kotlin/tower-http` `src/builder.rs:4` — `use http::header::HeaderName`
+- `tower-http-kotlin/tower-http` `src/cors/allow_credentials.rs:2` — `use http::header::HeaderName`
+- `tower-http-kotlin/tower-http` `src/cors/allow_headers.rs:2` — `use http::header::HeaderName`
+- `tower-http-kotlin/tower-http` `src/cors/allow_methods.rs:2` — `use http::header::HeaderName`
+- `tower-http-kotlin/tower-http` `src/cors/allow_origin.rs:1` — `use http::header::HeaderName`
+- `tower-http-kotlin/tower-http` `src/cors/allow_private_network.rs:2` — `use http::header::HeaderName`
+- `tower-http-kotlin/tower-http` `src/cors/expose_headers.rs:2` — `use http::header::HeaderName`
+- _… and 14 more site(s)._
+
+#### `http::header::CONTENT_TYPE` — 18 site(s) (1 codex, 17 other, 7 caller crates)
 
 - ✅ `codex-kotlin/codex-api` `src/endpoint/realtime_call.rs:14` — `use http::header::CONTENT_TYPE`
 - `axum-kotlin/axum` `src/extract/multipart.rs:14` — `use http::header::CONTENT_TYPE`
@@ -182,9 +198,9 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `oauth2-kotlin/oauth2` `src/revocation.rs:382` — `use http::header::CONTENT_TYPE`
 - `oauth2-kotlin/oauth2` `src/token/tests.rs:16` — `use http::header::CONTENT_TYPE`
 - `oauth2-kotlin/oauth2` `src/ureq_client.rs:2` — `use http::header::CONTENT_TYPE`
-- _… and 4 more site(s)._
+- _… and 6 more site(s)._
 
-#### `http::header::HeaderMap` — 12 site(s) (1 codex, 11 other, 6 caller crates)
+#### `http::header::HeaderMap` — 13 site(s) (1 codex, 12 other, 7 caller crates)
 
 - ✅ `codex-kotlin/codex-api` `src/provider.rs:6` — `use http::header::HeaderMap`
 - `axum-kotlin/axum` `src/extract/mod.rs:2` — `use http::header::HeaderMap`
@@ -197,7 +213,8 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `libwebrtc-kotlin/livekit-api` `src/signal_client/region.rs:1` — `use http::header::HeaderMap`
 - `reqwest-kotlin/reqwest` `src/async_impl/client.rs:48` — `use http::header::HeaderMap`
 - `tonic-kotlin/tonic` `src/status.rs:5` — `use http::header::HeaderMap`
-- `tungstenite-kotlin/tungstenite` `src/handshake/headers.rs:1` — `use http::header::HeaderMap`
+- `tower-http-kotlin/tower-http` `src/trace/on_eos.rs:3` — `use http::header::HeaderMap`
+- _… and 1 more site(s)._
 
 #### `http::header::AUTHORIZATION` — 11 site(s) (1 codex, 10 other, 4 caller crates)
 
@@ -213,21 +230,12 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `oauth2-kotlin/oauth2` `src/revocation.rs:382` — `use http::header::AUTHORIZATION`
 - `oauth2-kotlin/oauth2` `src/token/tests.rs:16` — `use http::header::AUTHORIZATION`
 
-#### `http::header::HeaderName` — 8 site(s) (1 codex, 7 other, 5 caller crates)
-
-- ✅ `codex-kotlin/codex-model-provider-info` `src/lib.rs:17` — `use http::header::HeaderName`
-- `axum-kotlin/axum` `src/extract/ws.rs:101` — `use http::header::HeaderName`
-- `axum-kotlin/axum` `src/test_helpers/test_client.rs:4` — `use http::header::HeaderName`
-- `oauth2-kotlin/oauth2` `src/tests.rs:16` — `use http::header::HeaderName`
-- `tonic-kotlin/tonic` `src/metadata/key.rs:2` — `use http::header::HeaderName`
-- `tungstenite-kotlin/tungstenite` `src/error.rs:10` — `use http::header::HeaderName`
-- `tungstenite-kotlin/tungstenite` `src/handshake/client.rs:9` — `use http::header::HeaderName`
-- `tungstenite-kotlin/tungstenite` `src/handshake/headers.rs:1` — `use http::header::HeaderName`
-
-#### `http::header::LOCATION` — 2 site(s) (1 codex, 1 other, 2 caller crates)
+#### `http::header::LOCATION` — 4 site(s) (1 codex, 3 other, 3 caller crates)
 
 - ✅ `codex-kotlin/codex-api` `src/endpoint/realtime_call.rs:15` — `use http::header::LOCATION`
 - `axum-kotlin/axum` `src/response/redirect.rs:2` — `use http::header::LOCATION`
+- `tower-http-kotlin/tower-http` `src/follow_redirect/mod.rs:104` — `use http::header::LOCATION`
+- `tower-http-kotlin/tower-http` `src/follow_redirect/mod.rs:462` — `use http::header::LOCATION`
 
 #### `http::Error` — 1 site(s) (1 codex, 0 other, 1 caller crates)
 
@@ -241,7 +249,23 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 
 - ✅ `codex-kotlin/codex-api` `src/endpoint/models.rs:11` — `use http::header::ETAG`
 
-#### `http::request::Parts` — 15 site(s) (0 codex, 15 other, 3 caller crates)
+#### `http::header` — 38 site(s) (0 codex, 38 other, 3 caller crates)
+
+- `axum-kotlin/axum` `src/extract/mod.rs:2` — `use http::header`
+- `axum-kotlin/axum` `src/extract/ws.rs:101` — `use http::header`
+- `axum-kotlin/axum` `src/json.rs:6` — `use http::header`
+- `axum-kotlin/axum` `src/middleware/from_extractor.rs:307` — `use http::header`
+- `axum-kotlin/axum` `src/response/mod.rs:2` — `use http::header`
+- `axum-kotlin/axum` `src/routing/route.rs:8` — `use http::header`
+- `reqwest-kotlin/reqwest` `src/lib.rs:276` — `pub_use http::header`
+- `tower-http-kotlin/tower-http` `src/auth/async_require_authorization.rs:316` — `use http::header`
+- `tower-http-kotlin/tower-http` `src/auth/require_authorization.rs:60` — `use http::header`
+- `tower-http-kotlin/tower-http` `src/auth/require_authorization.rs:255` — `use http::header`
+- `tower-http-kotlin/tower-http` `src/compression/future.rs:8` — `use http::header`
+- `tower-http-kotlin/tower-http` `src/compression/predicate.rs:1` — `use http::header`
+- _… and 26 more site(s)._
+
+#### `http::request::Parts` — 23 site(s) (0 codex, 23 other, 4 caller crates)
 
 - `axum-kotlin/axum` `src/extension.rs:7` — `use http::request::Parts`
 - `axum-kotlin/axum` `src/extract/connect_info.rs:10` — `use http::request::Parts`
@@ -255,9 +279,9 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `axum-kotlin/axum` `src/extract/ws.rs:101` — `use http::request::Parts`
 - `axum-kotlin/axum` `src/middleware/from_extractor.rs:307` — `use http::request::Parts`
 - `reqwest-kotlin/reqwest` `src/async_impl/request.rs:20` — `use http::request::Parts`
-- _… and 3 more site(s)._
+- _… and 11 more site(s)._
 
-#### `http::Extensions` — 7 site(s) (0 codex, 7 other, 3 caller crates)
+#### `http::Extensions` — 10 site(s) (0 codex, 10 other, 4 caller crates)
 
 - `axum-kotlin/axum` `src/extension.rs:7` — `use http::Extensions`
 - `axum-kotlin/axum` `src/routing/url_params.rs:2` — `use http::Extensions`
@@ -266,16 +290,31 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `tonic-kotlin/tonic` `src/lib.rs:126` — `pub_use http::Extensions`
 - `tonic-kotlin/tonic` `src/request.rs:6` — `use http::Extensions`
 - `tonic-kotlin/tonic` `src/response.rs:1` — `use http::Extensions`
+- `tower-http-kotlin/tower-http` `src/compression/predicate.rs:1` — `use http::Extensions`
+- `tower-http-kotlin/tower-http` `src/follow_redirect/mod.rs:104` — `use http::Extensions`
+- `tower-http-kotlin/tower-http` `src/follow_redirect/policy/filter_credentials.rs:2` — `use http::Extensions`
 
-#### `http::header` — 7 site(s) (0 codex, 7 other, 2 caller crates)
+#### `http::Version` — 8 site(s) (0 codex, 8 other, 4 caller crates)
 
-- `axum-kotlin/axum` `src/extract/mod.rs:2` — `use http::header`
-- `axum-kotlin/axum` `src/extract/ws.rs:101` — `use http::header`
-- `axum-kotlin/axum` `src/json.rs:6` — `use http::header`
-- `axum-kotlin/axum` `src/middleware/from_extractor.rs:307` — `use http::header`
-- `axum-kotlin/axum` `src/response/mod.rs:2` — `use http::header`
-- `axum-kotlin/axum` `src/routing/route.rs:8` — `use http::header`
-- `reqwest-kotlin/reqwest` `src/lib.rs:276` — `pub_use http::header`
+- `axum-kotlin/axum` `src/extract/ws.rs:101` — `use http::Version`
+- `axum-kotlin/axum` `src/extract/ws.rs:1069` — `use http::Version`
+- `reqwest-kotlin/reqwest` `src/async_impl/request.rs:20` — `use http::Version`
+- `reqwest-kotlin/reqwest` `src/blocking/request.rs:4` — `use http::Version`
+- `reqwest-kotlin/reqwest` `src/lib.rs:279` — `pub_use http::Version`
+- `tower-http-kotlin/tower-http` `src/compression/predicate.rs:1` — `use http::Version`
+- `tower-http-kotlin/tower-http` `src/follow_redirect/mod.rs:104` — `use http::Version`
+- `tungstenite-kotlin/tungstenite` `src/handshake/mod.rs:13` — `use http::Version`
+
+#### `http::uri::Scheme` — 8 site(s) (0 codex, 8 other, 4 caller crates)
+
+- `aws-config-kotlin/aws-config` `src/ecs.rs:65` — `use http::uri::Scheme`
+- `reqwest-kotlin/reqwest` `src/async_impl/client.rs:50` — `use http::uri::Scheme`
+- `reqwest-kotlin/reqwest` `src/async_impl/h3_client/pool.rs:18` — `use http::uri::Scheme`
+- `reqwest-kotlin/reqwest` `src/connect.rs:4` — `use http::uri::Scheme`
+- `reqwest-kotlin/reqwest` `src/connect.rs:1832` — `use http::uri::Scheme`
+- `reqwest-kotlin/reqwest` `src/proxy.rs:4` — `use http::uri::Scheme`
+- `tonic-kotlin/tonic` `src/transport/channel/service/add_origin.rs:3` — `use http::uri::Scheme`
+- `tower-http-kotlin/tower-http` `src/follow_redirect/policy/mod.rs:20` — `use http::uri::Scheme`
 
 #### `http::header::ACCEPT` — 7 site(s) (0 codex, 7 other, 3 caller crates)
 
@@ -287,25 +326,6 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `oauth2-kotlin/oauth2` `src/token/tests.rs:16` — `use http::header::ACCEPT`
 - `reqwest-kotlin/reqwest` `src/async_impl/client.rs:48` — `use http::header::ACCEPT`
 
-#### `http::uri::Scheme` — 7 site(s) (0 codex, 7 other, 3 caller crates)
-
-- `aws-config-kotlin/aws-config` `src/ecs.rs:65` — `use http::uri::Scheme`
-- `reqwest-kotlin/reqwest` `src/async_impl/client.rs:50` — `use http::uri::Scheme`
-- `reqwest-kotlin/reqwest` `src/async_impl/h3_client/pool.rs:18` — `use http::uri::Scheme`
-- `reqwest-kotlin/reqwest` `src/connect.rs:4` — `use http::uri::Scheme`
-- `reqwest-kotlin/reqwest` `src/connect.rs:1832` — `use http::uri::Scheme`
-- `reqwest-kotlin/reqwest` `src/proxy.rs:4` — `use http::uri::Scheme`
-- `tonic-kotlin/tonic` `src/transport/channel/service/add_origin.rs:3` — `use http::uri::Scheme`
-
-#### `http::Version` — 6 site(s) (0 codex, 6 other, 3 caller crates)
-
-- `axum-kotlin/axum` `src/extract/ws.rs:101` — `use http::Version`
-- `axum-kotlin/axum` `src/extract/ws.rs:1069` — `use http::Version`
-- `reqwest-kotlin/reqwest` `src/async_impl/request.rs:20` — `use http::Version`
-- `reqwest-kotlin/reqwest` `src/blocking/request.rs:4` — `use http::Version`
-- `reqwest-kotlin/reqwest` `src/lib.rs:279` — `pub_use http::Version`
-- `tungstenite-kotlin/tungstenite` `src/handshake/mod.rs:13` — `use http::Version`
-
 #### `http` — 5 site(s) (0 codex, 5 other, 5 caller crates)
 
 - `axum-kotlin/axum` `src/lib.rs:461` — `pub_use http`
@@ -313,6 +333,14 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `reqwest-kotlin/reqwest` `src/blocking/response.rs:10` — `use http`
 - `tonic-kotlin/tonic` `src/codegen.rs:16` — `pub_use http`
 - `tungstenite-kotlin/tungstenite` `src/lib.rs:19` — `pub_use http`
+
+#### `http::header::ALLOW` — 5 site(s) (0 codex, 5 other, 3 caller crates)
+
+- `axum-kotlin/axum` `src/routing/method_routing.rs:1347` — `use http::header::ALLOW`
+- `axum-kotlin/axum` `src/routing/tests/mod.rs:21` — `use http::header::ALLOW`
+- `rmcp-kotlin/rmcp` `src/transport/streamable_http_server/tower.rs:5` — `use http::header::ALLOW`
+- `tower-http-kotlin/tower-http` `src/services/fs/serve_dir/future.rs:11` — `use http::header::ALLOW`
+- `tower-http-kotlin/tower-http` `src/services/fs/serve_dir/tests.rs:6` — `use http::header::ALLOW`
 
 #### `http::response::Builder` — 5 site(s) (0 codex, 5 other, 3 caller crates)
 
@@ -343,28 +371,42 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 - `reqwest-kotlin/reqwest` `src/wasm/client.rs:1` — `use http::header::USER_AGENT`
 - `tonic-kotlin/tonic` `src/transport/channel/service/user_agent.rs:1` — `use http::header::USER_AGENT`
 
+#### `http::response` — 4 site(s) (0 codex, 4 other, 2 caller crates)
+
+- `axum-server-kotlin/axum-server` `src/tls_openssl/mod.rs:343` — `use http::response`
+- `axum-server-kotlin/axum-server` `src/tls_rustls/mod.rs:394` — `use http::response`
+- `tower-http-kotlin/tower-http` `src/on_early_drop/early_drops_as_failures.rs:8` — `use http::response`
+- `tower-http-kotlin/tower-http` `src/on_early_drop/traits.rs:1` — `use http::response`
+
 #### `http0::HeaderValue` — 3 site(s) (0 codex, 3 other, 1 caller crates)
 
 - `aws-sigv4-kotlin/aws-sigv4` `src/http_request/canonical_request.rs:17` — `use http0::HeaderValue`
 - `aws-sigv4-kotlin/aws-sigv4` `src/http_request/canonical_request.rs:685` — `use http0::HeaderValue`
 - `aws-sigv4-kotlin/aws-sigv4` `src/http_request/sign.rs:514` — `use http0::HeaderValue`
 
-#### `http::header::ALLOW` — 3 site(s) (0 codex, 3 other, 2 caller crates)
+#### `http::header::ACCEPT_ENCODING` — 3 site(s) (0 codex, 3 other, 1 caller crates)
 
-- `axum-kotlin/axum` `src/routing/method_routing.rs:1347` — `use http::header::ALLOW`
-- `axum-kotlin/axum` `src/routing/tests/mod.rs:21` — `use http::header::ALLOW`
-- `rmcp-kotlin/rmcp` `src/transport/streamable_http_server/tower.rs:5` — `use http::header::ALLOW`
+- `tower-http-kotlin/tower-http` `src/compression/layer.rs:127` — `use http::header::ACCEPT_ENCODING`
+- `tower-http-kotlin/tower-http` `src/compression/mod.rs:99` — `use http::header::ACCEPT_ENCODING`
+- `tower-http-kotlin/tower-http` `src/decompression/service.rs:3` — `use http::header::ACCEPT_ENCODING`
+
+#### `http::header::CONTENT_ENCODING` — 3 site(s) (0 codex, 3 other, 2 caller crates)
+
+- `opentelemetry-otlp-kotlin/opentelemetry-otlp` `src/exporter/http/logs.rs:2` — `use http::header::CONTENT_ENCODING`
+- `tower-http-kotlin/tower-http` `src/compression/mod.rs:99` — `use http::header::CONTENT_ENCODING`
+- `tower-http-kotlin/tower-http` `src/follow_redirect/mod.rs:104` — `use http::header::CONTENT_ENCODING`
+
+#### `http::header::CONTENT_LENGTH` — 3 site(s) (0 codex, 3 other, 2 caller crates)
+
+- `axum-kotlin/axum` `src/routing/route.rs:8` — `use http::header::CONTENT_LENGTH`
+- `axum-kotlin/axum` `src/routing/tests/mod.rs:21` — `use http::header::CONTENT_LENGTH`
+- `tower-http-kotlin/tower-http` `src/follow_redirect/mod.rs:104` — `use http::header::CONTENT_LENGTH`
 
 #### `http::uri::Uri` — 3 site(s) (0 codex, 3 other, 1 caller crates)
 
 - `tonic-kotlin/tonic` `src/client/grpc.rs:11` — `use http::uri::Uri`
 - `tonic-kotlin/tonic` `src/transport/channel/endpoint.rs:12` — `use http::uri::Uri`
 - `tonic-kotlin/tonic` `src/transport/channel/mod.rs:17` — `use http::uri::Uri`
-
-#### `http::header::CONTENT_LENGTH` — 2 site(s) (0 codex, 2 other, 1 caller crates)
-
-- `axum-kotlin/axum` `src/routing/route.rs:8` — `use http::header::CONTENT_LENGTH`
-- `axum-kotlin/axum` `src/routing/tests/mod.rs:21` — `use http::header::CONTENT_LENGTH`
 
 #### `http::method::Method` — 2 site(s) (0 codex, 2 other, 1 caller crates)
 
@@ -447,9 +489,13 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 
 - `aws-sigv4-kotlin/aws-sigv4` `src/http_request/canonical_request.rs:16` — `use http0::uri::Scheme`
 
-#### `http::header::CONTENT_ENCODING` — 1 site(s) (0 codex, 1 other, 1 caller crates)
+#### `http::header::ACCEPT_RANGES` — 1 site(s) (0 codex, 1 other, 1 caller crates)
 
-- `opentelemetry-otlp-kotlin/opentelemetry-otlp` `src/exporter/http/logs.rs:2` — `use http::header::CONTENT_ENCODING`
+- `tower-http-kotlin/tower-http` `src/compression/mod.rs:99` — `use http::header::ACCEPT_RANGES`
+
+#### `http::header::CONTENT_RANGE` — 1 site(s) (0 codex, 1 other, 1 caller crates)
+
+- `tower-http-kotlin/tower-http` `src/compression/mod.rs:99` — `use http::header::CONTENT_RANGE`
 
 #### `http::header::GetAll` — 1 site(s) (0 codex, 1 other, 1 caller crates)
 
@@ -459,9 +505,17 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 
 - `axum-kotlin/axum` `src/routing/tests/mod.rs:21` — `use http::header::HOST`
 
+#### `http::header::InvalidHeaderName` — 1 site(s) (0 codex, 1 other, 1 caller crates)
+
+- `tower-http-kotlin/tower-http` `src/validate_request.rs:1` — `use http::header::InvalidHeaderName`
+
 #### `http::header::InvalidHeaderValue` — 1 site(s) (0 codex, 1 other, 1 caller crates)
 
 - `aws-config-kotlin/aws-config` `src/ecs.rs:64` — `use http::header::InvalidHeaderValue`
+
+#### `http::header::ORIGIN` — 1 site(s) (0 codex, 1 other, 1 caller crates)
+
+- `tower-http-kotlin/tower-http` `src/cors/allow_private_network.rs:122` — `use http::header::ORIGIN`
 
 #### `http::header::OccupiedEntry` — 1 site(s) (0 codex, 1 other, 1 caller crates)
 
@@ -471,9 +525,17 @@ Sorted by codex demand, then total demand. The first symbols are the priority qu
 
 - `reqwest-kotlin/reqwest` `src/async_impl/client.rs:48` — `use http::header::PROXY_AUTHORIZATION`
 
+#### `http::header::RANGE` — 1 site(s) (0 codex, 1 other, 1 caller crates)
+
+- `tower-http-kotlin/tower-http` `src/compression/mod.rs:99` — `use http::header::RANGE`
+
 #### `http::header::TE` — 1 site(s) (0 codex, 1 other, 1 caller crates)
 
 - `tonic-kotlin/tonic` `src/client/grpc.rs:11` — `use http::header::TE`
+
+#### `http::header::TRANSFER_ENCODING` — 1 site(s) (0 codex, 1 other, 1 caller crates)
+
+- `tower-http-kotlin/tower-http` `src/follow_redirect/mod.rs:104` — `use http::header::TRANSFER_ENCODING`
 
 #### `http::header::WWW_AUTHENTICATE` — 1 site(s) (0 codex, 1 other, 1 caller crates)
 
