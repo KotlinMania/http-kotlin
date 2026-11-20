@@ -65,4 +65,48 @@ struct HttpExportTests {
         #expect(wrapped.message == "invalid HTTP header name")
         #expect(wrapped.debugString() == "http::Error(InvalidHeaderName)")
     }
+
+    @Test("Request builder constructs, inspects headers and body, and reports invalid header errors")
+    func requestBuilderAndParts() {
+        let result = Http.Request.Companion.shared
+            .post(uri: "https://example.com/items")
+            .header(key: "x-trace", value: "abc")
+            .bodyText(body: "payload")
+        #expect(result.isOk())
+        let req = result.unwrap() as? Http.Request
+        #expect(req != nil)
+        #expect(req?.method().asStr() == "POST")
+        #expect(req?.uri().host() == "example.com")
+        #expect((req?.headers()["x-trace"] as? Http.header.HeaderValue)?.eq(other: "abc") == true)
+        #expect((req?.body() as? String) == "payload")
+
+        let invalid = Http.Request.Companion.shared
+            .builder()
+            .header(key: "bad name", value: "abc")
+            .bodyText(body: "payload")
+        #expect(invalid.isErr())
+        #expect(invalid.error != nil)
+    }
+
+    @Test("Response builder sets status, headers, body, and propagates invalid status errors")
+    func responseBuilderAndParts() {
+        let result = Http.Response.Companion.shared
+            .builder()
+            .status(status: 201)
+            .header(key: "content-type", value: "text/plain")
+            .bodyText(body: "created")
+        #expect(result.isOk())
+        let res = result.unwrap() as? Http.Response
+        #expect(res != nil)
+        #expect(res?.status().asU16() == 201)
+        #expect((res?.headers()["content-type"] as? Http.header.HeaderValue)?.eq(other: "text/plain") == true)
+        #expect((res?.body() as? String) == "created")
+
+        let invalid = Http.Response.Companion.shared
+            .builder()
+            .status(status: 9999)
+            .bodyEmpty()
+        #expect(invalid.isErr())
+        #expect(invalid.error != nil)
+    }
 }

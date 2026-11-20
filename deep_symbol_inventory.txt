@@ -30,7 +30,7 @@ EXTRA_TARGET_SYMBOL function ByteStr::hashCode at src/common/commonMain/kotlin/i
 EXTRA_TARGET_SYMBOL function downcastIfSame at src/common/commonMain/kotlin/io/github/kotlinmania/http/Convert.kt:8
 PRESENT type Error at tmp/http/src/error.rs:17 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:19
 MISSING_SYMBOL type_alias Result at tmp/http/src/error.rs:22
-PRESENT type ErrorKind at tmp/http/src/error.rs:24 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:80
+PRESENT type ErrorKind at tmp/http/src/error.rs:24 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:162
 MISSING_SYMBOL enum_variant ErrorKind::StatusCode at tmp/http/src/error.rs:25
 MISSING_SYMBOL enum_variant ErrorKind::Method at tmp/http/src/error.rs:26
 MISSING_SYMBOL enum_variant ErrorKind::Uri at tmp/http/src/error.rs:27
@@ -70,22 +70,43 @@ EXTRA_TARGET_SYMBOL function Error::Companion::from at src/common/commonMain/kot
 EXTRA_TARGET_SYMBOL function Error::Companion::from at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:71
 EXTRA_TARGET_SYMBOL function Error::Companion::from at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:73
 EXTRA_TARGET_SYMBOL function Error::Companion::from at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:75
-EXTRA_TARGET_SYMBOL type ErrorKind::StatusCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:81
-EXTRA_TARGET_SYMBOL property ErrorKind::StatusCode::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:82
-EXTRA_TARGET_SYMBOL type ErrorKind::Method at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:85
-EXTRA_TARGET_SYMBOL property ErrorKind::Method::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:86
-EXTRA_TARGET_SYMBOL type ErrorKind::Uri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:89
-EXTRA_TARGET_SYMBOL property ErrorKind::Uri::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:90
-EXTRA_TARGET_SYMBOL type ErrorKind::UriParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:93
-EXTRA_TARGET_SYMBOL property ErrorKind::UriParts::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:94
-EXTRA_TARGET_SYMBOL type ErrorKind::HeaderName at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:97
-EXTRA_TARGET_SYMBOL property ErrorKind::HeaderName::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:98
-EXTRA_TARGET_SYMBOL type ErrorKind::HeaderValue at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:101
-EXTRA_TARGET_SYMBOL property ErrorKind::HeaderValue::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:102
-EXTRA_TARGET_SYMBOL type ErrorKind::MaxSizeReached at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:105
-EXTRA_TARGET_SYMBOL property ErrorKind::MaxSizeReached::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:106
-EXTRA_TARGET_SYMBOL function ErrorKind::describe at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:109
-EXTRA_TARGET_SYMBOL function ErrorKind::debugDescribe at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:120
+EXTRA_TARGET_SYMBOL type HttpResult at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:80
+EXTRA_TARGET_SYMBOL property HttpResult::value at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:81
+EXTRA_TARGET_SYMBOL property HttpResult::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:82
+EXTRA_TARGET_SYMBOL property HttpResult::isSuccess at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:84
+EXTRA_TARGET_SYMBOL property HttpResult::isFailure at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:85
+EXTRA_TARGET_SYMBOL function HttpResult::isOk at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:88
+EXTRA_TARGET_SYMBOL function HttpResult::isErr at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:91
+EXTRA_TARGET_SYMBOL function HttpResult::ok at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:94
+EXTRA_TARGET_SYMBOL function HttpResult::err at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:97
+EXTRA_TARGET_SYMBOL function HttpResult::unwrap at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:100
+EXTRA_TARGET_SYMBOL function HttpResult::getOrThrow at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:103
+EXTRA_TARGET_SYMBOL function HttpResult::getOrNull at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:106
+EXTRA_TARGET_SYMBOL function HttpResult::errorOrNull at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:109
+EXTRA_TARGET_SYMBOL function HttpResult::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:112
+EXTRA_TARGET_SYMBOL function HttpResult::andThen at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:122
+EXTRA_TARGET_SYMBOL function HttpResult::equals at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:131
+EXTRA_TARGET_SYMBOL function HttpResult::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:134
+EXTRA_TARGET_SYMBOL function HttpResult::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:136
+EXTRA_TARGET_SYMBOL function HttpResult::Companion::ok at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:144
+EXTRA_TARGET_SYMBOL function HttpResult::Companion::err at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:146
+EXTRA_TARGET_SYMBOL function errorFromThrowable at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:150
+EXTRA_TARGET_SYMBOL type ErrorKind::StatusCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:163
+EXTRA_TARGET_SYMBOL property ErrorKind::StatusCode::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:164
+EXTRA_TARGET_SYMBOL type ErrorKind::Method at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:167
+EXTRA_TARGET_SYMBOL property ErrorKind::Method::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:168
+EXTRA_TARGET_SYMBOL type ErrorKind::Uri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:171
+EXTRA_TARGET_SYMBOL property ErrorKind::Uri::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:172
+EXTRA_TARGET_SYMBOL type ErrorKind::UriParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:175
+EXTRA_TARGET_SYMBOL property ErrorKind::UriParts::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:176
+EXTRA_TARGET_SYMBOL type ErrorKind::HeaderName at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:179
+EXTRA_TARGET_SYMBOL property ErrorKind::HeaderName::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:180
+EXTRA_TARGET_SYMBOL type ErrorKind::HeaderValue at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:183
+EXTRA_TARGET_SYMBOL property ErrorKind::HeaderValue::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:184
+EXTRA_TARGET_SYMBOL type ErrorKind::MaxSizeReached at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:187
+EXTRA_TARGET_SYMBOL property ErrorKind::MaxSizeReached::error at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:188
+EXTRA_TARGET_SYMBOL function ErrorKind::describe at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:191
+EXTRA_TARGET_SYMBOL function ErrorKind::debugDescribe at src/common/commonMain/kotlin/io/github/kotlinmania/http/Error.kt:202
 MISSING_SYMBOL type_alias AnyMap at tmp/http/src/extensions.rs:6
 MISSING_SYMBOL type IdHasher at tmp/http/src/extensions.rs:12
 MISSING_SYMBOL function write at tmp/http/src/extensions.rs:15
@@ -149,49 +170,49 @@ EXTRA_TARGET_SYMBOL function AnyClone::asAnyMut at src/common/commonMain/kotlin/
 EXTRA_TARGET_SYMBOL function AnyClone::intoAny at src/common/commonMain/kotlin/io/github/kotlinmania/http/Extensions.kt:283
 EXTRA_TARGET_SYMBOL function AnyClone::typeName at src/common/commonMain/kotlin/io/github/kotlinmania/http/Extensions.kt:285
 PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt: parser errors; symbol inventory may be incomplete
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1887-1887: MISSING }
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1888-1889: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1888-1888: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1895-1895: MISSING }
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1896-1896: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1897-1897: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1919-1919: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1920-1920: ERROR ERROR
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1890-1890: MISSING }
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1891-1892: ERROR ERROR
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1891-1891: ERROR ERROR
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1898-1898: MISSING }
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1899-1899: ERROR ERROR
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1900-1900: ERROR ERROR
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1922-1922: ERROR ERROR
 PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1923-1923: ERROR ERROR
-PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1924-1924: ERROR ERROR
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1926-1926: ERROR ERROR
+PARSER_REVIEW src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1927-1927: ERROR ERROR
 PRESENT type HeaderMap at tmp/http/src/header/map.rs:81 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:48
-PRESENT type Iter at tmp/http/src/header/map.rs:120 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1282
-PRESENT type IterMut at tmp/http/src/header/map.rs:131 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1328
-PRESENT type IntoIter at tmp/http/src/header/map.rs:142 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1387
-PRESENT type Keys at tmp/http/src/header/map.rs:154 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1427
-PRESENT type Values at tmp/http/src/header/map.rs:162 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1477
-PRESENT type ValuesMut at tmp/http/src/header/map.rs:168 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1496
-PRESENT type Drain at tmp/http/src/header/map.rs:174 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1520
-PRESENT type GetAll at tmp/http/src/header/map.rs:188 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1260
-PRESENT type Entry at tmp/http/src/header/map.rs:195 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1086
+PRESENT type Iter at tmp/http/src/header/map.rs:120 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1285
+PRESENT type IterMut at tmp/http/src/header/map.rs:131 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1331
+PRESENT type IntoIter at tmp/http/src/header/map.rs:142 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1390
+PRESENT type Keys at tmp/http/src/header/map.rs:154 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1430
+PRESENT type Values at tmp/http/src/header/map.rs:162 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1480
+PRESENT type ValuesMut at tmp/http/src/header/map.rs:168 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1499
+PRESENT type Drain at tmp/http/src/header/map.rs:174 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1523
+PRESENT type GetAll at tmp/http/src/header/map.rs:188 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1263
+PRESENT type Entry at tmp/http/src/header/map.rs:195 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1089
 MISSING_SYMBOL enum_variant Entry::Occupied at tmp/http/src/header/map.rs:197
 MISSING_SYMBOL enum_variant Entry::Vacant at tmp/http/src/header/map.rs:200
-PRESENT type VacantEntry at tmp/http/src/header/map.rs:207 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1142
-PRESENT type OccupiedEntry at tmp/http/src/header/map.rs:219 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1187
-PRESENT type ValueIter at tmp/http/src/header/map.rs:227 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1565
-PRESENT type ValueIterMut at tmp/http/src/header/map.rs:236 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1645
-PRESENT type ValueDrain at tmp/http/src/header/map.rs:246 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1745
-PRESENT type MaxSizeReached at tmp/http/src/header/map.rs:253 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1781
-PRESENT type Cursor at tmp/http/src/header/map.rs:259 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1792
+PRESENT type VacantEntry at tmp/http/src/header/map.rs:207 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1145
+PRESENT type OccupiedEntry at tmp/http/src/header/map.rs:219 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1190
+PRESENT type ValueIter at tmp/http/src/header/map.rs:227 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1568
+PRESENT type ValueIterMut at tmp/http/src/header/map.rs:236 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1648
+PRESENT type ValueDrain at tmp/http/src/header/map.rs:246 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1748
+PRESENT type MaxSizeReached at tmp/http/src/header/map.rs:253 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1784
+PRESENT type Cursor at tmp/http/src/header/map.rs:259 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1795
 MISSING_SYMBOL enum_variant Cursor::Head at tmp/http/src/header/map.rs:260
 MISSING_SYMBOL enum_variant Cursor::Values at tmp/http/src/header/map.rs:261
 MISSING_SYMBOL type_alias Size at tmp/http/src/header/map.rs:276
 PRESENT property MAX_SIZE at tmp/http/src/header/map.rs:279 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:6
-PRESENT type Pos at tmp/http/src/header/map.rs:284 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1800
+PRESENT type Pos at tmp/http/src/header/map.rs:284 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1803
 MISSING_SYMBOL type HashValue at tmp/http/src/header/map.rs:296
-PRESENT type Bucket at tmp/http/src/header/map.rs:305 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1821
-PRESENT type Links at tmp/http/src/header/map.rs:314 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1828
+PRESENT type Bucket at tmp/http/src/header/map.rs:305 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1824
+PRESENT type Links at tmp/http/src/header/map.rs:314 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1831
 MISSING_SYMBOL type RawLinks at tmp/http/src/header/map.rs:324
-PRESENT type ExtraValue at tmp/http/src/header/map.rs:328 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1833
-PRESENT type Link at tmp/http/src/header/map.rs:338 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1839
+PRESENT type ExtraValue at tmp/http/src/header/map.rs:328 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1836
+PRESENT type Link at tmp/http/src/header/map.rs:338 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1842
 MISSING_SYMBOL enum_variant Link::Entry at tmp/http/src/header/map.rs:339
 MISSING_SYMBOL enum_variant Link::Extra at tmp/http/src/header/map.rs:340
-PRESENT type Danger at tmp/http/src/header/map.rs:352 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1849
+PRESENT type Danger at tmp/http/src/header/map.rs:352 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1852
 MISSING_SYMBOL enum_variant Danger::Green at tmp/http/src/header/map.rs:353
 MISSING_SYMBOL enum_variant Danger::Yellow at tmp/http/src/header/map.rs:354
 MISSING_SYMBOL enum_variant Danger::Red at tmp/http/src/header/map.rs:355
@@ -237,7 +258,7 @@ MISSING_SYMBOL function find at tmp/http/src/header/map.rs:1498
 MISSING_SYMBOL function try_insert_phase_two at tmp/http/src/header/map.rs:1530
 MISSING_SYMBOL function remove at tmp/http/src/header/map.rs:1572
 MISSING_SYMBOL function remove_found at tmp/http/src/header/map.rs:1596
-PRESENT function remove_extra_value at tmp/http/src/header/map.rs:1653 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1870
+PRESENT function remove_extra_value at tmp/http/src/header/map.rs:1653 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1873
 MISSING_SYMBOL function remove_all_extra_values at tmp/http/src/header/map.rs:1658
 MISSING_SYMBOL function try_insert_entry at tmp/http/src/header/map.rs:1671
 MISSING_SYMBOL function rebuild at tmp/http/src/header/map.rs:1691
@@ -245,8 +266,8 @@ MISSING_SYMBOL function reinsert_entry_in_order at tmp/http/src/header/map.rs:17
 MISSING_SYMBOL function try_reserve_one at tmp/http/src/header/map.rs:1738
 MISSING_SYMBOL function try_grow at tmp/http/src/header/map.rs:1779
 MISSING_SYMBOL function raw_links at tmp/http/src/header/map.rs:1819
-PRESENT function remove_extra_value at tmp/http/src/header/map.rs:1826 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1870
-PRESENT function drain_all_extra_values at tmp/http/src/header/map.rs:1944 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1931
+PRESENT function remove_extra_value at tmp/http/src/header/map.rs:1826 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1873
+PRESENT function drain_all_extra_values at tmp/http/src/header/map.rs:1944 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1934
 MISSING_SYMBOL type_alias Item at tmp/http/src/header/map.rs:1964
 MISSING_SYMBOL type_alias IntoIter at tmp/http/src/header/map.rs:1965
 MISSING_SYMBOL function into_iter at tmp/http/src/header/map.rs:1967
@@ -265,8 +286,8 @@ MISSING_SYMBOL function eq at tmp/http/src/header/map.rs:2206
 MISSING_SYMBOL function fmt at tmp/http/src/header/map.rs:2219
 MISSING_SYMBOL type_alias Output at tmp/http/src/header/map.rs:2228
 MISSING_SYMBOL function index at tmp/http/src/header/map.rs:2233
-PRESENT function do_insert_phase_two at tmp/http/src/header/map.rs:2245 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1949
-PRESENT function append_value at tmp/http/src/header/map.rs:2264 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1977
+PRESENT function do_insert_phase_two at tmp/http/src/header/map.rs:2245 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1952
+PRESENT function append_value at tmp/http/src/header/map.rs:2264 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1980
 MISSING_SYMBOL type_alias Item at tmp/http/src/header/map.rs:2302
 MISSING_SYMBOL function next at tmp/http/src/header/map.rs:2304
 MISSING_SYMBOL function size_hint at tmp/http/src/header/map.rs:2336
@@ -362,16 +383,16 @@ MISSING_SYMBOL function set_green at tmp/http/src/header/map.rs:3600
 MISSING_SYMBOL function new at tmp/http/src/header/map.rs:3609
 MISSING_SYMBOL function fmt at tmp/http/src/header/map.rs:3615
 MISSING_SYMBOL function fmt at tmp/http/src/header/map.rs:3623
-PRESENT function usable_capacity at tmp/http/src/header/map.rs:3633 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2008
-PRESENT function to_raw_capacity at tmp/http/src/header/map.rs:3638 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2010
-PRESENT function desired_pos at tmp/http/src/header/map.rs:3643 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2029
-PRESENT function probe_distance at tmp/http/src/header/map.rs:3649 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2034
+PRESENT function usable_capacity at tmp/http/src/header/map.rs:3633 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2011
+PRESENT function to_raw_capacity at tmp/http/src/header/map.rs:3638 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2013
+PRESENT function desired_pos at tmp/http/src/header/map.rs:3643 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2032
+PRESENT function probe_distance at tmp/http/src/header/map.rs:3649 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2037
 MISSING_SYMBOL function hash_elem_using at tmp/http/src/header/map.rs:3653
 MISSING_SYMBOL type FnvHasher at tmp/http/src/header/map.rs:3677
 MISSING_SYMBOL function new at tmp/http/src/header/map.rs:3681
 MISSING_SYMBOL function finish at tmp/http/src/header/map.rs:3688
 MISSING_SYMBOL function write at tmp/http/src/header/map.rs:3693
-PRESENT type IntoHeaderName at tmp/http/src/header/map.rs:3714 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1069
+PRESENT type IntoHeaderName at tmp/http/src/header/map.rs:3714 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1072
 MISSING_SYMBOL type Sealed at tmp/http/src/header/map.rs:3724
 MISSING_SYMBOL function try_insert at tmp/http/src/header/map.rs:3740
 MISSING_SYMBOL function try_append at tmp/http/src/header/map.rs:3749
@@ -382,7 +403,7 @@ MISSING_SYMBOL function try_entry at tmp/http/src/header/map.rs:3776
 MISSING_SYMBOL function try_insert at tmp/http/src/header/map.rs:3785
 MISSING_SYMBOL function try_append at tmp/http/src/header/map.rs:3793
 MISSING_SYMBOL function try_entry at tmp/http/src/header/map.rs:3798
-PRESENT type AsHeaderName at tmp/http/src/header/map.rs:3811 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1046
+PRESENT type AsHeaderName at tmp/http/src/header/map.rs:3811 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1049
 MISSING_SYMBOL type TryEntryError at tmp/http/src/header/map.rs:3815
 MISSING_SYMBOL enum_variant TryEntryError::InvalidHeaderName at tmp/http/src/header/map.rs:3816
 MISSING_SYMBOL enum_variant TryEntryError::MaxSizeReached at tmp/http/src/header/map.rs:3817
@@ -467,230 +488,230 @@ EXTRA_TARGET_SYMBOL function HeaderMap::entry at src/common/commonMain/kotlin/io
 EXTRA_TARGET_SYMBOL function HeaderMap::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:336
 EXTRA_TARGET_SYMBOL function HeaderMap::tryEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:343
 EXTRA_TARGET_SYMBOL function HeaderMap::tryEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:346
-EXTRA_TARGET_SYMBOL function HeaderMap::tryEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:359
-EXTRA_TARGET_SYMBOL function HeaderMap::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:366
-EXTRA_TARGET_SYMBOL function HeaderMap::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:375
-EXTRA_TARGET_SYMBOL function HeaderMap::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:384
-EXTRA_TARGET_SYMBOL function HeaderMap::tryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:393
-EXTRA_TARGET_SYMBOL function HeaderMap::tryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:399
-EXTRA_TARGET_SYMBOL function HeaderMap::tryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:405
-EXTRA_TARGET_SYMBOL function HeaderMap::append at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:415
-EXTRA_TARGET_SYMBOL function HeaderMap::append at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:424
-EXTRA_TARGET_SYMBOL function HeaderMap::append at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:433
-EXTRA_TARGET_SYMBOL function HeaderMap::tryAppend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:442
-EXTRA_TARGET_SYMBOL function HeaderMap::tryAppend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:448
-EXTRA_TARGET_SYMBOL function HeaderMap::tryAppend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:454
-EXTRA_TARGET_SYMBOL function HeaderMap::remove at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:464
+EXTRA_TARGET_SYMBOL function HeaderMap::tryEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:362
+EXTRA_TARGET_SYMBOL function HeaderMap::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:369
+EXTRA_TARGET_SYMBOL function HeaderMap::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:378
+EXTRA_TARGET_SYMBOL function HeaderMap::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:387
+EXTRA_TARGET_SYMBOL function HeaderMap::tryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:396
+EXTRA_TARGET_SYMBOL function HeaderMap::tryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:402
+EXTRA_TARGET_SYMBOL function HeaderMap::tryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:408
+EXTRA_TARGET_SYMBOL function HeaderMap::append at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:418
+EXTRA_TARGET_SYMBOL function HeaderMap::append at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:427
+EXTRA_TARGET_SYMBOL function HeaderMap::append at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:436
+EXTRA_TARGET_SYMBOL function HeaderMap::tryAppend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:445
+EXTRA_TARGET_SYMBOL function HeaderMap::tryAppend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:451
+EXTRA_TARGET_SYMBOL function HeaderMap::tryAppend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:457
 EXTRA_TARGET_SYMBOL function HeaderMap::remove at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:467
 EXTRA_TARGET_SYMBOL function HeaderMap::remove at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:470
-EXTRA_TARGET_SYMBOL function HeaderMap::extend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:477
-EXTRA_TARGET_SYMBOL function HeaderMap::extendEntries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:514
-EXTRA_TARGET_SYMBOL function HeaderMap::equals at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:520
-EXTRA_TARGET_SYMBOL function HeaderMap::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:532
-EXTRA_TARGET_SYMBOL function HeaderMap::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:541
-EXTRA_TARGET_SYMBOL function HeaderMap::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:550
-EXTRA_TARGET_SYMBOL function HeaderMap::insertOccupied at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:552
-EXTRA_TARGET_SYMBOL function HeaderMap::insertOccupiedMult at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:565
-EXTRA_TARGET_SYMBOL function HeaderMap::removeFound at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:577
-EXTRA_TARGET_SYMBOL function HeaderMap::removeAllExtraValues at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:629
-EXTRA_TARGET_SYMBOL function HeaderMap::tryInsertPhaseTwo at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:640
-EXTRA_TARGET_SYMBOL function HeaderMap::removeFoundSlot at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:658
-EXTRA_TARGET_SYMBOL function HeaderMap::findName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:667
-EXTRA_TARGET_SYMBOL function HeaderMap::findStr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:672
-EXTRA_TARGET_SYMBOL function HeaderMap::findHdr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:677
-EXTRA_TARGET_SYMBOL function HeaderMap::findSlot at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:682
-EXTRA_TARGET_SYMBOL function HeaderMap::tryEntryName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:708
-EXTRA_TARGET_SYMBOL function HeaderMap::tryEntryHdr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:725
-EXTRA_TARGET_SYMBOL function HeaderMap::tryInsertName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:742
-EXTRA_TARGET_SYMBOL function HeaderMap::tryInsertHdr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:751
-EXTRA_TARGET_SYMBOL function HeaderMap::performInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:760
-EXTRA_TARGET_SYMBOL function HeaderMap::tryAppendName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:790
-EXTRA_TARGET_SYMBOL function HeaderMap::tryAppendHdr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:799
-EXTRA_TARGET_SYMBOL function HeaderMap::performAppend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:808
-EXTRA_TARGET_SYMBOL function HeaderMap::insertPhaseOne at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:840
-EXTRA_TARGET_SYMBOL function HeaderMap::tryInsertEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:874
-EXTRA_TARGET_SYMBOL function HeaderMap::rebuild at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:886
-EXTRA_TARGET_SYMBOL function HeaderMap::reinsertEntryInOrder at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:919
-EXTRA_TARGET_SYMBOL function HeaderMap::tryReserveOne at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:935
-EXTRA_TARGET_SYMBOL function HeaderMap::tryGrow at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:961
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:991
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::default at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:994
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::withCapacity at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:997
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::tryWithCapacityValues at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1000
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::newTyped at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1003
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::withCapacityTyped at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1006
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::tryWithCapacity at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1012
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::fromIterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1036
-EXTRA_TARGET_SYMBOL function HeaderMap::Companion::fromEntries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1040
-EXTRA_TARGET_SYMBOL type AsHeaderName::Name at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1047
-EXTRA_TARGET_SYMBOL property AsHeaderName::Name::headerName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1048
-EXTRA_TARGET_SYMBOL type AsHeaderName::Text at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1051
-EXTRA_TARGET_SYMBOL property AsHeaderName::Text::text at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1052
-EXTRA_TARGET_SYMBOL function AsHeaderName::asStr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1055
-EXTRA_TARGET_SYMBOL function AsHeaderName::Companion::of at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1062
-EXTRA_TARGET_SYMBOL function AsHeaderName::Companion::of at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1064
-EXTRA_TARGET_SYMBOL type IntoHeaderName::Name at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1070
-EXTRA_TARGET_SYMBOL property IntoHeaderName::Name::headerName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1071
-EXTRA_TARGET_SYMBOL type IntoHeaderName::Static at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1074
-EXTRA_TARGET_SYMBOL property IntoHeaderName::Static::text at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1075
-EXTRA_TARGET_SYMBOL function IntoHeaderName::Companion::of at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1079
-EXTRA_TARGET_SYMBOL function IntoHeaderName::Companion::of at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1081
-EXTRA_TARGET_SYMBOL type Entry::Occupied at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1088
-EXTRA_TARGET_SYMBOL property Entry::Occupied::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1089
-EXTRA_TARGET_SYMBOL type Entry::Vacant at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1093
-EXTRA_TARGET_SYMBOL property Entry::Vacant::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1094
-EXTRA_TARGET_SYMBOL function Entry::orInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1098
-EXTRA_TARGET_SYMBOL function Entry::orTryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1104
-EXTRA_TARGET_SYMBOL function Entry::orInsertWith at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1111
-EXTRA_TARGET_SYMBOL function Entry::orTryInsertWith at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1117
-EXTRA_TARGET_SYMBOL function Entry::orUpdate at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1124
-EXTRA_TARGET_SYMBOL function Entry::key at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1134
-EXTRA_TARGET_SYMBOL property VacantEntry::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1143
-EXTRA_TARGET_SYMBOL property VacantEntry::keyValue at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1144
-EXTRA_TARGET_SYMBOL property VacantEntry::hash at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1145
-EXTRA_TARGET_SYMBOL property VacantEntry::probe at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1146
-EXTRA_TARGET_SYMBOL property VacantEntry::isDanger at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1147
-EXTRA_TARGET_SYMBOL function VacantEntry::key at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1150
-EXTRA_TARGET_SYMBOL function VacantEntry::intoKey at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1153
-EXTRA_TARGET_SYMBOL function VacantEntry::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1156
-EXTRA_TARGET_SYMBOL function VacantEntry::tryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1162
-EXTRA_TARGET_SYMBOL function VacantEntry::insertEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1171
-EXTRA_TARGET_SYMBOL function VacantEntry::tryInsertEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1177
-EXTRA_TARGET_SYMBOL property OccupiedEntry::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1188
-EXTRA_TARGET_SYMBOL property OccupiedEntry::probe at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1189
-EXTRA_TARGET_SYMBOL property OccupiedEntry::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1190
-EXTRA_TARGET_SYMBOL function OccupiedEntry::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1192
-EXTRA_TARGET_SYMBOL function OccupiedEntry::key at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1195
-EXTRA_TARGET_SYMBOL function OccupiedEntry::get at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1198
-EXTRA_TARGET_SYMBOL function OccupiedEntry::getMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1201
-EXTRA_TARGET_SYMBOL function OccupiedEntry::intoMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1204
-EXTRA_TARGET_SYMBOL function OccupiedEntry::set at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1207
-EXTRA_TARGET_SYMBOL function OccupiedEntry::update at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1212
-EXTRA_TARGET_SYMBOL function OccupiedEntry::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1219
-EXTRA_TARGET_SYMBOL function OccupiedEntry::insertMult at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1222
-EXTRA_TARGET_SYMBOL function OccupiedEntry::append at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1225
-EXTRA_TARGET_SYMBOL function OccupiedEntry::remove at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1230
-EXTRA_TARGET_SYMBOL function OccupiedEntry::removeEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1233
-EXTRA_TARGET_SYMBOL function OccupiedEntry::removeEntryMult at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1242
-EXTRA_TARGET_SYMBOL function OccupiedEntry::iter at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1250
-EXTRA_TARGET_SYMBOL function OccupiedEntry::iterMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1253
-EXTRA_TARGET_SYMBOL function OccupiedEntry::intoIter at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1256
-EXTRA_TARGET_SYMBOL property GetAll::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1261
-EXTRA_TARGET_SYMBOL property GetAll::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1262
-EXTRA_TARGET_SYMBOL function GetAll::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1264
-EXTRA_TARGET_SYMBOL function GetAll::iter at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1267
-EXTRA_TARGET_SYMBOL function GetAll::intoIter at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1270
-EXTRA_TARGET_SYMBOL function GetAll::equals at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1272
-EXTRA_TARGET_SYMBOL function GetAll::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1278
-EXTRA_TARGET_SYMBOL property Iter::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1283
-EXTRA_TARGET_SYMBOL property Iter::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1284
-EXTRA_TARGET_SYMBOL property Iter::cursor at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1285
-EXTRA_TARGET_SYMBOL function Iter::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1287
-EXTRA_TARGET_SYMBOL function Iter::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1296
-EXTRA_TARGET_SYMBOL function Iter::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1324
-EXTRA_TARGET_SYMBOL property IterMut::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1329
-EXTRA_TARGET_SYMBOL property IterMut::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1330
-EXTRA_TARGET_SYMBOL property IterMut::cursor at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1331
-EXTRA_TARGET_SYMBOL property IterMut::lastSlotEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1333
-EXTRA_TARGET_SYMBOL property IterMut::lastSlotExtra at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1334
-EXTRA_TARGET_SYMBOL function IterMut::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1336
-EXTRA_TARGET_SYMBOL function IterMut::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1345
-EXTRA_TARGET_SYMBOL function IterMut::replaceCurrent at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1377
-EXTRA_TARGET_SYMBOL function IterMut::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1383
-EXTRA_TARGET_SYMBOL property IntoIter::entries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1388
-EXTRA_TARGET_SYMBOL property IntoIter::extraValues at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1389
-EXTRA_TARGET_SYMBOL property IntoIter::entryIdx at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1391
-EXTRA_TARGET_SYMBOL property IntoIter::nextExtra at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1392
-EXTRA_TARGET_SYMBOL function IntoIter::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1394
-EXTRA_TARGET_SYMBOL function IntoIter::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1403
-EXTRA_TARGET_SYMBOL function IntoIter::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1423
-EXTRA_TARGET_SYMBOL property Keys::entries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1428
-EXTRA_TARGET_SYMBOL property Keys::idx at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1430
-EXTRA_TARGET_SYMBOL function Keys::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1432
-EXTRA_TARGET_SYMBOL function Keys::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1441
-EXTRA_TARGET_SYMBOL function Keys::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1444
-EXTRA_TARGET_SYMBOL function Keys::nth at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1450
-EXTRA_TARGET_SYMBOL function Keys::count at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1461
-EXTRA_TARGET_SYMBOL function Keys::last at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1468
-EXTRA_TARGET_SYMBOL property Values::inner at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1478
-EXTRA_TARGET_SYMBOL function Values::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1480
-EXTRA_TARGET_SYMBOL function Values::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1489
-EXTRA_TARGET_SYMBOL function Values::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1492
-EXTRA_TARGET_SYMBOL property ValuesMut::inner at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1497
-EXTRA_TARGET_SYMBOL function ValuesMut::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1499
-EXTRA_TARGET_SYMBOL function ValuesMut::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1508
-EXTRA_TARGET_SYMBOL function ValuesMut::replaceCurrent at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1511
-EXTRA_TARGET_SYMBOL function ValuesMut::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1516
-EXTRA_TARGET_SYMBOL property Drain::drainedEntries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1521
-EXTRA_TARGET_SYMBOL property Drain::drainedExtraValues at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1522
-EXTRA_TARGET_SYMBOL property Drain::idx at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1524
-EXTRA_TARGET_SYMBOL property Drain::nextExtra at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1525
-EXTRA_TARGET_SYMBOL function Drain::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1527
-EXTRA_TARGET_SYMBOL function Drain::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1536
-EXTRA_TARGET_SYMBOL function Drain::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1557
-EXTRA_TARGET_SYMBOL property ValueIter::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1566
-EXTRA_TARGET_SYMBOL property ValueIter::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1567
-EXTRA_TARGET_SYMBOL property ValueIter::front at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1568
-EXTRA_TARGET_SYMBOL property ValueIter::back at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1569
-EXTRA_TARGET_SYMBOL function ValueIter::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1571
-EXTRA_TARGET_SYMBOL function ValueIter::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1580
-EXTRA_TARGET_SYMBOL function ValueIter::nextBack at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1611
-EXTRA_TARGET_SYMBOL function ValueIter::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1636
-EXTRA_TARGET_SYMBOL property ValueIterMut::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1646
-EXTRA_TARGET_SYMBOL property ValueIterMut::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1647
-EXTRA_TARGET_SYMBOL property ValueIterMut::front at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1648
-EXTRA_TARGET_SYMBOL property ValueIterMut::back at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1649
-EXTRA_TARGET_SYMBOL property ValueIterMut::lastWasHead at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1651
-EXTRA_TARGET_SYMBOL property ValueIterMut::lastExtraIndex at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1652
-EXTRA_TARGET_SYMBOL function ValueIterMut::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1654
-EXTRA_TARGET_SYMBOL function ValueIterMut::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1663
-EXTRA_TARGET_SYMBOL function ValueIterMut::nextBack at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1698
-EXTRA_TARGET_SYMBOL function ValueIterMut::replaceCurrent at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1727
-EXTRA_TARGET_SYMBOL function ValueIterMut::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1736
-EXTRA_TARGET_SYMBOL property ValueDrain::first at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1746
-EXTRA_TARGET_SYMBOL property ValueDrain::extras at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1747
-EXTRA_TARGET_SYMBOL property ValueDrain::extraIdx at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1749
-EXTRA_TARGET_SYMBOL function ValueDrain::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1751
-EXTRA_TARGET_SYMBOL function ValueDrain::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1760
-EXTRA_TARGET_SYMBOL function ValueDrain::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1773
-EXTRA_TARGET_SYMBOL function MaxSizeReached::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1783
-EXTRA_TARGET_SYMBOL function MaxSizeReached::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1785
-EXTRA_TARGET_SYMBOL function MaxSizeReached::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1788
-EXTRA_TARGET_SYMBOL type Cursor::Head at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1793
-EXTRA_TARGET_SYMBOL type Cursor::Values at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1795
-EXTRA_TARGET_SYMBOL property Cursor::Values::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1796
-EXTRA_TARGET_SYMBOL property Pos::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1801
-EXTRA_TARGET_SYMBOL property Pos::hash at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1802
-EXTRA_TARGET_SYMBOL function Pos::isSome at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1804
-EXTRA_TARGET_SYMBOL function Pos::isNone at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1806
-EXTRA_TARGET_SYMBOL property Pos::Companion::NONE at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1809
-EXTRA_TARGET_SYMBOL function Pos::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1811
-EXTRA_TARGET_SYMBOL property Bucket::hash at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1822
-EXTRA_TARGET_SYMBOL property Bucket::key at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1823
-EXTRA_TARGET_SYMBOL property Bucket::value at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1824
-EXTRA_TARGET_SYMBOL property Bucket::links at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1825
-EXTRA_TARGET_SYMBOL property Links::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1829
-EXTRA_TARGET_SYMBOL property Links::tail at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1830
-EXTRA_TARGET_SYMBOL property ExtraValue::value at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1834
-EXTRA_TARGET_SYMBOL property ExtraValue::prev at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1835
-EXTRA_TARGET_SYMBOL property ExtraValue::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1836
-EXTRA_TARGET_SYMBOL type Link::Entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1840
-EXTRA_TARGET_SYMBOL property Link::Entry::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1841
-EXTRA_TARGET_SYMBOL type Link::Extra at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1844
-EXTRA_TARGET_SYMBOL property Link::Extra::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1845
-EXTRA_TARGET_SYMBOL type Danger::Green at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1850
-EXTRA_TARGET_SYMBOL type Danger::Yellow at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1852
-EXTRA_TARGET_SYMBOL type Danger::Red at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1854
-EXTRA_TARGET_SYMBOL property Danger::Red::k0 at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1855
-EXTRA_TARGET_SYMBOL property Danger::Red::k1 at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1856
-EXTRA_TARGET_SYMBOL function swapRemove at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1860
-EXTRA_TARGET_SYMBOL function checkedNextPowerOfTwo at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2017
-EXTRA_TARGET_SYMBOL function hashHeaderName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2040
-EXTRA_TARGET_SYMBOL function hashHdrName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2045
-EXTRA_TARGET_SYMBOL function hashRepr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2050
-EXTRA_TARGET_SYMBOL function mixByte at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2099
-EXTRA_TARGET_SYMBOL function asciiLowerByte at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2105
-EXTRA_TARGET_SYMBOL function cloneValueIfPossible at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2112
+EXTRA_TARGET_SYMBOL function HeaderMap::remove at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:473
+EXTRA_TARGET_SYMBOL function HeaderMap::extend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:480
+EXTRA_TARGET_SYMBOL function HeaderMap::extendEntries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:517
+EXTRA_TARGET_SYMBOL function HeaderMap::equals at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:523
+EXTRA_TARGET_SYMBOL function HeaderMap::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:535
+EXTRA_TARGET_SYMBOL function HeaderMap::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:544
+EXTRA_TARGET_SYMBOL function HeaderMap::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:553
+EXTRA_TARGET_SYMBOL function HeaderMap::insertOccupied at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:555
+EXTRA_TARGET_SYMBOL function HeaderMap::insertOccupiedMult at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:568
+EXTRA_TARGET_SYMBOL function HeaderMap::removeFound at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:580
+EXTRA_TARGET_SYMBOL function HeaderMap::removeAllExtraValues at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:632
+EXTRA_TARGET_SYMBOL function HeaderMap::tryInsertPhaseTwo at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:643
+EXTRA_TARGET_SYMBOL function HeaderMap::removeFoundSlot at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:661
+EXTRA_TARGET_SYMBOL function HeaderMap::findName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:670
+EXTRA_TARGET_SYMBOL function HeaderMap::findStr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:675
+EXTRA_TARGET_SYMBOL function HeaderMap::findHdr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:680
+EXTRA_TARGET_SYMBOL function HeaderMap::findSlot at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:685
+EXTRA_TARGET_SYMBOL function HeaderMap::tryEntryName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:711
+EXTRA_TARGET_SYMBOL function HeaderMap::tryEntryHdr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:728
+EXTRA_TARGET_SYMBOL function HeaderMap::tryInsertName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:745
+EXTRA_TARGET_SYMBOL function HeaderMap::tryInsertHdr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:754
+EXTRA_TARGET_SYMBOL function HeaderMap::performInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:763
+EXTRA_TARGET_SYMBOL function HeaderMap::tryAppendName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:793
+EXTRA_TARGET_SYMBOL function HeaderMap::tryAppendHdr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:802
+EXTRA_TARGET_SYMBOL function HeaderMap::performAppend at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:811
+EXTRA_TARGET_SYMBOL function HeaderMap::insertPhaseOne at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:843
+EXTRA_TARGET_SYMBOL function HeaderMap::tryInsertEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:877
+EXTRA_TARGET_SYMBOL function HeaderMap::rebuild at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:889
+EXTRA_TARGET_SYMBOL function HeaderMap::reinsertEntryInOrder at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:922
+EXTRA_TARGET_SYMBOL function HeaderMap::tryReserveOne at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:938
+EXTRA_TARGET_SYMBOL function HeaderMap::tryGrow at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:964
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:994
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::default at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:997
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::withCapacity at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1000
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::tryWithCapacityValues at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1003
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::newTyped at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1006
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::withCapacityTyped at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1009
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::tryWithCapacity at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1015
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::fromIterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1039
+EXTRA_TARGET_SYMBOL function HeaderMap::Companion::fromEntries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1043
+EXTRA_TARGET_SYMBOL type AsHeaderName::Name at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1050
+EXTRA_TARGET_SYMBOL property AsHeaderName::Name::headerName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1051
+EXTRA_TARGET_SYMBOL type AsHeaderName::Text at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1054
+EXTRA_TARGET_SYMBOL property AsHeaderName::Text::text at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1055
+EXTRA_TARGET_SYMBOL function AsHeaderName::asStr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1058
+EXTRA_TARGET_SYMBOL function AsHeaderName::Companion::of at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1065
+EXTRA_TARGET_SYMBOL function AsHeaderName::Companion::of at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1067
+EXTRA_TARGET_SYMBOL type IntoHeaderName::Name at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1073
+EXTRA_TARGET_SYMBOL property IntoHeaderName::Name::headerName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1074
+EXTRA_TARGET_SYMBOL type IntoHeaderName::Static at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1077
+EXTRA_TARGET_SYMBOL property IntoHeaderName::Static::text at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1078
+EXTRA_TARGET_SYMBOL function IntoHeaderName::Companion::of at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1082
+EXTRA_TARGET_SYMBOL function IntoHeaderName::Companion::of at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1084
+EXTRA_TARGET_SYMBOL type Entry::Occupied at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1091
+EXTRA_TARGET_SYMBOL property Entry::Occupied::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1092
+EXTRA_TARGET_SYMBOL type Entry::Vacant at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1096
+EXTRA_TARGET_SYMBOL property Entry::Vacant::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1097
+EXTRA_TARGET_SYMBOL function Entry::orInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1101
+EXTRA_TARGET_SYMBOL function Entry::orTryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1107
+EXTRA_TARGET_SYMBOL function Entry::orInsertWith at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1114
+EXTRA_TARGET_SYMBOL function Entry::orTryInsertWith at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1120
+EXTRA_TARGET_SYMBOL function Entry::orUpdate at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1127
+EXTRA_TARGET_SYMBOL function Entry::key at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1137
+EXTRA_TARGET_SYMBOL property VacantEntry::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1146
+EXTRA_TARGET_SYMBOL property VacantEntry::keyValue at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1147
+EXTRA_TARGET_SYMBOL property VacantEntry::hash at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1148
+EXTRA_TARGET_SYMBOL property VacantEntry::probe at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1149
+EXTRA_TARGET_SYMBOL property VacantEntry::isDanger at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1150
+EXTRA_TARGET_SYMBOL function VacantEntry::key at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1153
+EXTRA_TARGET_SYMBOL function VacantEntry::intoKey at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1156
+EXTRA_TARGET_SYMBOL function VacantEntry::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1159
+EXTRA_TARGET_SYMBOL function VacantEntry::tryInsert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1165
+EXTRA_TARGET_SYMBOL function VacantEntry::insertEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1174
+EXTRA_TARGET_SYMBOL function VacantEntry::tryInsertEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1180
+EXTRA_TARGET_SYMBOL property OccupiedEntry::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1191
+EXTRA_TARGET_SYMBOL property OccupiedEntry::probe at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1192
+EXTRA_TARGET_SYMBOL property OccupiedEntry::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1193
+EXTRA_TARGET_SYMBOL function OccupiedEntry::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1195
+EXTRA_TARGET_SYMBOL function OccupiedEntry::key at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1198
+EXTRA_TARGET_SYMBOL function OccupiedEntry::get at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1201
+EXTRA_TARGET_SYMBOL function OccupiedEntry::getMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1204
+EXTRA_TARGET_SYMBOL function OccupiedEntry::intoMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1207
+EXTRA_TARGET_SYMBOL function OccupiedEntry::set at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1210
+EXTRA_TARGET_SYMBOL function OccupiedEntry::update at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1215
+EXTRA_TARGET_SYMBOL function OccupiedEntry::insert at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1222
+EXTRA_TARGET_SYMBOL function OccupiedEntry::insertMult at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1225
+EXTRA_TARGET_SYMBOL function OccupiedEntry::append at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1228
+EXTRA_TARGET_SYMBOL function OccupiedEntry::remove at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1233
+EXTRA_TARGET_SYMBOL function OccupiedEntry::removeEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1236
+EXTRA_TARGET_SYMBOL function OccupiedEntry::removeEntryMult at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1245
+EXTRA_TARGET_SYMBOL function OccupiedEntry::iter at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1253
+EXTRA_TARGET_SYMBOL function OccupiedEntry::iterMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1256
+EXTRA_TARGET_SYMBOL function OccupiedEntry::intoIter at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1259
+EXTRA_TARGET_SYMBOL property GetAll::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1264
+EXTRA_TARGET_SYMBOL property GetAll::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1265
+EXTRA_TARGET_SYMBOL function GetAll::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1267
+EXTRA_TARGET_SYMBOL function GetAll::iter at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1270
+EXTRA_TARGET_SYMBOL function GetAll::intoIter at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1273
+EXTRA_TARGET_SYMBOL function GetAll::equals at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1275
+EXTRA_TARGET_SYMBOL function GetAll::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1281
+EXTRA_TARGET_SYMBOL property Iter::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1286
+EXTRA_TARGET_SYMBOL property Iter::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1287
+EXTRA_TARGET_SYMBOL property Iter::cursor at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1288
+EXTRA_TARGET_SYMBOL function Iter::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1290
+EXTRA_TARGET_SYMBOL function Iter::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1299
+EXTRA_TARGET_SYMBOL function Iter::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1327
+EXTRA_TARGET_SYMBOL property IterMut::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1332
+EXTRA_TARGET_SYMBOL property IterMut::entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1333
+EXTRA_TARGET_SYMBOL property IterMut::cursor at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1334
+EXTRA_TARGET_SYMBOL property IterMut::lastSlotEntry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1336
+EXTRA_TARGET_SYMBOL property IterMut::lastSlotExtra at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1337
+EXTRA_TARGET_SYMBOL function IterMut::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1339
+EXTRA_TARGET_SYMBOL function IterMut::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1348
+EXTRA_TARGET_SYMBOL function IterMut::replaceCurrent at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1380
+EXTRA_TARGET_SYMBOL function IterMut::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1386
+EXTRA_TARGET_SYMBOL property IntoIter::entries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1391
+EXTRA_TARGET_SYMBOL property IntoIter::extraValues at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1392
+EXTRA_TARGET_SYMBOL property IntoIter::entryIdx at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1394
+EXTRA_TARGET_SYMBOL property IntoIter::nextExtra at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1395
+EXTRA_TARGET_SYMBOL function IntoIter::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1397
+EXTRA_TARGET_SYMBOL function IntoIter::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1406
+EXTRA_TARGET_SYMBOL function IntoIter::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1426
+EXTRA_TARGET_SYMBOL property Keys::entries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1431
+EXTRA_TARGET_SYMBOL property Keys::idx at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1433
+EXTRA_TARGET_SYMBOL function Keys::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1435
+EXTRA_TARGET_SYMBOL function Keys::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1444
+EXTRA_TARGET_SYMBOL function Keys::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1447
+EXTRA_TARGET_SYMBOL function Keys::nth at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1453
+EXTRA_TARGET_SYMBOL function Keys::count at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1464
+EXTRA_TARGET_SYMBOL function Keys::last at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1471
+EXTRA_TARGET_SYMBOL property Values::inner at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1481
+EXTRA_TARGET_SYMBOL function Values::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1483
+EXTRA_TARGET_SYMBOL function Values::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1492
+EXTRA_TARGET_SYMBOL function Values::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1495
+EXTRA_TARGET_SYMBOL property ValuesMut::inner at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1500
+EXTRA_TARGET_SYMBOL function ValuesMut::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1502
+EXTRA_TARGET_SYMBOL function ValuesMut::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1511
+EXTRA_TARGET_SYMBOL function ValuesMut::replaceCurrent at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1514
+EXTRA_TARGET_SYMBOL function ValuesMut::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1519
+EXTRA_TARGET_SYMBOL property Drain::drainedEntries at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1524
+EXTRA_TARGET_SYMBOL property Drain::drainedExtraValues at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1525
+EXTRA_TARGET_SYMBOL property Drain::idx at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1527
+EXTRA_TARGET_SYMBOL property Drain::nextExtra at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1528
+EXTRA_TARGET_SYMBOL function Drain::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1530
+EXTRA_TARGET_SYMBOL function Drain::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1539
+EXTRA_TARGET_SYMBOL function Drain::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1560
+EXTRA_TARGET_SYMBOL property ValueIter::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1569
+EXTRA_TARGET_SYMBOL property ValueIter::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1570
+EXTRA_TARGET_SYMBOL property ValueIter::front at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1571
+EXTRA_TARGET_SYMBOL property ValueIter::back at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1572
+EXTRA_TARGET_SYMBOL function ValueIter::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1574
+EXTRA_TARGET_SYMBOL function ValueIter::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1583
+EXTRA_TARGET_SYMBOL function ValueIter::nextBack at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1614
+EXTRA_TARGET_SYMBOL function ValueIter::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1639
+EXTRA_TARGET_SYMBOL property ValueIterMut::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1649
+EXTRA_TARGET_SYMBOL property ValueIterMut::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1650
+EXTRA_TARGET_SYMBOL property ValueIterMut::front at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1651
+EXTRA_TARGET_SYMBOL property ValueIterMut::back at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1652
+EXTRA_TARGET_SYMBOL property ValueIterMut::lastWasHead at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1654
+EXTRA_TARGET_SYMBOL property ValueIterMut::lastExtraIndex at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1655
+EXTRA_TARGET_SYMBOL function ValueIterMut::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1657
+EXTRA_TARGET_SYMBOL function ValueIterMut::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1666
+EXTRA_TARGET_SYMBOL function ValueIterMut::nextBack at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1701
+EXTRA_TARGET_SYMBOL function ValueIterMut::replaceCurrent at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1730
+EXTRA_TARGET_SYMBOL function ValueIterMut::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1739
+EXTRA_TARGET_SYMBOL property ValueDrain::first at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1749
+EXTRA_TARGET_SYMBOL property ValueDrain::extras at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1750
+EXTRA_TARGET_SYMBOL property ValueDrain::extraIdx at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1752
+EXTRA_TARGET_SYMBOL function ValueDrain::iterator at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1754
+EXTRA_TARGET_SYMBOL function ValueDrain::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1763
+EXTRA_TARGET_SYMBOL function ValueDrain::sizeHint at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1776
+EXTRA_TARGET_SYMBOL function MaxSizeReached::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1786
+EXTRA_TARGET_SYMBOL function MaxSizeReached::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1788
+EXTRA_TARGET_SYMBOL function MaxSizeReached::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1791
+EXTRA_TARGET_SYMBOL type Cursor::Head at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1796
+EXTRA_TARGET_SYMBOL type Cursor::Values at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1798
+EXTRA_TARGET_SYMBOL property Cursor::Values::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1799
+EXTRA_TARGET_SYMBOL property Pos::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1804
+EXTRA_TARGET_SYMBOL property Pos::hash at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1805
+EXTRA_TARGET_SYMBOL function Pos::isSome at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1807
+EXTRA_TARGET_SYMBOL function Pos::isNone at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1809
+EXTRA_TARGET_SYMBOL property Pos::Companion::NONE at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1812
+EXTRA_TARGET_SYMBOL function Pos::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1814
+EXTRA_TARGET_SYMBOL property Bucket::hash at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1825
+EXTRA_TARGET_SYMBOL property Bucket::key at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1826
+EXTRA_TARGET_SYMBOL property Bucket::value at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1827
+EXTRA_TARGET_SYMBOL property Bucket::links at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1828
+EXTRA_TARGET_SYMBOL property Links::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1832
+EXTRA_TARGET_SYMBOL property Links::tail at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1833
+EXTRA_TARGET_SYMBOL property ExtraValue::value at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1837
+EXTRA_TARGET_SYMBOL property ExtraValue::prev at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1838
+EXTRA_TARGET_SYMBOL property ExtraValue::next at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1839
+EXTRA_TARGET_SYMBOL type Link::Entry at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1843
+EXTRA_TARGET_SYMBOL property Link::Entry::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1844
+EXTRA_TARGET_SYMBOL type Link::Extra at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1847
+EXTRA_TARGET_SYMBOL property Link::Extra::index at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1848
+EXTRA_TARGET_SYMBOL type Danger::Green at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1853
+EXTRA_TARGET_SYMBOL type Danger::Yellow at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1855
+EXTRA_TARGET_SYMBOL type Danger::Red at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1857
+EXTRA_TARGET_SYMBOL property Danger::Red::k0 at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1858
+EXTRA_TARGET_SYMBOL property Danger::Red::k1 at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1859
+EXTRA_TARGET_SYMBOL function swapRemove at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:1863
+EXTRA_TARGET_SYMBOL function checkedNextPowerOfTwo at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2020
+EXTRA_TARGET_SYMBOL function hashHeaderName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2043
+EXTRA_TARGET_SYMBOL function hashHdrName at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2048
+EXTRA_TARGET_SYMBOL function hashRepr at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2053
+EXTRA_TARGET_SYMBOL function mixByte at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2102
+EXTRA_TARGET_SYMBOL function asciiLowerByte at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2108
+EXTRA_TARGET_SYMBOL function cloneValueIfPossible at src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Map.kt:2115
 MISSING_FILE header/mod.rs
 MISSING_SYMBOL property MAX_HEADER_NAME_LEN at tmp/http/src/header/mod.rs:142
 PRESENT type HeaderName at tmp/http/src/header/name.rs:33 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/header/Name.kt:9
@@ -1236,8 +1257,7 @@ EXTRA_TARGET_SYMBOL function AllocatedExtension::clone at src/common/commonMain/
 EXTRA_TARGET_SYMBOL function AllocatedExtension::asStr at src/common/commonMain/kotlin/io/github/kotlinmania/http/Method.kt:332
 EXTRA_TARGET_SYMBOL function AllocatedExtension::equals at src/common/commonMain/kotlin/io/github/kotlinmania/http/Method.kt:338
 EXTRA_TARGET_SYMBOL function AllocatedExtension::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/Method.kt:341
-MISSING_FILE request.rs
-MISSING_SYMBOL type Request at tmp/http/src/request.rs:152
+PRESENT type Request at tmp/http/src/request.rs:152 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:23
 MISSING_SYMBOL type Parts at tmp/http/src/request.rs:162
 MISSING_SYMBOL type Builder at tmp/http/src/request.rs:186
 MISSING_SYMBOL function builder at tmp/http/src/request.rs:208
@@ -1288,8 +1308,121 @@ MISSING_SYMBOL function body at tmp/http/src/request.rs:1030
 MISSING_SYMBOL function and_then at tmp/http/src/request.rs:1036
 MISSING_SYMBOL function default at tmp/http/src/request.rs:1048
 MISSING_SYMBOL function it_can_map_a_body_from_one_type_to_another at tmp/http/src/request.rs:1060
-MISSING_FILE response.rs
-MISSING_SYMBOL type Response at tmp/http/src/response.rs:174
+EXTRA_TARGET_SYMBOL type RequestAndParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:11
+EXTRA_TARGET_SYMBOL property RequestAndParts::parts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:12
+EXTRA_TARGET_SYMBOL property RequestAndParts::body at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:13
+EXTRA_TARGET_SYMBOL property Request::head at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:24
+EXTRA_TARGET_SYMBOL property Request::bodyValue at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:25
+EXTRA_TARGET_SYMBOL function Request::method at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:28
+EXTRA_TARGET_SYMBOL function Request::setMethod at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:31
+EXTRA_TARGET_SYMBOL function Request::uri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:36
+EXTRA_TARGET_SYMBOL function Request::setUri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:39
+EXTRA_TARGET_SYMBOL function Request::version at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:44
+EXTRA_TARGET_SYMBOL function Request::setVersion at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:47
+EXTRA_TARGET_SYMBOL function Request::headers at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:52
+EXTRA_TARGET_SYMBOL function Request::headersMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:55
+EXTRA_TARGET_SYMBOL function Request::extensions at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:58
+EXTRA_TARGET_SYMBOL function Request::extensionsMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:61
+EXTRA_TARGET_SYMBOL function Request::body at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:64
+EXTRA_TARGET_SYMBOL function Request::setBody at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:67
+EXTRA_TARGET_SYMBOL function Request::intoBody at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:72
+EXTRA_TARGET_SYMBOL function Request::intoParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:75
+EXTRA_TARGET_SYMBOL function Request::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:78
+EXTRA_TARGET_SYMBOL function Request::clone at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:81
+EXTRA_TARGET_SYMBOL function Request::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:84
+EXTRA_TARGET_SYMBOL function Request::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:88
+EXTRA_TARGET_SYMBOL function Request::Companion::builder at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:92
+EXTRA_TARGET_SYMBOL function Request::Companion::default at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:95
+EXTRA_TARGET_SYMBOL function Request::Companion::get at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:98
+EXTRA_TARGET_SYMBOL function Request::Companion::get at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:101
+EXTRA_TARGET_SYMBOL function Request::Companion::get at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:104
+EXTRA_TARGET_SYMBOL function Request::Companion::put at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:107
+EXTRA_TARGET_SYMBOL function Request::Companion::put at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:110
+EXTRA_TARGET_SYMBOL function Request::Companion::put at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:113
+EXTRA_TARGET_SYMBOL function Request::Companion::post at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:116
+EXTRA_TARGET_SYMBOL function Request::Companion::post at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:119
+EXTRA_TARGET_SYMBOL function Request::Companion::post at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:122
+EXTRA_TARGET_SYMBOL function Request::Companion::delete at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:125
+EXTRA_TARGET_SYMBOL function Request::Companion::delete at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:128
+EXTRA_TARGET_SYMBOL function Request::Companion::delete at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:131
+EXTRA_TARGET_SYMBOL function Request::Companion::options at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:134
+EXTRA_TARGET_SYMBOL function Request::Companion::options at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:137
+EXTRA_TARGET_SYMBOL function Request::Companion::options at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:140
+EXTRA_TARGET_SYMBOL function Request::Companion::head at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:143
+EXTRA_TARGET_SYMBOL function Request::Companion::head at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:146
+EXTRA_TARGET_SYMBOL function Request::Companion::head at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:149
+EXTRA_TARGET_SYMBOL function Request::Companion::connect at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:152
+EXTRA_TARGET_SYMBOL function Request::Companion::connect at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:155
+EXTRA_TARGET_SYMBOL function Request::Companion::connect at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:158
+EXTRA_TARGET_SYMBOL function Request::Companion::patch at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:161
+EXTRA_TARGET_SYMBOL function Request::Companion::patch at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:164
+EXTRA_TARGET_SYMBOL function Request::Companion::patch at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:167
+EXTRA_TARGET_SYMBOL function Request::Companion::trace at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:170
+EXTRA_TARGET_SYMBOL function Request::Companion::trace at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:173
+EXTRA_TARGET_SYMBOL function Request::Companion::trace at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:176
+EXTRA_TARGET_SYMBOL function Request::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:179
+EXTRA_TARGET_SYMBOL function Request::Companion::newEmpty at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:182
+EXTRA_TARGET_SYMBOL function Request::Companion::newText at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:185
+EXTRA_TARGET_SYMBOL function Request::Companion::newBytes at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:188
+EXTRA_TARGET_SYMBOL function Request::Companion::fromParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:191
+EXTRA_TARGET_SYMBOL function Request::Companion::fromPartsText at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:197
+EXTRA_TARGET_SYMBOL function Request::Companion::methodWithUri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:202
+EXTRA_TARGET_SYMBOL function Request::Companion::methodWithUri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:207
+EXTRA_TARGET_SYMBOL function Request::Companion::methodWithUri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:212
+EXTRA_TARGET_SYMBOL type RequestParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:225
+EXTRA_TARGET_SYMBOL property RequestParts::method at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:227
+EXTRA_TARGET_SYMBOL property RequestParts::uri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:229
+EXTRA_TARGET_SYMBOL property RequestParts::version at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:231
+EXTRA_TARGET_SYMBOL property RequestParts::headers at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:233
+EXTRA_TARGET_SYMBOL property RequestParts::extensions at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:235
+EXTRA_TARGET_SYMBOL function RequestParts::clone at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:238
+EXTRA_TARGET_SYMBOL function RequestParts::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:248
+EXTRA_TARGET_SYMBOL function RequestParts::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:251
+EXTRA_TARGET_SYMBOL function RequestParts::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:254
+EXTRA_TARGET_SYMBOL type RequestBuilder at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:271
+EXTRA_TARGET_SYMBOL property RequestBuilder::inner at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:272
+EXTRA_TARGET_SYMBOL function RequestBuilder::method at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:278
+EXTRA_TARGET_SYMBOL function RequestBuilder::method at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:285
+EXTRA_TARGET_SYMBOL function RequestBuilder::method at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:288
+EXTRA_TARGET_SYMBOL function RequestBuilder::methodRef at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:291
+EXTRA_TARGET_SYMBOL function RequestBuilder::uri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:294
+EXTRA_TARGET_SYMBOL function RequestBuilder::uri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:301
+EXTRA_TARGET_SYMBOL function RequestBuilder::uri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:304
+EXTRA_TARGET_SYMBOL function RequestBuilder::uriRef at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:307
+EXTRA_TARGET_SYMBOL function RequestBuilder::version at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:310
+EXTRA_TARGET_SYMBOL function RequestBuilder::versionRef at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:317
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:320
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:326
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:332
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:338
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:344
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:350
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:356
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:362
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:368
+EXTRA_TARGET_SYMBOL function RequestBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:374
+EXTRA_TARGET_SYMBOL function RequestBuilder::headersRef at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:380
+EXTRA_TARGET_SYMBOL function RequestBuilder::headersMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:383
+EXTRA_TARGET_SYMBOL function RequestBuilder::extension at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:386
+EXTRA_TARGET_SYMBOL function RequestBuilder::extension at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:394
+EXTRA_TARGET_SYMBOL function RequestBuilder::extensionsRef at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:406
+EXTRA_TARGET_SYMBOL function RequestBuilder::extensionsMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:409
+EXTRA_TARGET_SYMBOL function RequestBuilder::body at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:412
+EXTRA_TARGET_SYMBOL function RequestBuilder::bodyEmpty at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:415
+EXTRA_TARGET_SYMBOL function RequestBuilder::bodyText at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:418
+EXTRA_TARGET_SYMBOL function RequestBuilder::bodyBytes at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:421
+EXTRA_TARGET_SYMBOL function RequestBuilder::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:424
+EXTRA_TARGET_SYMBOL function RequestBuilder::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:430
+EXTRA_TARGET_SYMBOL function RequestBuilder::parseMethod at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:432
+EXTRA_TARGET_SYMBOL function RequestBuilder::parseUri at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:443
+EXTRA_TARGET_SYMBOL function RequestBuilder::appendWithName at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:454
+EXTRA_TARGET_SYMBOL function RequestBuilder::appendWithKeyString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:463
+EXTRA_TARGET_SYMBOL function RequestBuilder::andThen at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:472
+EXTRA_TARGET_SYMBOL function RequestBuilder::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:477
+EXTRA_TARGET_SYMBOL function RequestBuilder::Companion::default at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:480
+EXTRA_TARGET_SYMBOL function appendHeaderValue at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:484
+EXTRA_TARGET_SYMBOL function appendHeaderNameAndValue at src/common/commonMain/kotlin/io/github/kotlinmania/http/Request.kt:494
+PRESENT type Response at tmp/http/src/response.rs:174 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:22
 MISSING_SYMBOL type Parts at tmp/http/src/response.rs:184
 MISSING_SYMBOL type Builder at tmp/http/src/response.rs:205
 MISSING_SYMBOL function builder at tmp/http/src/response.rs:226
@@ -1325,6 +1458,79 @@ MISSING_SYMBOL function body at tmp/http/src/response.rs:743
 MISSING_SYMBOL function and_then at tmp/http/src/response.rs:749
 MISSING_SYMBOL function default at tmp/http/src/response.rs:761
 MISSING_SYMBOL function it_can_map_a_body_from_one_type_to_another at tmp/http/src/response.rs:773
+EXTRA_TARGET_SYMBOL type ResponseAndParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:10
+EXTRA_TARGET_SYMBOL property ResponseAndParts::parts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:11
+EXTRA_TARGET_SYMBOL property ResponseAndParts::body at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:12
+EXTRA_TARGET_SYMBOL property Response::head at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:23
+EXTRA_TARGET_SYMBOL property Response::bodyValue at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:24
+EXTRA_TARGET_SYMBOL function Response::status at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:27
+EXTRA_TARGET_SYMBOL function Response::setStatus at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:30
+EXTRA_TARGET_SYMBOL function Response::version at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:35
+EXTRA_TARGET_SYMBOL function Response::setVersion at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:38
+EXTRA_TARGET_SYMBOL function Response::headers at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:43
+EXTRA_TARGET_SYMBOL function Response::headersMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:46
+EXTRA_TARGET_SYMBOL function Response::extensions at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:49
+EXTRA_TARGET_SYMBOL function Response::extensionsMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:52
+EXTRA_TARGET_SYMBOL function Response::body at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:55
+EXTRA_TARGET_SYMBOL function Response::setBody at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:58
+EXTRA_TARGET_SYMBOL function Response::intoBody at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:63
+EXTRA_TARGET_SYMBOL function Response::intoParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:66
+EXTRA_TARGET_SYMBOL function Response::map at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:69
+EXTRA_TARGET_SYMBOL function Response::clone at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:72
+EXTRA_TARGET_SYMBOL function Response::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:75
+EXTRA_TARGET_SYMBOL function Response::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:79
+EXTRA_TARGET_SYMBOL function Response::Companion::builder at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:83
+EXTRA_TARGET_SYMBOL function Response::Companion::default at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:86
+EXTRA_TARGET_SYMBOL function Response::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:89
+EXTRA_TARGET_SYMBOL function Response::Companion::newEmpty at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:92
+EXTRA_TARGET_SYMBOL function Response::Companion::newText at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:95
+EXTRA_TARGET_SYMBOL function Response::Companion::newBytes at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:98
+EXTRA_TARGET_SYMBOL function Response::Companion::fromParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:101
+EXTRA_TARGET_SYMBOL function Response::Companion::fromPartsText at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:107
+EXTRA_TARGET_SYMBOL type ResponseParts at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:120
+EXTRA_TARGET_SYMBOL property ResponseParts::status at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:122
+EXTRA_TARGET_SYMBOL property ResponseParts::version at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:124
+EXTRA_TARGET_SYMBOL property ResponseParts::headers at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:126
+EXTRA_TARGET_SYMBOL property ResponseParts::extensions at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:128
+EXTRA_TARGET_SYMBOL function ResponseParts::clone at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:131
+EXTRA_TARGET_SYMBOL function ResponseParts::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:140
+EXTRA_TARGET_SYMBOL function ResponseParts::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:143
+EXTRA_TARGET_SYMBOL function ResponseParts::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:146
+EXTRA_TARGET_SYMBOL type ResponseBuilder at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:162
+EXTRA_TARGET_SYMBOL property ResponseBuilder::inner at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:163
+EXTRA_TARGET_SYMBOL function ResponseBuilder::status at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:169
+EXTRA_TARGET_SYMBOL function ResponseBuilder::status at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:176
+EXTRA_TARGET_SYMBOL function ResponseBuilder::status at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:179
+EXTRA_TARGET_SYMBOL function ResponseBuilder::status at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:182
+EXTRA_TARGET_SYMBOL function ResponseBuilder::version at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:185
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:192
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:198
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:204
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:210
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:216
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:222
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:228
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:234
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:240
+EXTRA_TARGET_SYMBOL function ResponseBuilder::header at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:246
+EXTRA_TARGET_SYMBOL function ResponseBuilder::headersRef at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:252
+EXTRA_TARGET_SYMBOL function ResponseBuilder::headersMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:255
+EXTRA_TARGET_SYMBOL function ResponseBuilder::extension at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:258
+EXTRA_TARGET_SYMBOL function ResponseBuilder::extension at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:266
+EXTRA_TARGET_SYMBOL function ResponseBuilder::extensionsRef at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:278
+EXTRA_TARGET_SYMBOL function ResponseBuilder::extensionsMut at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:281
+EXTRA_TARGET_SYMBOL function ResponseBuilder::body at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:284
+EXTRA_TARGET_SYMBOL function ResponseBuilder::bodyEmpty at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:287
+EXTRA_TARGET_SYMBOL function ResponseBuilder::bodyText at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:290
+EXTRA_TARGET_SYMBOL function ResponseBuilder::bodyBytes at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:293
+EXTRA_TARGET_SYMBOL function ResponseBuilder::debugString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:296
+EXTRA_TARGET_SYMBOL function ResponseBuilder::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:302
+EXTRA_TARGET_SYMBOL function ResponseBuilder::parseStatus at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:304
+EXTRA_TARGET_SYMBOL function ResponseBuilder::appendWithName at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:315
+EXTRA_TARGET_SYMBOL function ResponseBuilder::appendWithKeyString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:324
+EXTRA_TARGET_SYMBOL function ResponseBuilder::andThen at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:333
+EXTRA_TARGET_SYMBOL function ResponseBuilder::Companion::new at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:338
+EXTRA_TARGET_SYMBOL function ResponseBuilder::Companion::default at src/common/commonMain/kotlin/io/github/kotlinmania/http/Response.kt:341
 PRESENT type StatusCode at tmp/http/src/status.rs:45 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/Status.kt:42
 PRESENT type InvalidStatusCode at tmp/http/src/status.rs:51 -> src/common/commonMain/kotlin/io/github/kotlinmania/http/Status.kt:519
 MISSING_SYMBOL function from_u16 at tmp/http/src/status.rs:73
@@ -1857,4 +2063,4 @@ EXTRA_TARGET_SYMBOL function Version::equals at src/common/commonMain/kotlin/io/
 EXTRA_TARGET_SYMBOL function Version::hashCode at src/common/commonMain/kotlin/io/github/kotlinmania/http/Version.kt:55
 EXTRA_TARGET_SYMBOL function Version::fmt at src/common/commonMain/kotlin/io/github/kotlinmania/http/Version.kt:57
 EXTRA_TARGET_SYMBOL function Version::toString at src/common/commonMain/kotlin/io/github/kotlinmania/http/Version.kt:67
-Inventory totals: present=89, declaration_only=0, missing=833
+Inventory totals: present=91, declaration_only=0, missing=831
