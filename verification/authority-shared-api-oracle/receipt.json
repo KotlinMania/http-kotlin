@@ -1,0 +1,134 @@
+{
+  "baseline": "bc503c0",
+  "recordedAtUTC": "2026-11-03T02:01:29.190334+00:00",
+  "preExistingDirtyWorkIncluded": false,
+  "priorWorkSeparate": {
+    "http": [
+      "bc503c0",
+      "6e4d010"
+    ],
+    "serde": "9ae88dd"
+  },
+  "graphDirectReverseDependents": 16,
+  "productionScope": "Only three additive Authority.fromMaybeShared overloads using canonical Bytes.clone/fromShared and existing tryFrom. All original parser/validation/host/port/error bodies and PathAndQuery/Port files byte-preserved. No pins changed.",
+  "apiChange": "Additive Bytes, ByteArray and String overloads. No existing signature replaced and no duplicate dependency type owner.",
+  "callerReview": "Bounded exact-call/canonical Authority and wildcard import scan retained in caller-review.txt. No external owners edited or downstream builds; source/binary compatibility outside owning checkout unverified.",
+  "existingTestsOrAssertionsChanged": false,
+  "newTestByteUnchangedSinceRed": true,
+  "red": {
+    "kind": "compile-time missing API",
+    "runtimeSuiteExecuted": false,
+    "message": "Unresolved reference 'fromMaybeShared'",
+    "log": "build/rust-kotlin-authority-shared-api/red-jvm.log"
+  },
+  "rustOracle": {
+    "passedGroups": 7,
+    "failed": 0,
+    "actualUpstreamFromMaybeShared": true,
+    "inputs": [
+      "Bytes",
+      "Vec<u8>",
+      "String"
+    ],
+    "copyMutationControl": "Rust borrowed TryFrom<&[u8]> exercises the same copy conversion; Kotlin mutable ByteArray isolation is explicit binding behavior, not mutation after Rust move."
+  },
+  "translatorEvidence": {
+    "command": [
+      "/Volumes/stuff/Projects/kotlinmania/rust-kotlin/build/bin/nativeMacos/releaseExecutable/rust-kotlin.kexe",
+      "translate",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/uri/authority.rs",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-authority-shared-api/AuthorityReview.kt"
+    ],
+    "exit": 0,
+    "stdout": "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/uri/authority.rs -> /Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-authority-shared-api/AuthorityReview.kt; 38 items translated\n",
+    "stderr": "",
+    "timedOut": false,
+    "sourceSha256": "26c9a8500b2f0583b7929d51a38fd9295fc5bcee1ff17a22f6e00e25f35d82df",
+    "cliSha256": "027d237f2844e0291cf2b9e06ab4bd73e828abccce02db65db992fb3478396c4",
+    "outputExists": true,
+    "guardBypassed": false,
+    "currentGeneratorBuildNotAttested": true,
+    "outputSha256": "46031b3ef133a94ec38bc8e577141691c40defc7d895c7b965515cf76d70e8e7"
+  },
+  "generatedOutputScope": "Original-file emission inspected only, recorded binary not attested current. No generator edit, rebuild investigation or owner contact.",
+  "finalValidation": {
+    "jvmTest": {
+      "tests": 171,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "AuthoritySharedApiParityTest[jvm]",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T01:59:58.284Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.002"
+      }
+    },
+    "macosArm64Test": {
+      "tests": 171,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "macosArm64Test.io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T01:59:58.846Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.001"
+      }
+    },
+    "ktlintCommonMainSourceSetCheck": 0,
+    "ktlintCommonTestSourceSetCheck": 0,
+    "ktlintJsMainSourceSetCheck": 0,
+    "ktlintJvmMainSourceSetCheck": 0,
+    "ktlintKotlinScriptCheck": 0,
+    "authoredKtlint": [],
+    "externalKtlint": [],
+    "detektFindings": 0,
+    "authoredDetekt": []
+  },
+  "limits": [
+    "Rust move/static/lifetime/Drop/Send/Sync and allocation/address-sharing equivalence not represented or claimed.",
+    "Other targets, malformed Kotlin UTF-16 and downstream source/binary compatibility unverified.",
+    "URI plus-prefix acceptance remains distinct from socket parsing, which is untouched."
+  ],
+  "noRemoteOrConfigurationActions": true,
+  "hashes": {
+    "build/rust-kotlin-authority-shared-api/AuthorityReview.kt": "46031b3ef133a94ec38bc8e577141691c40defc7d895c7b965515cf76d70e8e7",
+    "build/rust-kotlin-authority-shared-api/attribution.log": "6eb53c9862b78381c5f4beb1b0624ce218009d9f5f7f918f7e312d079ea8c049",
+    "build/rust-kotlin-authority-shared-api/caller-review.txt": "91c4dae61add5ab8815cc436da0eb1a893efd4fcb97a3a1b9fcf5b430c217c33",
+    "build/rust-kotlin-authority-shared-api/final-check.log": "c51d7162295db6cde5c78ffcf6056f08a86f83b733772a75bd347091ee0c2869",
+    "build/rust-kotlin-authority-shared-api/final-validation.json": "d9f12931097918b629cbec44b8d095f0bbcc9d77c8dd7baea3c174622fa898e0",
+    "build/rust-kotlin-authority-shared-api/new-test-before-fix.sha256": "75776f99d73cf69456e6dac2772a98a7b3685b5f9cbeb7e2c65942ea23620b2e",
+    "build/rust-kotlin-authority-shared-api/oracle.log": "2c66ada0224edb5fda6e162e7a64f1758e7e0998182186a0a44c24edba0cd28b",
+    "build/rust-kotlin-authority-shared-api/production-change.json": "4a98bd4b2980271027fd6e93b6d6122a28c505311f6f75608fd935ffe0d6ebf9",
+    "build/rust-kotlin-authority-shared-api/red-jvm.log": "f01fbb5e0d0a4ebfe5606565dac9c3d951f06e882f001a595273165f0f196082",
+    "build/rust-kotlin-authority-shared-api/red-test-source.kt": "42255136f4c9a5f384e71a425e06cea6d65a3e7763b668a338d1c069981796b5",
+    "build/rust-kotlin-authority-shared-api/translator-attempt.json": "97776435b8cefa61890bf70762deee7147a990f2d2341294c5dc3a392a27e697",
+    "build/rust-kotlin-authority-shared-api/verify_final.py": "fc00aef070a212a5010850552fcce1e3e081b6b6e4b25bc6757c970b4f956bd6",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest.xml": "0ac8d555cb07d2ddc75266907598fde91f5b97306c8d293da6c371a6be182430",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "ef4d79a694c6aea14851bae8afc1f6b4588d225e26774f79c3126a00b935d12c",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "128c635219cfa54b27da2fe9a8e78220640edbd5910324504d0b55db0a72e4d9",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest.xml": "cb6ea995903dbe147a0a1ad74d31036fb9181b5626bccc1a3c4e9e78343ffc39",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "5aa06ba72844a200a4b3aaffb7d1e23ebc4b666862a37abb04e44e864f99d468",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "ff33b21e3b83e40c0034cfc10bb71ec20beeaab7e7dab25a84c1d8f43beaa3ec",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/ByteStr.kt": "ce5f2a77173a20cb86dc8dbcffbb28332bf6314c50466ba31933955038afc438",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Authority.kt": "a69afbae53f50343c92e9c8faf4cced32ffa930da41aaaba35048604ccc233bc",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Builder.kt": "52fe7097c11eb8221efce7923c7bd6963430fa4e751f2855921defcdc16e1faa",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/PathAndQuery.kt": "35d50df47719f38fb8167bdad9845ff4c1ca83f9c12b46b8b6a63cce86a6dd0d",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Port.kt": "a72e4994ad3b88099a5d52368f804fcd1253b463c58df8a5b301a914dd13c8d2",
+    "src/commonTest/kotlin/io/github/kotlinmania/http/uri/AuthoritySharedApiParityTest.kt": "42255136f4c9a5f384e71a425e06cea6d65a3e7763b668a338d1c069981796b5",
+    "tmp/http/src/uri/authority.rs": "26c9a8500b2f0583b7929d51a38fd9295fc5bcee1ff17a22f6e00e25f35d82df",
+    "verification/authority-shared-api-oracle/Cargo.lock": "357b49d614907c5293b3b44d193776ee90260b207c6d6137d4ec2f9c0145152a",
+    "verification/authority-shared-api-oracle/Cargo.toml": "d3436a3070c77115bf9c0af8441ba2df4285b366ce73f0dbf0cf0bfedb880c28",
+    "verification/authority-shared-api-oracle/README.md": "7eb7eb018b057f7c4802aa0f595ddefb9f8728865660402f2c5c9b38a563101e",
+    "verification/authority-shared-api-oracle/src/lib.rs": "c64ce939af34c944e4f71eb018bed2c172fa920eb7e7abfa6c61de280d9f36b6"
+  }
+}

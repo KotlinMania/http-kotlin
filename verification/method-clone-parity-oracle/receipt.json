@@ -1,0 +1,201 @@
+{
+  "baseline": "5bacb5a",
+  "recordedAtUTC": "2026-11-03T02:24:24.933061+00:00",
+  "preExistingDirtyWorkIncluded": false,
+  "priorWorkSeparate": {
+    "http": [
+      "5bacb5a",
+      "6a41956",
+      "0b6d92f",
+      "bc503c0",
+      "6e4d010"
+    ],
+    "serde": "9ae88dd"
+  },
+  "graphDirectReverseDependents": 16,
+  "productionScope": "Only additive Method.clone and private InlineExtension/AllocatedExtension clone helpers. Unit representations preserved; full inline array and length copied; allocated boxed-slice model copied. No reparsing/normalization, existing body, URI clone/API, validation table or pin changes.",
+  "apiChange": "One new public method, two private helpers. No existing descriptor replaced or generic clone framework/type owner introduced.",
+  "callerReview": {
+    "scope": "Bounded canonical Method/wildcard/alias import and clone-line review. New member additive; no existing descriptor replaced. Not a typechecked workspace resolver or downstream proof.",
+    "localNewCallGraph": "Method.clone -> InlineExtension.clone / AllocatedExtension.clone; both private helpers in the same source file.",
+    "files": [
+      {
+        "path": "../oauth2-kotlin/src/commonMain/kotlin/io/github/kotlinmania/oauth2/Endpoint.kt",
+        "lines": [
+          {
+            "line": 6,
+            "text": "import io.github.kotlinmania.base64.alphabet.Alphabet"
+          },
+          {
+            "line": 7,
+            "text": "import io.github.kotlinmania.base64.encodedLen"
+          },
+          {
+            "line": 8,
+            "text": "import io.github.kotlinmania.http.Method"
+          },
+          {
+            "line": 9,
+            "text": "import io.github.kotlinmania.http.StatusCode"
+          }
+        ]
+      },
+      {
+        "path": "../codex-kotlin/src/commonMain/kotlin/io/github/kotlinmania/codex/api/provider/Provider.kt",
+        "lines": [
+          {
+            "line": 4,
+            "text": "import io.github.kotlinmania.http.Method"
+          },
+          {
+            "line": 5,
+            "text": "import io.ktor.client.request.HttpRequestBuilder"
+          },
+          {
+            "line": 6,
+            "text": "import io.ktor.client.request.url"
+          },
+          {
+            "line": 7,
+            "text": "import io.ktor.http.HttpMethod"
+          },
+          {
+            "line": 8,
+            "text": "import kotlin.time.Duration"
+          }
+        ]
+      }
+    ]
+  },
+  "existingTestsOrAssertionsChanged": false,
+  "newTestByteUnchangedSinceRed": true,
+  "red": {
+    "kind": "compile-time missing API",
+    "runtimeSuiteExecuted": false,
+    "message": "Unresolved reference 'clone' on receiver of type 'Method'",
+    "log": "build/rust-kotlin-method-clone-parity/red-jvm.log"
+  },
+  "rustOracle": {
+    "passedGroups": 7,
+    "failed": 0,
+    "actualUpstreamMethodDerivedClone": true,
+    "coverage": [
+      "9 standard methods",
+      "short/15-byte inline extensions",
+      "16/17/64/256-byte allocated extensions",
+      "case sensitivity",
+      "all 256 one-byte inputs against token alphabet",
+      "input mutation and clone lifetime",
+      "clone-of-clone at 1/15/16/32 bytes"
+    ],
+    "lifetimeScope": "Rust explicit drop(original) checked; Kotlin has no forced-GC/Drop-equivalence claim. Fresh wrapper assertions are Kotlin binding controls.",
+    "hashScope": "Relative original/clone consistency within each runtime only, not cross-runtime numeric hash equality."
+  },
+  "translatorEvidence": {
+    "command": [
+      "/Volumes/stuff/Projects/kotlinmania/rust-kotlin/build/bin/nativeMacos/releaseExecutable/rust-kotlin.kexe",
+      "translate",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/method.rs",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-method-clone-parity/MethodReview.kt"
+    ],
+    "exit": 0,
+    "stdout": "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/method.rs -> /Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-method-clone-parity/MethodReview.kt; 30 items translated\n",
+    "stderr": "",
+    "timedOut": false,
+    "sourceSha256": "fe57c5d48be7f13ee26b39d8fc974be1b2961ae5aa92faec45b201e1d73291f0",
+    "cliSha256": "027d237f2844e0291cf2b9e06ab4bd73e828abccce02db65db992fb3478396c4",
+    "outputExists": true,
+    "guardBypassed": false,
+    "currentGeneratorBuildNotAttested": true,
+    "outputSha256": "7f5e015bb4306c5492236307efc4e1b770be857dd89fb985c7250cb90b1d2d4d"
+  },
+  "generatedOutputScope": "Recorded-binary original-file output inspected for field/type structure; actual derives/compiler execution determine clone behavior. No output compilation/current-build attestation, generator edit/rebuild investigation or owner contact.",
+  "finalValidation": {
+    "jvmTest": {
+      "tests": 193,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "MethodCloneParityTest[jvm]",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T02:22:07.145Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.015"
+      }
+    },
+    "macosArm64Test": {
+      "tests": 193,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "macosArm64Test.io.github.kotlinmania.http.MethodCloneParityTest",
+        "tests": "7",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T02:22:12.160Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.002"
+      }
+    },
+    "ktlintCommonMainSourceSetCheck": 0,
+    "ktlintCommonTestSourceSetCheck": 0,
+    "ktlintJsMainSourceSetCheck": 0,
+    "ktlintJvmMainSourceSetCheck": 0,
+    "ktlintKotlinScriptCheck": 0,
+    "authoredKtlint": [],
+    "externalKtlint": [],
+    "detektFindings": 0,
+    "authoredDetekt": []
+  },
+  "limits": [
+    "No Rust move/borrow/Drop/Send/Sync, physical allocation/address or forced-GC equivalence claim.",
+    "Generic Clone trait bounds/default clone_from, other platforms and downstream source/binary compatibility not represented or newly verified.",
+    "Private storage array-copy operations follow source fields; public tests do not independently measure private layout/allocation counts."
+  ],
+  "noRemoteOrConfigurationActions": true,
+  "hashes": {
+    "build/rust-kotlin-method-clone-parity/MethodReview.kt": "7f5e015bb4306c5492236307efc4e1b770be857dd89fb985c7250cb90b1d2d4d",
+    "build/rust-kotlin-method-clone-parity/attribution.log": "f24e0544a659e22b64dc0108c727a2ea95496b4882e453535f89987b28859afa",
+    "build/rust-kotlin-method-clone-parity/caller-review.json": "4016fd161fc2768e5caefce1f51ea1ab375658cfd5852026b384c1242970a3f3",
+    "build/rust-kotlin-method-clone-parity/final-check.log": "aa0339d420c33f5da6be02d9d45eee7eeab061c6a2187bff02b8c11ce959e4ed",
+    "build/rust-kotlin-method-clone-parity/final-validation.json": "49040e2b0b36f73cfe336f6b2a386b6050c79646fca2a92f044cc19d40c7975e",
+    "build/rust-kotlin-method-clone-parity/new-test-before-fix.sha256": "e3b2baa11eec79d9999450dd2b20093999c0b1aa7c329f076e17a1cf345d695d",
+    "build/rust-kotlin-method-clone-parity/oracle.log": "1618db883143c978a0f5f484cf38a40cabda1e5b3642ae09861a6e1c2069b68d",
+    "build/rust-kotlin-method-clone-parity/production-change.json": "5af851a940476e5902f8938265cfb172649227890165fcedbf60f58e3c744b14",
+    "build/rust-kotlin-method-clone-parity/red-jvm.log": "c41eb9f4f2a8a4b8de45ca7412379c82e224353e160be3a4ae9b599ee287f3dc",
+    "build/rust-kotlin-method-clone-parity/red-test-source.kt": "c098d2bf4e8e8c164026758fd1fb8a5ccb5da50da11d96e0fed714b9cd9b574b",
+    "build/rust-kotlin-method-clone-parity/translator-attempt.json": "fbb1f54e4251357cadd77d45733093084cb96ae8e196519860b1f100fee3791b",
+    "build/rust-kotlin-method-clone-parity/verify_final.py": "da4e6d438273984e91242fb1536135f7c2e12bb2af310e5caff27bad2a4fdd63",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.MethodCloneParityTest.xml": "c8d0245cee82a876021ab147945d486beb7e0c0728d971eae37a940066fda780",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest.xml": "41a92b23cdf65925facab9276c8f21e676558e2823120c5c58b4eeec8da3f828",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "627e2e016f562ddd95470a762ed0bc6caede443dc601d87b0ca0fcf8ec382234",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "6af31d77ae78f512bbf72f5bafd046c6f971d182726c9d11ec6a2ab65b213765",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.UriCloneParityTest.xml": "ad1db9fb5dd9e94437fca335dc73308b120497c708d853d76004b955e3bc4647",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.UriSharedApiParityTest.xml": "5c37bcde02dddb125ccf62421f75154a41b548088cfd3e3e12ee7845812e5389",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.MethodCloneParityTest.xml": "a291713fe022818f7e9c921340bd29de99a48b6d90f8fa76869f1737dcfe1d45",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.AuthoritySharedApiParityTest.xml": "49c5f40251ae0fa690dfebfb2571980ed1b62c0d2c108741b5495679e56ec3af",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PathSharedApiParityTest.xml": "2abfe21d2ce82f5311354db7dc2d8b0000e6caa750084f8d88d2f0c85ae60b64",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "d9b7fa4e301d69212372f731265b456e8927cbfd84e1ae21068c432cff655d22",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.UriCloneParityTest.xml": "c520d52c5b8fa3a82c39473bbe4117a75946b84332ec9f838e6d3ee802184c6d",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.UriSharedApiParityTest.xml": "d17cef2965118bd1d7d7434e50a7666410b1d1af84627866f3ac689bf41b45d2",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/ByteStr.kt": "2d79022e1333e928d6c486426da035aaf6bd1a0874ab6b2c92eb5e482c3547bf",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/Method.kt": "be558377a02d8da6a84981f40db679ecb6074ffdddb2236ffccb96b0f09e1625",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Authority.kt": "8cf1c84baf71ebaf837d11c1c68e7cd6fa899566d2ef6bd306dae8b6dbc217c4",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/PathAndQuery.kt": "3d6ef4cdc2c746052ce5f3575c15d6a97d47cb7052259411a9bf0b1b0275511f",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Port.kt": "a72e4994ad3b88099a5d52368f804fcd1253b463c58df8a5b301a914dd13c8d2",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Scheme.kt": "985a7d19c8c3a7138b1a546b585543b91a4720b1a18cf63bd81463b92d3c4f4f",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Uri.kt": "33bf99b63e3d944daf87eef040986daff2576c351f17bb9743a60b3b2895bea3",
+    "src/commonTest/kotlin/io/github/kotlinmania/http/MethodCloneParityTest.kt": "c098d2bf4e8e8c164026758fd1fb8a5ccb5da50da11d96e0fed714b9cd9b574b",
+    "tmp/http/src/method.rs": "fe57c5d48be7f13ee26b39d8fc974be1b2961ae5aa92faec45b201e1d73291f0",
+    "verification/method-clone-parity-oracle/Cargo.lock": "33dd5469f3d64d9afffafee2593c20dbb44e09d3ee086697ae6eefb81f7c27dc",
+    "verification/method-clone-parity-oracle/Cargo.toml": "8da5902671d3ee3db91164b8cd9c216e0690871a3e368bfdbfab52426841c65e",
+    "verification/method-clone-parity-oracle/README.md": "e10fcb025960a34086fc200b9fdb662fe1486f57d7839c165552b0354f75f67a",
+    "verification/method-clone-parity-oracle/src/lib.rs": "36530db0768b68e0d04b75fd819353c49c662ba9333f7c85148b63f0e81a6af5"
+  }
+}

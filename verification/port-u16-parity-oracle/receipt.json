@@ -1,0 +1,145 @@
+{
+  "baseline": "5235ba5",
+  "recordedAtUTC": "2026-11-03T01:47:07.661292+00:00",
+  "preExistingDirtyWorkIncluded": false,
+  "priorWorkSeparate": {
+    "http": "5235ba5",
+    "serde": "9ae88dd"
+  },
+  "graphDirectReverseDependents": 16,
+  "productionScope": "Only Port.fromStr ASCII/sign guard and correction of no-sign documentation. Existing signed parsing, u16 bound, original repr, public signatures and all dependency pins unchanged.",
+  "existingAssertionsChanged": false,
+  "newTestByteUnchangedSinceRed": true,
+  "publicSignaturesChanged": false,
+  "translatorEvidence": {
+    "command": [
+      "/Volumes/stuff/Projects/kotlinmania/rust-kotlin/build/bin/nativeMacos/releaseExecutable/rust-kotlin.kexe",
+      "translate",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/uri/port.rs",
+      "/Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-port-u16-parity/PortReview.kt"
+    ],
+    "exit": 0,
+    "stdout": "/Volumes/stuff/Projects/kotlinmania/http-kotlin/tmp/http/src/uri/port.rs -> /Volumes/stuff/Projects/kotlinmania/http-kotlin/build/rust-kotlin-port-u16-parity/PortReview.kt; 13 items translated\n",
+    "stderr": "",
+    "timedOut": false,
+    "sourceSha256": "14b44d8d72681e74268b82674c5578943e77535eb5bf376cfe2d2b5a7d3681e0",
+    "cliSha256": "027d237f2844e0291cf2b9e06ab4bd73e828abccce02db65db992fb3478396c4",
+    "outputExists": true,
+    "guardBypassed": false,
+    "currentGeneratorBuildNotAttested": true,
+    "outputSha256": "d76cf2967be2793d5538876db873f3759190bafe4c0dec943d95977292e313dd"
+  },
+  "generatedOutputScope": "Fresh recorded-binary emission parse<UShort>() delegation only; no compiled generated output, current-build attestation or generator edits/investigation.",
+  "rustOracle": {
+    "groupsPassed": 9,
+    "failed": 0,
+    "directStandardParserInputs": 65754,
+    "publicHttpAuthorityCases": 10,
+    "scope": "Exact std str::parse::<u16> used by private Port::from_str plus actual upstream Authority::port/port_u16. No direct external invocation of crate-private constructor claimed."
+  },
+  "red": {
+    "suite": {
+      "name": "PortU16ParityTest[jvm]",
+      "tests": "9",
+      "skipped": "0",
+      "failures": "3",
+      "errors": "0",
+      "timestamp": "2026-11-03T01:43:58.110Z",
+      "hostname": "EmberHarmony.local",
+      "time": "0.04"
+    },
+    "failures": [
+      {
+        "case": "authorityConsumers[jvm]",
+        "message": "java.lang.AssertionError: -0 expected:<null> but was:<0>"
+      },
+      {
+        "case": "unicodeDigits[jvm]",
+        "message": "java.lang.AssertionError: \u0660. Expected value to be of type <io.github.kotlinmania.http.uri.InvalidUri (Kotlin reflection is not available)>, actual <null>."
+      },
+      {
+        "case": "negative[jvm]",
+        "message": "java.lang.AssertionError: -0. Expected value to be of type <io.github.kotlinmania.http.uri.InvalidUri (Kotlin reflection is not available)>, actual <null>."
+      }
+    ],
+    "laterCasesInFailedGroupsNotClaimedExecuted": true
+  },
+  "finalValidation": {
+    "jvmTest": {
+      "tests": 157,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "PortU16ParityTest[jvm]",
+        "tests": "9",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T01:45:06.177Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.04"
+      }
+    },
+    "macosArm64Test": {
+      "tests": 157,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newSuite": {
+        "name": "macosArm64Test.io.github.kotlinmania.http.uri.PortU16ParityTest",
+        "tests": "9",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-03T01:45:11.687Z",
+        "hostname": "EmberHarmony.local",
+        "time": "0.001"
+      }
+    },
+    "ktlintCommonMainSourceSetCheck": 0,
+    "ktlintCommonTestSourceSetCheck": 0,
+    "ktlintJsMainSourceSetCheck": 0,
+    "ktlintJvmMainSourceSetCheck": 0,
+    "ktlintKotlinScriptCheck": 0,
+    "authoredKtlint": [],
+    "externalKtlint": [],
+    "detektFindings": 0,
+    "authoredDetekt": []
+  },
+  "callerImpact": "No signature changes. Local Authority.port delegates to Port.fromStr and is tested through actual Rust/Kotlin public Authority APIs. Uri delegation inspected source-only; no broad downstream builds.",
+  "limits": [
+    "Kotlin String/Int representation remains; Rust generic representation ownership, borrowing and formatting flags not modeled.",
+    "Other platforms/downstream binary compatibility unverified.",
+    "Recorded translator binary only; earlier IgnoredAny generator finding remains current-build unverified, possibly stale."
+  ],
+  "noRemoteOrConfigurationActions": true,
+  "hashes": {
+    "build/rust-kotlin-port-u16-parity/PortReview.kt": "d76cf2967be2793d5538876db873f3759190bafe4c0dec943d95977292e313dd",
+    "build/rust-kotlin-port-u16-parity/attribution.log": "90046420cbdb51888f4431aa4910aa05db68279ae47e2a97ee289b77dd6a7e8f",
+    "build/rust-kotlin-port-u16-parity/cases.json": "90144bd820f29afbbe470d91772520acabd2bbfabbd59ca668440f78735fbbec",
+    "build/rust-kotlin-port-u16-parity/final-check.log": "755c75a99497d470ca1f3edb1aaeb667077d7492b7e86b1765e93a672f8c6903",
+    "build/rust-kotlin-port-u16-parity/final-validation.json": "d6f8684e7ea800c204ff281ded8e22af7fddb184002640c9034d207f3a9c4106",
+    "build/rust-kotlin-port-u16-parity/new-test-before-fix.sha256": "9d03fdf24e15fde7d8adacbef8ae88765109984c1ac0e508193a83ff7fad1031",
+    "build/rust-kotlin-port-u16-parity/oracle.log": "bf4fff564902feb631139b6b37a837b5fc4eca6d0dd563fc4585ab53d1d77243",
+    "build/rust-kotlin-port-u16-parity/production-change.json": "95f36cd1a14ccaf13176947ede8d672f0dacb21f2ef0e2cdf06631fb203f05bc",
+    "build/rust-kotlin-port-u16-parity/red-jvm.log": "e98a22c07adf3c5d6f4483ffd8aba90dbf7cc6ae6dbaacc1e3807bb978f1987e",
+    "build/rust-kotlin-port-u16-parity/red-suite.xml": "4b54b2704ee90c46411fd834af1e800a20d2cf5b2e704a38e45095a4ef35cb3a",
+    "build/rust-kotlin-port-u16-parity/red-test-source.kt": "d188e5e9be8a07f05b4633fd0bc82fdb3dfb8c39d5f940aca30b096eee3beee2",
+    "build/rust-kotlin-port-u16-parity/rust-version.txt": "acf442e66237841eaeec8717ded9722aa352402ed6168e418b7c0f17cc7b8b38",
+    "build/rust-kotlin-port-u16-parity/translator-attempt.json": "3e679e6a8ff2a20f553eee745e058cd9da9ccec7365283f3a70a29080d11b332",
+    "build/rust-kotlin-port-u16-parity/verify_final.py": "8f80824b24d92c2fbd288a65fda37bd8726c046153864eba0b7314ec1be54a04",
+    "build/test-results/jvmTest/TEST-io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "c42bea25adfcdbe4598c29b142efa70ebb34630fa04c009705296b1802ba08d6",
+    "build/test-results/macosArm64Test/TEST-macosArm64Test.io.github.kotlinmania.http.uri.PortU16ParityTest.xml": "42e577a0e8cbffd0c3b4e39b498a3ef9506346376d287675753936c10731d7ad",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Authority.kt": "74498277db14e24f76ddb70749784859d61222f5fcd7182d9e9bd9b172b09ae3",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Port.kt": "a72e4994ad3b88099a5d52368f804fcd1253b463c58df8a5b301a914dd13c8d2",
+    "src/commonMain/kotlin/io/github/kotlinmania/http/uri/Uri.kt": "b00e3cd9f3c98523f9071e797e6a40edbf5955b4a4b6470a7111495fc5384484",
+    "src/commonTest/kotlin/io/github/kotlinmania/http/uri/PortU16ParityTest.kt": "d188e5e9be8a07f05b4633fd0bc82fdb3dfb8c39d5f940aca30b096eee3beee2",
+    "tmp/http/src/uri/authority.rs": "26c9a8500b2f0583b7929d51a38fd9295fc5bcee1ff17a22f6e00e25f35d82df",
+    "tmp/http/src/uri/port.rs": "14b44d8d72681e74268b82674c5578943e77535eb5bf376cfe2d2b5a7d3681e0",
+    "verification/port-u16-parity-oracle/Cargo.lock": "0a221520ca2d8c0d3c6cdea59cb21cb7d926435499e460aae3e0c0cbe63850bd",
+    "verification/port-u16-parity-oracle/Cargo.toml": "4bd42d75400da9c2cc83740eccd9762c63c7dac8cfb7c963f91809dc6417c9e1",
+    "verification/port-u16-parity-oracle/README.md": "953f5eb97cb99f2ce29303a73326834165a16788f7abc45604022f41bd5f160d",
+    "verification/port-u16-parity-oracle/src/lib.rs": "333bf592ebf881bd954f2c2795e3bb10974f02787a6121f4c708380091aa3efa"
+  }
+}

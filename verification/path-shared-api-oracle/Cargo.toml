@@ -1,0 +1,11 @@
+[package]
+name = "http-path-shared-api-oracle"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[workspace]
+
+[dependencies]
+http = { path = "../../tmp/http" }
+bytes = "=1.11.1"
